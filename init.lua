@@ -544,7 +544,7 @@ require('lazy').setup({
                 dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
             }
             local function footer()
-                local url = 'https://labs.bible.org/api/?passage=random&type=json'
+                local url = 'http://labs.bible.org/api/?passage=random&type=json'
                 local http = require('socket.http')
                 local json = require('lunajson')
 
@@ -556,7 +556,8 @@ require('lazy').setup({
                     local bookname = json_res.bookname or ''
                     local chapter = json_res.chapter or ''
                     local verse_num = json_res.verse or ''
-                    local text = json_res.text or ''
+                    local text = json_res.text or '' 
+                    text = text:gsub("(%.[ ])", "%1\n")
 
                     return bookname .. " " .. chapter .. ":" .. verse_num .. "\n" .. text
                 end
