@@ -30,6 +30,27 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Lazygit
+function Toggle_lazygit()
+    local Terminal = require("toggleterm.terminal").Terminal
+    local lazygit = Terminal:new {
+        cmd = "lazygit",
+        hidden = true,
+        direction = "float",
+        float_opts = {
+            border = "none",
+            width = 100000,
+            height = 100000,
+        },
+        on_open = function(_)
+            vim.cmd "startinsert!"
+        end,
+        on_close = function(_) end,
+        count = 99,
+    }
+    lazygit:toggle()
+end
+
 -- Plugins
 require('lazy').setup({
     -- NOTE: First, some plugins that don't require any configuration
@@ -466,18 +487,18 @@ require('lazy').setup({
     { "mg979/vim-visual-multi" },
 
     -- Save cursor place on close
-    {
-        "ethanholz/nvim-lastplace",
-        config = function()
-            require("nvim-lastplace").setup({
-                lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
-                lastplace_ignore_filetype = {
-                    "gitcommit", "gitrebase", "svn", "hgcommit",
-                },
-                lastplace_open_folds = true,
-            })
-        end,
-    },
+    -- {
+    --     "ethanholz/nvim-lastplace",
+    --     config = function()
+    --         require("nvim-lastplace").setup({
+    --             lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+    --             lastplace_ignore_filetype = {
+    --                 "gitcommit", "gitrebase", "svn", "hgcommit",
+    --             },
+    --             lastplace_open_folds = true,
+    --         })
+    --     end,
+    -- },
 
     -- Todo Comment highlights
     {
@@ -538,8 +559,10 @@ require('lazy').setup({
             dashboard.section.buttons.val = {
                 dashboard.button("f", "󰱼  Find file", ":Telescope find_files <CR>"),
                 dashboard.button("e", "󰈔  New file", ":ene <BAR> startinsert <CR>"),
-                dashboard.button("r", "󰄉  Recently used files", ":Telescope oldfiles <CR>"),
+                dashboard.button("r", "󰄉  Recently used files", ":Telescope oldfiles cwd_only=true <CR>"),
                 dashboard.button("t", "󰊄  Find text", ":Telescope live_grep <CR>"),
+                dashboard.button("g", "  Lazygit", ":lua Toggle_lazygit()<CR>"),
+                dashboard.button("l", "󰭖  Load last session for cwd", ":lua require('persistence').load()<CR>"),
                 dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
                 dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
             }
@@ -556,7 +579,7 @@ require('lazy').setup({
                     local bookname = json_res.bookname or ''
                     local chapter = json_res.chapter or ''
                     local verse_num = json_res.verse or ''
-                    local text = json_res.text or '' 
+                    local text = json_res.text or ''
                     text = text:gsub("(%.[ ])", "%1\n")
 
                     return bookname .. " " .. chapter .. ":" .. verse_num .. "\n" .. text
@@ -574,6 +597,17 @@ require('lazy').setup({
             dashboard.opts.opts.noautocmd = true
             alpha.setup(dashboard.opts)
         end
+    },
+    {
+        "folke/persistence.nvim",
+        event = "BufWritePre",
+        module = "persistence",
+        config = function()
+            require("persistence").setup {
+                dir = vim.fn.expand(vim.fn.stdpath "config" .. "/session/"),
+                options = { "buffers", "curdir", "tabpages", "winsize" },
+            }
+        end,
     },
 }, {})
 
@@ -881,27 +915,17 @@ local on_attach = function(_, bufnr)
 end
 
 -- Lazygit
-local function toggle_lazygit()
-    local Terminal = require("toggleterm.terminal").Terminal
-    local lazygit = Terminal:new {
-        cmd = "lazygit",
-        hidden = true,
-        direction = "float",
-        float_opts = {
-            border = "none",
-            width = 100000,
-            height = 100000,
-        },
-        on_open = function(_)
-            vim.cmd "startinsert!"
-        end,
-        on_close = function(_) end,
-        count = 99,
-    }
-    lazygit:toggle()
-end
+vim.keymap.set('n', '<leader>gg', Toggle_lazygit, { desc = 'Open Lazygit' })
 
-vim.keymap.set('n', '<leader>gg', toggle_lazygit, { desc = 'Open Lazygit' })
+-- Persistence
+vim.keymap.set('n', '<leader>pc', "<cmd>lua require('persistence').load()<cr>",
+    { desc = 'Restore last session for cwd', silent = true })
+vim.keymap.set('n', '<leader>pl', "<cmd>lua require('persistence').load({ last = true })<cr>", {
+    desc = 'Restore last session', silent = true
+})
+vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", {
+    desc = 'Quit without saving session', silent = true
+})
 
 -- Enable the following language servers
 --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
