@@ -544,7 +544,24 @@ require('lazy').setup({
                 dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
             }
             local function footer()
-                return "Don't Stop Until You are Proud..."
+                local url = 'https://labs.bible.org/api/?passage=random&type=json'
+                local http = require('socket.http')
+                local json = require('lunajson')
+
+                local res, status, _ = http.request(url)
+
+                if status == 200 then
+                    local json_res = json.decode(res)[1] or {}
+
+                    local bookname = json_res.bookname or ''
+                    local chapter = json_res.chapter or ''
+                    local verse_num = json_res.verse or ''
+                    local text = json_res.text or ''
+
+                    return bookname .. " " .. chapter .. ":" .. verse_num .. "\n" .. text
+                end
+
+                return "Could not fetch random Bible verse"
             end
 
             dashboard.section.footer.val = footer()
@@ -560,7 +577,7 @@ require('lazy').setup({
 }, {})
 
 -- Open Alpha dashboard
-vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" }) 
+vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" })
 
 -- ToggleTerm Keymaps
 
