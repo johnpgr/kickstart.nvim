@@ -8,11 +8,9 @@ vim.g.maplocalleader = ' '
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
--- Shortcuts
--- vim.cmd [[ nmap <C-/> gcc ]]
--- vim.cmd [[ nmap <C-_> gcc ]]
--- vim.cmd [[ vmap <C-/> gc ]]
--- vim.cmd [[ vmap <C-_> gc ]]
+-- Keep selection when indenting multiple lines
+vim.keymap.set('v', '<', '<gv')
+vim.keymap.set('v', '>', '>gv')
 
 -- Install package manager
 --    https://github.com/folke/lazy.nvim
