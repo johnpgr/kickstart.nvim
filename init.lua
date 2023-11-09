@@ -529,8 +529,38 @@ require('lazy').setup({
                 end
             },
         }
-    }
+    },
+    {
+        'goolord/alpha-nvim',
+        config = function()
+            local alpha = require('alpha')
+            local dashboard = require('alpha.themes.dashboard')
+            dashboard.section.buttons.val = {
+                dashboard.button("f", "󰱼  Find file", ":Telescope find_files <CR>"),
+                dashboard.button("e", "󰈔  New file", ":ene <BAR> startinsert <CR>"),
+                dashboard.button("r", "󰄉  Recently used files", ":Telescope oldfiles <CR>"),
+                dashboard.button("t", "󰊄  Find text", ":Telescope live_grep <CR>"),
+                dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
+                dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
+            }
+            local function footer()
+                return "Don't Stop Until You are Proud..."
+            end
+
+            dashboard.section.footer.val = footer()
+
+            dashboard.section.footer.opts.hl = "Type"
+            dashboard.section.header.opts.hl = "Include"
+            dashboard.section.buttons.opts.hl = "Keyword"
+
+            dashboard.opts.opts.noautocmd = true
+            alpha.setup(dashboard.opts)
+        end
+    },
 }, {})
+
+-- Open Alpha dashboard
+vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" }) 
 
 -- ToggleTerm Keymaps
 
@@ -602,6 +632,9 @@ vim.o.termguicolors = true
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+-- Kill buffer
+vim.keymap.set('n', '<leader>q', ':bdelete<CR>', { silent = true, desc = 'Kill buffer' })
 
 -- Split generation
 vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { silent = true, desc = 'Vertical split' })
@@ -796,10 +829,10 @@ local on_attach = function(_, bufnr)
     nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
     nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
-    nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+    nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
     nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
     nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-    nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
+    nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
     nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
     nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
 
