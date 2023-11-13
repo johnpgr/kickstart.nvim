@@ -337,8 +337,8 @@ require('lazy').setup({
                     },
                     copilot_node_command = 'node', -- Node.js version must be > 16.x
                     server_opts_overrides = {},
-                })                                 -- https://github.com/zbirenbaum/copilot.lua/blob/master/README.md#setup-and-configuration
-                require("copilot_cmp").setup()     -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
+                })                       -- https://github.com/zbirenbaum/copilot.lua/blob/master/README.md#setup-and-configuration
+                require("copilot_cmp").setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
             end, 100)
         end,
     },
@@ -445,21 +445,21 @@ require('lazy').setup({
         config = function()
             require("toggleterm").setup({
                 -- size can be a number or function which is passed the current terminal
-                size = 80,
+                size = 15,
                 open_mapping = [[<c-\>]],
-                hide_numbers = true,      -- hide the number column in toggleterm buffers
+                hide_numbers = true, -- hide the number column in toggleterm buffers
                 shade_filetypes = {},
-                shade_terminals = true,   -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
-                shading_factor = 2,       -- the percentage by which to lighten terminal background, default: -30 (gets multiplied by -3 if background is light)
+                shade_terminals = true, -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
+                shading_factor = 2, -- the percentage by which to lighten terminal background, default: -30 (gets multiplied by -3 if background is light)
                 start_in_insert = true,
-                insert_mappings = true,   -- whether or not the open mapping applies in insert mode
+                insert_mappings = true, -- whether or not the open mapping applies in insert mode
                 terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
                 persist_size = true,
-                persist_mode = true,      -- if set to true (default) the previous terminal mode will be remembered
-                direction = 'vertical',
-                close_on_exit = true,     -- close the terminal window when the process exits
+                persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
+                direction = 'horizontal',
+                close_on_exit = true, -- close the terminal window when the process exits
                 shell = vim.o.shell,
-                auto_scroll = true,       -- automatically scroll to the bottom on terminal output
+                auto_scroll = true, -- automatically scroll to the bottom on terminal output
                 float_opts = {
                     border = 'curved',
                     winblend = 0,
@@ -539,14 +539,14 @@ require('lazy').setup({
             -- OPTIONAL:
             --   `nvim-notify` is only needed, if you want to use the notification view.
             --   If not available, we use `mini` as the fallback
-            {
-                "rcarriga/nvim-notify",
-                config = function()
-                    require("notify").setup({
-                        background_colour = "#000000"
-                    })
-                end
-            },
+            -- {
+            --     "rcarriga/nvim-notify",
+            --     config = function()
+            --         require("notify").setup({
+            --             background_colour = "#000000"
+            --         })
+            --     end
+            -- },
         }
     },
     {
@@ -565,25 +565,18 @@ require('lazy').setup({
                 dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
             }
             local function footer()
-                local url = 'http://labs.bible.org/api/?passage=random&type=json'
-                local http = require('socket.http')
-                local json = require('lunajson')
+                local cmd = "~/.local/bin/bible-reader -f ~/bible-por-nvi.xml random"
+                local handle = io.popen(cmd)
 
-                local res, status, _ = http.request(url)
-
-                if status == 200 then
-                    local json_res = json.decode(res)[1] or {}
-
-                    local bookname = json_res.bookname or ''
-                    local chapter = json_res.chapter or ''
-                    local verse_num = json_res.verse or ''
-                    local text = json_res.text or ''
-                    text = text:gsub("(%.[ ])", "%1\n")
-
-                    return bookname .. " " .. chapter .. ":" .. verse_num .. "\n" .. text
+                if handle then
+                    local result = handle:read("*a") or ""
+                    handle:close()
+                    return result
+                else
+                    print("Error running command: " .. cmd)
                 end
 
-                return "Could not fetch random Bible verse"
+                return "Unable to get Bible verse"
             end
 
             dashboard.section.footer.val = footer()
@@ -617,14 +610,14 @@ vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = tr
 vim.keymap.set('n', '<leader>th', ':ToggleTerm direction=horizontal size=15<CR>',
     { noremap = true, silent = true, desc = "Toggle horizontal terminal" }) -- Horizontal terminal
 vim.keymap.set('n', '<leader>tv', ':ToggleTerm direction=vertical size=80<CR>',
-    { noremap = true, silent = true, desc = "Toggle vertical terminal" })   -- Vertical terminal
+    { noremap = true, silent = true, desc = "Toggle vertical terminal" }) -- Vertical terminal
 vim.keymap.set('n', '<leader>tt', ':ToggleTerm direction=float size=100<CR>',
-    { noremap = true, silent = true, desc = "Toggle terminal" })            -- Toggle terminal
+    { noremap = true, silent = true, desc = "Toggle terminal" })          -- Toggle terminal
 
 function _G.set_terminal_keymaps()
     local opts = { noremap = true, silent = true }
-    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)       -- Esc to exit terminal mode
-    vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)          -- jk to exit terminal mode
+    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)     -- Esc to exit terminal mode
+    vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)        -- jk to exit terminal mode
     vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-w>h]], opts) -- Navigate between splits
     vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-w>j]], opts) -- Navigate between splits
     vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-w>k]], opts) -- Navigate between splits
