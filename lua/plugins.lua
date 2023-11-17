@@ -326,15 +326,103 @@ return {
         end,
     },
 
-    -- File explorer
+    -- -- File explorer
+    -- {
+    --     "nvim-neo-tree/neo-tree.nvim",
+    --     branch = "v3.x",
+    --     dependencies = {
+    --         "nvim-lua/plenary.nvim",
+    --         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+    --         "MunifTanjim/nui.nvim",
+    --     },
+    -- },
     {
-        "nvim-neo-tree/neo-tree.nvim",
-        branch = "v3.x",
+        "nvim-tree/nvim-tree.lua",
+        version = "*",
+        lazy = false,
         dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-            "MunifTanjim/nui.nvim",
+            "nvim-tree/nvim-web-devicons",
         },
+        config = function()
+            require("nvim-tree").setup {
+                view = {
+                    width = 30,
+                },
+                filters = {
+                    dotfiles = true,
+                },
+                on_attach = function(bufnr)
+                    local api = require "nvim-tree.api"
+
+                    local function opts(desc)
+                        return {
+                            desc = "nvim-tree: " .. desc,
+                            buffer = bufnr,
+                            noremap = true,
+                            silent = true,
+                            nowait = true
+                        }
+                    end
+
+                    -- default mappings
+                    vim.keymap.set('n', '<C-]>', api.tree.change_root_to_node, opts('CD'))
+                    vim.keymap.set('n', '<C-e>', api.node.open.replace_tree_buffer, opts('Open: In Place'))
+                    vim.keymap.set('n', '<C-k>', api.node.show_info_popup, opts('Info'))
+                    vim.keymap.set('n', '<C-r>', api.fs.rename_sub, opts('Rename: Omit Filename'))
+                    vim.keymap.set('n', '<C-t>', api.node.open.tab, opts('Open: New Tab'))
+                    vim.keymap.set('n', '<C-v>', api.node.open.vertical, opts('Open: Vertical Split'))
+                    vim.keymap.set('n', '<C-x>', api.node.open.horizontal, opts('Open: Horizontal Split'))
+                    vim.keymap.set('n', '<BS>', api.node.navigate.parent_close, opts('Close Directory'))
+                    vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+                    vim.keymap.set('n', '>', api.node.navigate.sibling.next, opts('Next Sibling'))
+                    vim.keymap.set('n', '<', api.node.navigate.sibling.prev, opts('Previous Sibling'))
+                    vim.keymap.set('n', '.', api.node.run.cmd, opts('Run Command'))
+                    vim.keymap.set('n', '-', api.tree.change_root_to_parent, opts('Up'))
+                    vim.keymap.set('n', 'a', api.fs.create, opts('Create'))
+                    vim.keymap.set('n', 'bd', api.marks.bulk.delete, opts('Delete Bookmarked'))
+                    vim.keymap.set('n', 'bt', api.marks.bulk.trash, opts('Trash Bookmarked'))
+                    vim.keymap.set('n', 'bmv', api.marks.bulk.move, opts('Move Bookmarked'))
+                    vim.keymap.set('n', 'B', api.tree.toggle_no_buffer_filter, opts('Toggle Filter: No Buffer'))
+                    vim.keymap.set('n', 'c', api.fs.copy.node, opts('Copy'))
+                    vim.keymap.set('n', 'C', api.tree.toggle_git_clean_filter, opts('Toggle Filter: Git Clean'))
+                    vim.keymap.set('n', '[c', api.node.navigate.git.prev, opts('Prev Git'))
+                    vim.keymap.set('n', ']c', api.node.navigate.git.next, opts('Next Git'))
+                    vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
+                    vim.keymap.set('n', 'D', api.fs.trash, opts('Trash'))
+                    vim.keymap.set('n', 'E', api.tree.expand_all, opts('Expand All'))
+                    vim.keymap.set('n', 'e', api.fs.rename_basename, opts('Rename: Basename'))
+                    vim.keymap.set('n', ']e', api.node.navigate.diagnostics.next, opts('Next Diagnostic'))
+                    vim.keymap.set('n', '[e', api.node.navigate.diagnostics.prev, opts('Prev Diagnostic'))
+                    vim.keymap.set('n', 'F', api.live_filter.clear, opts('Clean Filter'))
+                    vim.keymap.set('n', 'f', api.live_filter.start, opts('Filter'))
+                    vim.keymap.set('n', 'g?', api.tree.toggle_help, opts('Help'))
+                    vim.keymap.set('n', 'gy', api.fs.copy.absolute_path, opts('Copy Absolute Path'))
+                    vim.keymap.set('n', 'H', api.tree.toggle_hidden_filter, opts('Toggle Filter: Dotfiles'))
+                    vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts('Toggle Filter: Git Ignore'))
+                    vim.keymap.set('n', 'J', api.node.navigate.sibling.last, opts('Last Sibling'))
+                    vim.keymap.set('n', 'K', api.node.navigate.sibling.first, opts('First Sibling'))
+                    vim.keymap.set('n', 'm', api.marks.toggle, opts('Toggle Bookmark'))
+                    vim.keymap.set('n', 'O', api.node.open.no_window_picker, opts('Open: No Window Picker'))
+                    vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
+                    vim.keymap.set('n', 'P', api.node.navigate.parent, opts('Parent Directory'))
+                    vim.keymap.set('n', 'q', api.tree.close, opts('Close'))
+                    vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
+                    vim.keymap.set('n', 'R', api.tree.reload, opts('Refresh'))
+                    vim.keymap.set('n', 's', api.node.run.system, opts('Run System'))
+                    vim.keymap.set('n', 'S', api.tree.search_node, opts('Search'))
+                    vim.keymap.set('n', 'u', api.fs.rename_full, opts('Rename: Full Path'))
+                    vim.keymap.set('n', 'U', api.tree.toggle_custom_filter, opts('Toggle Filter: Hidden'))
+                    vim.keymap.set('n', 'W', api.tree.collapse_all, opts('Collapse'))
+                    vim.keymap.set('n', 'x', api.fs.cut, opts('Cut'))
+                    vim.keymap.set('n', 'y', api.fs.copy.filename, opts('Copy Name'))
+                    vim.keymap.set('n', 'Y', api.fs.copy.relative_path, opts('Copy Relative Path'))
+                    vim.keymap.set('n', '<2-LeftMouse>', api.node.open.edit, opts('Open'))
+                    vim.keymap.set('n', '<2-RightMouse>', api.tree.change_root_to_node, opts('CD'))
+                    vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
+                    vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close directory'))
+                end
+            }
+        end,
     },
 
     -- Highlight matching occurrences of word under cursor
@@ -516,8 +604,8 @@ return {
             local alpha = require('alpha')
             local dashboard = require('alpha.themes.dashboard')
             dashboard.section.buttons.val = {
+                dashboard.button("n", "󰈔  New file", ":ene <BAR> startinsert <CR>"),
                 dashboard.button("f", "󰱼  Find file", ":Telescope find_files <CR>"),
-                dashboard.button("e", "󰈔  New file", ":ene <BAR> startinsert <CR>"),
                 dashboard.button("r", "󰄉  Recently used files", ":Telescope oldfiles cwd_only=true <CR>"),
                 dashboard.button("t", "󰊄  Find text", ":Telescope live_grep <CR>"),
                 dashboard.button("g", "  Lazygit", ":lua Toggle_lazygit()<CR>"),
@@ -562,71 +650,99 @@ return {
         end,
     },
 
-    'neovim/nvim-lspconfig',
-    config = function()
-        -- Switch for controlling whether you want autoformatting.
-        --  Use :KickstartFormatToggle to toggle autoformatting on or off
-        local format_is_enabled = true
-        vim.api.nvim_create_user_command('KickstartFormatToggle', function()
-            format_is_enabled = not format_is_enabled
-            print('Setting autoformatting to: ' .. tostring(format_is_enabled))
-        end, {})
+    {
+        'neovim/nvim-lspconfig',
+        config = function()
+            -- Switch for controlling whether you want autoformatting.
+            --  Use :KickstartFormatToggle to toggle autoformatting on or off
+            local format_is_enabled = true
+            vim.api.nvim_create_user_command('KickstartFormatToggle', function()
+                format_is_enabled = not format_is_enabled
+                print('Setting autoformatting to: ' .. tostring(format_is_enabled))
+            end, {})
 
-        -- Create an augroup that is used for managing our formatting autocmds.
-        --      We need one augroup per client to make sure that multiple clients
-        --      can attach to the same buffer without interfering with each other.
-        local _augroups = {}
-        local get_augroup = function(client)
-            if not _augroups[client.id] then
-                local group_name = 'kickstart-lsp-format-' .. client.name
-                local id = vim.api.nvim_create_augroup(group_name, { clear = true })
-                _augroups[client.id] = id
+            -- Create an augroup that is used for managing our formatting autocmds.
+            --      We need one augroup per client to make sure that multiple clients
+            --      can attach to the same buffer without interfering with each other.
+            local _augroups = {}
+            local get_augroup = function(client)
+                if not _augroups[client.id] then
+                    local group_name = 'kickstart-lsp-format-' .. client.name
+                    local id = vim.api.nvim_create_augroup(group_name, { clear = true })
+                    _augroups[client.id] = id
+                end
+
+                return _augroups[client.id]
             end
 
-            return _augroups[client.id]
+            -- Whenever an LSP attaches to a buffer, we will run this function.
+            --
+            -- See `:help LspAttach` for more information about this autocmd event.
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = vim.api.nvim_create_augroup('kickstart-lsp-attach-format', { clear = true }),
+                -- This is where we attach the autoformatting for reasonable clients
+                callback = function(args)
+                    local client_id = args.data.client_id
+                    local client = vim.lsp.get_client_by_id(client_id)
+                    local bufnr = args.buf
+
+                    -- Only attach to clients that support document formatting
+                    if not client.server_capabilities.documentFormattingProvider then
+                        return
+                    end
+
+                    -- Tsserver usually works poorly. Sorry you work with bad languages
+                    -- You can remove this line if you know what you're doing :)
+                    if client.name == 'tsserver' then
+                        return
+                    end
+
+                    -- Create an autocmd that will run *before* we save the buffer.
+                    --  Run the formatting command for the LSP that has just attached.
+                    vim.api.nvim_create_autocmd('BufWritePre', {
+                        group = get_augroup(client),
+                        buffer = bufnr,
+                        callback = function()
+                            if not format_is_enabled then
+                                return
+                            end
+
+                            vim.lsp.buf.format {
+                                async = false,
+                                filter = function(c)
+                                    return c.id == client.id
+                                end,
+                            }
+                        end,
+                    })
+                end,
+            })
         end
-
-        -- Whenever an LSP attaches to a buffer, we will run this function.
-        --
-        -- See `:help LspAttach` for more information about this autocmd event.
-        vim.api.nvim_create_autocmd('LspAttach', {
-            group = vim.api.nvim_create_augroup('kickstart-lsp-attach-format', { clear = true }),
-            -- This is where we attach the autoformatting for reasonable clients
-            callback = function(args)
-                local client_id = args.data.client_id
-                local client = vim.lsp.get_client_by_id(client_id)
-                local bufnr = args.buf
-
-                -- Only attach to clients that support document formatting
-                if not client.server_capabilities.documentFormattingProvider then
-                    return
-                end
-
-                -- Tsserver usually works poorly. Sorry you work with bad languages
-                -- You can remove this line if you know what you're doing :)
-                if client.name == 'tsserver' then
-                    return
-                end
-
-                -- Create an autocmd that will run *before* we save the buffer.
-                --  Run the formatting command for the LSP that has just attached.
-                vim.api.nvim_create_autocmd('BufWritePre', {
-                    group = get_augroup(client),
-                    buffer = bufnr,
-                    callback = function()
-                        if not format_is_enabled then
-                            return
-                        end
-
-                        vim.lsp.buf.format {
-                            async = false,
-                            filter = function(c)
-                                return c.id == client.id
-                            end,
-                        }
-                    end,
-                })
-            end,
-        })
-    end,
+    },
+    {
+        'romgrk/barbar.nvim',
+        dependencies = {
+            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
+            'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+            -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+            -- animation = true,
+            -- insert_at_start = true,
+            -- …etc.
+            -- Set the filetypes which barbar will offset itself for
+            sidebar_filetypes = {
+                -- Use the default values: {event = 'BufWinLeave', text = nil}
+                NvimTree = true,
+                -- Or, specify the text used for the offset:
+                undotree = { text = 'undotree' },
+                -- Or, specify the event which the sidebar executes when leaving:
+                ['neo-tree'] = { event = 'BufWipeout' },
+                -- Or, specify both
+                Outline = { event = 'BufWinLeave', text = 'symbols-outline' },
+            },
+        },
+        version = '^1.0.0', -- optional: only update when a new 1.x version is released
+    },
 }

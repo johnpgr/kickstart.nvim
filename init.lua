@@ -1,8 +1,8 @@
-local plugins = require("src.plugins")
+local plugins = require("plugins")
 require('lazy').setup(plugins, {})
-require("src.options")
-require("src.keymaps")
-require("src.lsp")
+require("options")
+require("keymaps")
+require("lsp")
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`

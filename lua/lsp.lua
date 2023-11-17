@@ -15,21 +15,6 @@ local on_attach = function(_, bufnr)
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
     end
 
-    local supported_prettier_filetypes = { "javascript", "javascriptreact", "typescript", "javascriptreact",
-        "typescriptreact", "json", "yaml",
-        "html", "css", "scss", "markdown" }
-
-    local function format_current_file()
-        local current_ft = vim.bo.filetype
-        if vim.fn.index(supported_prettier_filetypes, current_ft) == -1 then
-            vim.lsp.buf.format()
-        else
-            local current_buffer = vim.fn.bufname("%")
-            local command = string.format("!bunx prettier -w %s", vim.fn.shellescape(current_buffer))
-            vim.api.nvim_command(command)
-        end
-    end
-
     nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
     nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
@@ -57,7 +42,7 @@ local on_attach = function(_, bufnr)
         vim.lsp.buf.format()
     end, { desc = 'Format current buffer with LSP' })
 
-    nmap('<leader>lf', format_current_file, '[L]SP [F]ormat current file')
+    nmap('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat current file')
 end
 
 -- Enable the following language servers
