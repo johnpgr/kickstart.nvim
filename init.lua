@@ -8,6 +8,8 @@ vim.g.maplocalleader = ' '
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
+vim.opt.relativenumber = true
+
 -- Keep selection when indenting multiple lines
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
@@ -56,27 +58,27 @@ require('lazy').setup({
         -- Theme inspired by Atom
         'navarasu/onedark.nvim',
         priority = 1000,
-        -- config = function()
-        --     vim.cmd("colorscheme onedark")
-        -- end
+        config = function()
+            vim.cmd("colorscheme onedark")
+        end
     },
     {
         "ellisonleao/gruvbox.nvim",
         priority = 1000,
-        config = function()
-            require('gruvbox').setup({
-                italic = {
-                    folds = false,
-                    strings = false,
-                    comments = false,
-                    emphasis = false,
-                    operators = false
-                },
-                -- contrast = "hard"
-                transparent_mode = true
-            })
-            vim.cmd("colorscheme gruvbox")
-        end
+        -- config = function()
+        --     require('gruvbox').setup({
+        --         italic = {
+        --             folds = false,
+        --             strings = false,
+        --             comments = false,
+        --             emphasis = false,
+        --             operators = false
+        --         },
+        --         -- contrast = "hard"
+        --         transparent_mode = true
+        --     })
+        --     vim.cmd("colorscheme gruvbox")
+        -- end
     },
 
     -- Git related plugins
@@ -227,18 +229,15 @@ require('lazy').setup({
         },
     },
 
-    -- {
-    --     -- Add indentation guides even on blank lines
-    --     'lukas-reineke/indent-blankline.nvim',
-    --     -- Enable `lukas-reineke/indent-blankline.nvim`
-    --     -- See `:help indent_blankline.txt`
-    --     config = function()
-    --         require('ibl').setup {
-    --             char = '|',
-    --             show_trailing_blankline_indent = false,
-    --         }
-    --     end,
-    -- },
+    {
+        -- Add indentation guides even on blank lines
+        'lukas-reineke/indent-blankline.nvim',
+        -- Enable `lukas-reineke/indent-blankline.nvim`
+        -- See `:help indent_blankline.txt`
+        config = function()
+            require('ibl').setup {}
+        end,
+    },
 
     -- Fuzzy Finder (files, lsp, etc)
     {
@@ -756,7 +755,7 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>e', ':Neotree toggle right<CR>', { desc = '[E]xplorer', silent = true })
+vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = '[E]xplorer', silent = true })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
@@ -869,6 +868,21 @@ local on_attach = function(_, bufnr)
         vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
     end
 
+    local supported_prettier_filetypes = { "javascript", "javascriptreact", "typescript", "javascriptreact",
+        "typescriptreact", "json", "yaml",
+        "html", "css", "scss", "markdown" }
+
+    local function format_current_file()
+        local current_ft = vim.bo.filetype
+        if vim.fn.index(supported_prettier_filetypes, current_ft) == -1 then
+            vim.lsp.buf.format()
+        else
+            local current_buffer = vim.fn.bufname("%")
+            local command = string.format("!bunx prettier -w %s", vim.fn.shellescape(current_buffer))
+            vim.api.nvim_command(command)
+        end
+    end
+
     nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
     nmap('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
 
@@ -901,7 +915,7 @@ local on_attach = function(_, bufnr)
         toggle_spaces_width()
     end, { desc = 'Toggle spaces width in current buffer (4 <-> 2)' })
 
-    nmap('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat current file')
+    nmap('<leader>lf', format_current_file, '[L]SP [F]ormat current file')
     nmap('<leader>ts', toggle_spaces_width, 'Toggle Spaces width')
 end
 
@@ -931,7 +945,6 @@ local servers = {
     -- gopls = {},
     -- pyright = {},
     -- rust_analyzer = {},
-    -- tsserver = {},
     -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
     lua_ls = {
@@ -1013,6 +1026,18 @@ cmp.setup {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
     },
+}
+
+local lspconfig = require('lspconfig')
+-- ...
+lspconfig.htmx.setup {
+    filetypes = {
+        "html",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    }
 }
 
 -- V-Analyzer
