@@ -41,12 +41,25 @@ vim.o.termguicolors = true
 -- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    pattern = '*',
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
 })
+
+local default_ltheme = 'xcodelight'
+local default_ntheme = 'no-clown-fiesta'
+
+local time = os.date("*t")
+
+if time.hour >= 18 then
+  vim.cmd('colorscheme ' .. default_ntheme)
+else
+  vim.cmd('colorscheme ' .. default_ltheme)
+end
+
+vim.cmd('set colorcolumn=120')
 
 --
 -- The line beneath this is called `modeline`. See `:help modeline`

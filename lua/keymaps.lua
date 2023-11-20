@@ -1,5 +1,14 @@
 -- [[ Basic Keymaps ]]
 
+local function close_buffer()
+    local buftype = vim.bo.buftype
+    if buftype == 'terminal' then
+        vim.cmd('bd!')
+    else
+        vim.cmd('BufferClose')
+    end
+end
+
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -24,6 +33,11 @@ vim.keymap.set('n', '<C-down>', ':horizontal resize +3<CR>', { silent = true })
 vim.keymap.set('n', '<C-left>', ':vertical resize -3<CR>', { silent = true })
 vim.keymap.set('n', '<C-right>', ':vertical resize +3<CR>', { silent = true })
 
+-- Terminal mode
+vim.keymap.set('n', '<leader>t', ':terminal<CR>', { silent = true, desc = 'Open terminal' })
+-- Exit terminal mode
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { silent = true })
+
 -- Move lines
 vim.keymap.set('v', '<s-j>', ":m '>+1<CR>gv=gv", { silent = true, desc = 'Move line down' })
 vim.keymap.set('v', '<s-k>', ":m '<-2<CR>gv=gv", { silent = true, desc = 'Move line up' })
@@ -44,24 +58,24 @@ vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" })
 
 -- ToggleTerm Keymaps
-vim.keymap.set('n', '<leader>th', ':ToggleTerm direction=horizontal size=15<CR>',
-    { noremap = true, silent = true, desc = "Toggle horizontal terminal" }) -- Horizontal terminal
-vim.keymap.set('n', '<leader>tv', ':ToggleTerm direction=vertical size=80<CR>',
-    { noremap = true, silent = true, desc = "Toggle vertical terminal" })   -- Vertical terminal
-vim.keymap.set('n', '<leader>tt', ':ToggleTerm direction=float size=100<CR>',
-    { noremap = true, silent = true, desc = "Toggle terminal" })            -- Toggle terminal
-
-function _G.set_terminal_keymaps()
-    local opts = { noremap = true, silent = true }
-    vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)       -- Esc to exit terminal mode
-    vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)          -- jk to exit terminal mode
-    vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-w>h]], opts) -- Navigate between splits
-    vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-w>j]], opts) -- Navigate between splits
-    vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-w>k]], opts) -- Navigate between splits
-    vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-w>l]], opts) -- Navigate between splits
-end
-
-vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()') -- Set keymaps when opening terminal
+-- vim.keymap.set('n', '<leader>th', ':ToggleTerm direction=horizontal size=15<CR>',
+--     { noremap = true, silent = true, desc = "Toggle horizontal terminal" }) -- Horizontal terminal
+-- vim.keymap.set('n', '<leader>tv', ':ToggleTerm direction=vertical size=80<CR>',
+--     { noremap = true, silent = true, desc = "Toggle vertical terminal" })   -- Vertical terminal
+-- vim.keymap.set('n', '<leader>tt', ':ToggleTerm direction=float size=100<CR>',
+--     { noremap = true, silent = true, desc = "Toggle terminal" })            -- Toggle terminal
+--
+-- function _G.set_terminal_keymaps()
+--     local opts = { noremap = true, silent = true }
+--     vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)       -- Esc to exit terminal mode
+--     vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)          -- jk to exit terminal mode
+--     vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-w>h]], opts) -- Navigate between splits
+--     vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-w>j]], opts) -- Navigate between splits
+--     vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-w>k]], opts) -- Navigate between splits
+--     vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-w>l]], opts) -- Navigate between splits
+-- end
+--
+-- vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()') -- Set keymaps when opening terminal
 
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
@@ -117,28 +131,7 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
     desc = 'Quit without saving session', silent = true
 })
 
--- Lazygit
-local function toggle_lazygit()
-    local Terminal = require("toggleterm.terminal").Terminal
-    local lazygit = Terminal:new {
-        cmd = "lazygit",
-        hidden = true,
-        direction = "float",
-        float_opts = {
-            border = "none",
-            width = 100000,
-            height = 100000,
-        },
-        on_open = function(_)
-            vim.cmd "startinsert!"
-        end,
-        on_close = function(_) end,
-        count = 99,
-    }
-    lazygit:toggle()
-end
-
-vim.keymap.set('n', '<leader>gg', toggle_lazygit, { desc = 'Open Lazygit' })
+vim.keymap.set('n', '<leader>gg', Toggle_lazygit, { desc = 'Open Lazygit' })
 
 -- Tabs
 vim.keymap.set('n', '<tab>', ':BufferNext<CR>', { desc = 'Next tab', noremap = true, silent = true })
@@ -153,4 +146,4 @@ vim.keymap.set('n', '<A-7>', ':BufferGoto 7<CR>', { desc = 'Go to tab 7', norema
 vim.keymap.set('n', '<A-8>', ':BufferGoto 8<CR>', { desc = 'Go to tab 8', noremap = true, silent = true })
 vim.keymap.set('n', '<A-9>', ':BufferGoto 9<CR>', { desc = 'Go to tab 9', noremap = true, silent = true })
 vim.keymap.set('n', '<A-0>', ':BufferLast<CR>', { desc = 'Go to last tab', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>q', ':BufferClose<CR>', { noremap = true, silent = true, desc = 'Kill buffer' })
+vim.keymap.set('n', '<leader>q', close_buffer, { noremap = true, silent = true, desc = 'Kill buffer' })

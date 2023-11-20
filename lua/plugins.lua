@@ -14,33 +14,39 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Lazygit
+function Toggle_lazygit()
+    vim.cmd('tabnew')
+    vim.fn.termopen('lazygit')
+    vim.cmd('startinsert')
+end
+
 return {
     -- NOTE: First, some plugins that don't require any configuration
     {
         -- Theme inspired by Atom
         'navarasu/onedark.nvim',
         priority = 1000,
-        config = function()
-            vim.cmd("colorscheme onedark")
-        end
+        -- config = function()
+        --     vim.cmd("colorscheme onedark")
+        -- end
     },
     {
         "ellisonleao/gruvbox.nvim",
         priority = 1000,
-        -- config = function()
-        --     require('gruvbox').setup({
-        --         italic = {
-        --             folds = false,
-        --             strings = false,
-        --             comments = false,
-        --             emphasis = false,
-        --             operators = false
-        --         },
-        --         -- contrast = "hard"
-        --         transparent_mode = true
-        --     })
-        --     vim.cmd("colorscheme gruvbox")
-        -- end
+        config = function()
+            require('gruvbox').setup({
+                italic = {
+                    folds = false,
+                    strings = false,
+                    comments = false,
+                    emphasis = false,
+                    operators = false
+                },
+                -- contrast = "hard"
+                transparent_mode = true
+            })
+        end
     },
 
     -- Git related plugins
@@ -191,15 +197,15 @@ return {
         },
     },
 
-    {
-        -- Add indentation guides even on blank lines
-        'lukas-reineke/indent-blankline.nvim',
-        -- Enable `lukas-reineke/indent-blankline.nvim`
-        -- See `:help indent_blankline.txt`
-        config = function()
-            require('ibl').setup {}
-        end,
-    },
+    -- {
+    --     -- Add indentation guides even on blank lines
+    --     'lukas-reineke/indent-blankline.nvim',
+    --     -- Enable `lukas-reineke/indent-blankline.nvim`
+    --     -- See `:help indent_blankline.txt`
+    --     config = function()
+    --         require('ibl').setup {}
+    --     end,
+    -- },
 
     -- Fuzzy Finder (files, lsp, etc)
     {
@@ -348,8 +354,10 @@ return {
                 view = {
                     width = 30,
                 },
-                filters = {
-                    dotfiles = true,
+                git = {
+                    enable = true,
+                    ignore = false,
+                    timeout = 500
                 },
                 on_attach = function(bufnr)
                     local api = require "nvim-tree.api"
@@ -488,38 +496,38 @@ return {
     },
 
     -- Toggle terminals inside editor
-    {
-        'akinsho/toggleterm.nvim',
-        version = "*",
-        config = function()
-            require("toggleterm").setup({
-                -- size can be a number or function which is passed the current terminal
-                size = 15,
-                open_mapping = [[<c-\>]],
-                hide_numbers = true,      -- hide the number column in toggleterm buffers
-                shade_filetypes = {},
-                shade_terminals = true,   -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
-                shading_factor = 2,       -- the percentage by which to lighten terminal background, default: -30 (gets multiplied by -3 if background is light)
-                start_in_insert = true,
-                insert_mappings = true,   -- whether or not the open mapping applies in insert mode
-                terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
-                persist_size = true,
-                persist_mode = true,      -- if set to true (default) the previous terminal mode will be remembered
-                direction = 'horizontal',
-                close_on_exit = true,     -- close the terminal window when the process exits
-                shell = vim.o.shell,
-                auto_scroll = true,       -- automatically scroll to the bottom on terminal output
-                float_opts = {
-                    border = 'curved',
-                    winblend = 0,
-                    highlights = {
-                        border = "Normal",
-                        background = "Normal"
-                    }
-                }
-            })
-        end
-    },
+    -- {
+    --     'akinsho/toggleterm.nvim',
+    --     version = "*",
+    --     config = function()
+    --         require("toggleterm").setup({
+    --             -- size can be a number or function which is passed the current terminal
+    --             size = 15,
+    --             open_mapping = [[<c-\>]],
+    --             hide_numbers = true,      -- hide the number column in toggleterm buffers
+    --             shade_filetypes = {},
+    --             shade_terminals = true,   -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
+    --             shading_factor = 2,       -- the percentage by which to lighten terminal background, default: -30 (gets multiplied by -3 if background is light)
+    --             start_in_insert = true,
+    --             insert_mappings = true,   -- whether or not the open mapping applies in insert mode
+    --             terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
+    --             persist_size = true,
+    --             persist_mode = true,      -- if set to true (default) the previous terminal mode will be remembered
+    --             direction = 'horizontal',
+    --             close_on_exit = true,     -- close the terminal window when the process exits
+    --             shell = vim.o.shell,
+    --             auto_scroll = true,       -- automatically scroll to the bottom on terminal output
+    --             float_opts = {
+    --                 border = 'curved',
+    --                 winblend = 0,
+    --                 highlights = {
+    --                     border = "Normal",
+    --                     background = "Normal"
+    --                 }
+    --             }
+    --         })
+    --     end
+    -- },
 
     -- Surround Utils
     {
@@ -566,37 +574,6 @@ return {
         --     })
         --     vim.cmd("colorscheme catppuccin")
         -- end
-    },
-    {
-        "folke/noice.nvim",
-        event = "VeryLazy",
-        opts = {
-            presets = {
-                command_palette = true,
-            },
-            lsp = {
-                signature = {
-                    auto_open = {
-                        enabled = false
-                    }
-                }
-            }
-        },
-        dependencies = {
-            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-            "MunifTanjim/nui.nvim",
-            -- OPTIONAL:
-            --   `nvim-notify` is only needed, if you want to use the notification view.
-            --   If not available, we use `mini` as the fallback
-            -- {
-            --     "rcarriga/nvim-notify",
-            --     config = function()
-            --         require("notify").setup({
-            --             background_colour = "#000000"
-            --         })
-            --     end
-            -- },
-        }
     },
     {
         'goolord/alpha-nvim',
@@ -745,4 +722,47 @@ return {
         },
         version = '^1.0.0', -- optional: only update when a new 1.x version is released
     },
+    {
+        "no-clown-fiesta/no-clown-fiesta.nvim",
+        config = function()
+            require("no-clown-fiesta").setup({
+                transparent = false, -- Enable this to disable the bg color
+                styles = {
+                    -- You can set any of the style values specified for `:h nvim_set_hl`
+                    comments = {},
+                    keywords = {},
+                    functions = {},
+                    variables = {},
+                    type = { bold = true },
+                    lsp = { underline = true }
+                },
+            })
+        end
+    },
+    {
+        "michaelb/sniprun",
+        branch = "master",
+
+        build = "sh install.sh",
+        -- do 'sh install.sh 1' if you want to force compile locally
+        -- (instead of fetching a binary from the github release). Requires Rust >= 1.65
+
+        config = function()
+            require("sniprun").setup({
+                interpreter_options = {
+                    Generic = {
+                        Bun = {
+                            supported_filetypes = { "ts" },
+                            extension = ".ts",
+                            interpreter = "bun repl",
+                            compiler = "",
+                        }
+                    }
+                },
+                selected_interpreters = { 'Generic' },
+                repl_enable = { 'Generic' }
+            })
+        end,
+    },
+    { 'lunacookies/vim-colors-xcode' }
 }

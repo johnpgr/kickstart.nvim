@@ -43,6 +43,7 @@ local on_attach = function(_, bufnr)
     end, { desc = 'Format current buffer with LSP' })
 
     nmap('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat current file')
+    nmap('<leader>lr', ':LspRestart<CR>', '[L]SP [R]estart server')
 end
 
 -- Enable the following language servers
@@ -105,16 +106,18 @@ lspconfig.htmx.setup {
     }
 }
 
+require('lspconfig').vls.setup {}
+
 -- V-Analyzer
--- local configs = require('lspconfig.configs')
--- local lspconfig = require('lspconfig')
--- if not configs['v-analyzer'] then
---     configs['v-analyzer'] = {
---         default_config = {
---             cmd = { 'v-analyzer' },
---             root_dir = lspconfig.util.root_pattern('.git', '.v-analyzer'),
---             filetypes = { 'v', 'vlang' },
---         },
---     }
--- end
--- lspconfig['v-analyzer'].setup {}
+local configs = require('lspconfig.configs')
+local lspconfig = require('lspconfig')
+if not configs['v-analyzer'] then
+    configs['v-analyzer'] = {
+        default_config = {
+            cmd = { 'v-analyzer' },
+            root_dir = lspconfig.util.root_pattern('.git', '.v-analyzer'),
+            filetypes = { 'v', 'vlang' },
+        },
+    }
+end
+lspconfig['v-analyzer'].setup {}

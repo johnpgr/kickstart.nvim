@@ -30,10 +30,10 @@ require('nvim-treesitter.configs').setup {
     ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
 
     -- Commentstring
-    context_commentstring = {
-        enable = true,
-        enable_autocmd = false,
-    },
+    -- context_commentstring = {
+    --     enable = true,
+    --     enable_autocmd = false,
+    -- },
 
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
@@ -94,6 +94,11 @@ require('nvim-treesitter.configs').setup {
         },
     },
 }
+
+require('ts_context_commentstring').setup({
+    enable = true,
+    enable_autocmd = false,
+})
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
