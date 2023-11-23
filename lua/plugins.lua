@@ -14,13 +14,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Lazygit
-function Toggle_lazygit()
-    vim.cmd('tabnew')
-    vim.fn.termopen('lazygit')
-    vim.cmd('startinsert')
-end
-
 return {
     -- NOTE: First, some plugins that don't require any configuration
     {
@@ -585,13 +578,13 @@ return {
                 dashboard.button("f", "󰱼  Find file", ":Telescope find_files <CR>"),
                 dashboard.button("r", "󰄉  Recently used files", ":Telescope oldfiles cwd_only=true <CR>"),
                 dashboard.button("t", "󰊄  Find text", ":Telescope live_grep <CR>"),
-                dashboard.button("g", "  Lazygit", ":lua Toggle_lazygit()<CR>"),
+                dashboard.button("g", "  Lazygit", ":LazyGit<CR>"),
                 dashboard.button("l", "󰭖  Load last session for cwd", ":lua require('persistence').load()<CR>"),
                 dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
                 dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
             }
             local function footer()
-                local cmd = "~/.local/bin/bible-reader -f ~/bible-por-nvi.xml random"
+                local cmd = "~/.local/bin/bible-reader -f ~/bible-por-nvi.xml random -v 5"
                 local handle = io.popen(cmd)
 
                 if handle then
@@ -751,6 +744,12 @@ return {
             require("sniprun").setup({
                 interpreter_options = {
                     Generic = {
+                        Vlang = {
+                            supported_filetypes = { "vlang" },
+                            extension = ".v",
+                            interpreter = "v run",
+                            compiler = "",
+                        },
                         Bun = {
                             supported_filetypes = { "ts" },
                             extension = ".ts",
@@ -760,9 +759,16 @@ return {
                     }
                 },
                 selected_interpreters = { 'Generic' },
-                repl_enable = { 'Generic' }
+                repl_enable = { 'Generic_Vlang' }
             })
         end,
     },
-    { 'lunacookies/vim-colors-xcode' }
+    { 'lunacookies/vim-colors-xcode' },
+    {
+        "kdheepak/lazygit.nvim",
+        -- optional for floating window border decoration
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+    },
 }

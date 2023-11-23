@@ -106,8 +106,6 @@ lspconfig.htmx.setup {
     }
 }
 
-require('lspconfig').vls.setup {}
-
 -- V-Analyzer
 local configs = require('lspconfig.configs')
 local lspconfig = require('lspconfig')
