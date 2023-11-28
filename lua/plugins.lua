@@ -185,7 +185,25 @@ return {
             options = {
                 icons_enabled = false,
                 component_separators = '|',
-                section_separators = '',
+                section_separators = '|',
+            },
+            sections = {
+                lualine_a = { 'mode' },
+                lualine_b = { 'branch', 'diff', 'diagnostics' },
+                lualine_c = { function()
+                    local home = vim.fn.expand "$HOME"
+
+                    if vim.bo.filetype == "NvimTree" then
+                        return "  Explorer"
+                    else
+                        local fullpath = vim.fn.expand "%"
+                        local path = fullpath.gsub(fullpath, home, "~")
+                        return path
+                    end
+                end },
+                lualine_x = { 'encoding', 'fileformat', 'filetype' },
+                lualine_y = { 'progress' },
+                lualine_z = { 'location' }
             },
         },
     },
@@ -304,18 +322,18 @@ return {
     },
 
     -- LSP Signature on write
-    -- {
-    --     "ray-x/lsp_signature.nvim",
-    --     event = "VeryLazy",
-    --     opts = {
-    --         bind = true,
-    --         handler_opts = {
-    --             border = "none"
-    --         },
-    --         always_trigger = false,
-    --     },
-    --     config = function(_, opts) require 'lsp_signature'.setup(opts) end
-    -- },
+    {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        opts = {
+            bind = true,
+            handler_opts = {
+                border = "none"
+            },
+            always_trigger = false,
+        },
+        config = function(_, opts) require 'lsp_signature'.setup(opts) end
+    },
 
     -- Auto close html tags
     {
@@ -770,5 +788,26 @@ return {
         dependencies = {
             "nvim-lua/plenary.nvim",
         },
+    },
+    {
+        "romgrk/nvim-treesitter-context",
+        config = function()
+            require("treesitter-context").setup {
+                enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
+                throttle = true, -- Throttles plugin updates (may improve performance)
+                max_lines = 0,   -- How many lines the window should span. Values <= 0 mean no limit.
+                patterns = {     -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+                    -- For all filetypes
+                    -- Note that setting an entry here replaces all other patterns for this entry.
+                    -- By setting the 'default' entry below, you can control which nodes you want to
+                    -- appear in the context window.
+                    default = {
+                        'class',
+                        'function',
+                        'method',
+                    },
+                },
+            }
+        end
     },
 }
