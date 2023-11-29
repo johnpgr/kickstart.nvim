@@ -202,14 +202,14 @@ return {
                 lualine_a = { 'mode' },
                 lualine_b = { 'branch', 'diff', 'diagnostics' },
                 lualine_c = { function()
-                    local home = vim.fn.expand "$HOME"
-
                     if vim.bo.filetype == "NvimTree" then
                         return "  Explorer"
                     else
+                        local home = vim.fn.expand "$HOME" .. "/"
                         local fullpath = vim.fn.expand "%"
-                        local path = fullpath.gsub(fullpath, home, "~")
-                        return path
+                        local escaped_home = home:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%1")
+                        local result = fullpath:gsub("^" .. escaped_home, "")
+                        return result
                     end
                 end },
                 lualine_x = { 'encoding', 'fileformat', 'filetype' },
