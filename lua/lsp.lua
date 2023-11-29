@@ -95,7 +95,7 @@ mason_lspconfig.setup_handlers {
 }
 
 local lspconfig = require('lspconfig')
--- ...
+
 lspconfig.htmx.setup {
     filetypes = {
         "html",

@@ -25,6 +25,17 @@ return {
         -- end
     },
     {
+        "blazkowolf/gruber-darker.nvim",
+        opts = {
+            italic = {
+                strings = false,
+                comments = false,
+                operators = false,
+                folds = false,
+            }
+        }
+    },
+    {
         "ellisonleao/gruvbox.nvim",
         priority = 1000,
         config = function()
@@ -185,7 +196,7 @@ return {
             options = {
                 icons_enabled = false,
                 component_separators = '|',
-                section_separators = '|',
+                section_separators = '',
             },
             sections = {
                 lualine_a = { 'mode' },
@@ -294,7 +305,7 @@ return {
                         auto_trigger = true,
                         debounce = 75,
                         keymap = {
-                            accept = "<Tab>",
+                            accept = "<M-l>",
                             accept_word = false,
                             accept_line = false,
                             next = "<M-]>",
@@ -322,18 +333,18 @@ return {
     },
 
     -- LSP Signature on write
-    {
-        "ray-x/lsp_signature.nvim",
-        event = "VeryLazy",
-        opts = {
-            bind = true,
-            handler_opts = {
-                border = "none"
-            },
-            always_trigger = false,
-        },
-        config = function(_, opts) require 'lsp_signature'.setup(opts) end
-    },
+    -- {
+    --     "ray-x/lsp_signature.nvim",
+    --     event = "VeryLazy",
+    --     opts = {
+    --         bind = true,
+    --         handler_opts = {
+    --             border = "none"
+    --         },
+    --         always_trigger = false,
+    --     },
+    --     config = function(_, opts) require 'lsp_signature'.setup(opts) end
+    -- },
 
     -- Auto close html tags
     {
@@ -809,5 +820,9 @@ return {
                 },
             }
         end
+    },
+    {
+        "Hubro/nvim-splitrun",
+        opts = {},
     },
 }

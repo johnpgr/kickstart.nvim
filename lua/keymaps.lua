@@ -1,14 +1,5 @@
 -- [[ Basic Keymaps ]]
 
-local function close_buffer()
-    local buftype = vim.bo.buftype
-    if buftype == 'terminal' then
-        vim.cmd('bd!')
-    else
-        vim.cmd('BufferClose')
-    end
-end
-
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -32,11 +23,6 @@ vim.keymap.set('n', '<C-up>', ':horizontal resize -3<CR>', { silent = true })
 vim.keymap.set('n', '<C-down>', ':horizontal resize +3<CR>', { silent = true })
 vim.keymap.set('n', '<C-left>', ':vertical resize -3<CR>', { silent = true })
 vim.keymap.set('n', '<C-right>', ':vertical resize +3<CR>', { silent = true })
-
--- Terminal mode
-vim.keymap.set('n', '<leader>t', ':terminal<CR>', { silent = true, desc = 'Open terminal' })
--- Exit terminal mode
-vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { silent = true })
 
 -- Move lines
 vim.keymap.set('v', '<s-j>', ":m '>+1<CR>gv=gv", { silent = true, desc = 'Move line down' })
@@ -103,7 +89,6 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnos
 vim.keymap.set('n', '<leader>df', vim.diagnostic.open_float, { desc = 'Open [D]iagnostic [F]loating message' })
 vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open [D]iagnostics [L]ist' })
 
--- Function to toggle shiftwidth and tabstop
 local function toggle_spaces_width()
     local currentWidth = vim.opt.shiftwidth:get()
     local currentTabstop = vim.opt.tabstop:get()
@@ -119,7 +104,60 @@ local function toggle_spaces_width()
     print("Shiftwidth: " .. vim.opt.shiftwidth:get() .. " Tabstop: " .. vim.opt.tabstop:get())
 end
 
-vim.keymap.set('n', '<leader>ts', toggle_spaces_width, { desc = "Toggle Tab size" })
+function replace_tabs_with_spaces()
+    -- Get the current buffer number
+    local bufnr = vim.fn.bufnr()
+
+    -- Get the current tabstop and shiftwidth values
+    local tabstop = vim.bo.tabstop
+    local shiftwidth = vim.bo.shiftwidth
+
+    -- Calculate the number of spaces to replace a tab
+    local spaces = string.rep(' ', shiftwidth)
+
+    -- Start a transaction to make the changes atomically
+    vim.fn.setline(1, vim.fn.getline(1, '$'))
+
+    -- Replace all tabs with the calculated number of spaces in the entire buffer
+    vim.fn.execute('%s/\t/' .. spaces .. '/g')
+
+    -- End the transaction
+    vim.fn.setline(1, vim.fn.getline(1, '$'))
+
+    -- Display a message indicating the replacement is done
+    print("Tabs replaced with " .. shiftwidth .. " spaces in the current buffer")
+end
+
+function toggle_tabs_and_spaces()
+    -- Get the current buffer number
+    local bufnr = vim.fn.bufnr()
+
+    -- Get the current value of 'expandtab' (whether spaces are being used)
+    local expandtab = vim.bo.expandtab
+
+    if expandtab then
+        -- If spaces are being used, toggle to tabs
+        vim.bo.expandtab = false
+    else
+        -- If tabs are being used, toggle to spaces
+        vim.bo.expandtab = true
+    end
+
+    -- Get the updated values of 'tabstop' and 'shiftwidth' after toggling
+    local tabstop = vim.bo.tabstop
+    local shiftwidth = vim.bo.shiftwidth
+
+    -- Retab the buffer to apply the changes
+    vim.fn.execute('retab!')
+
+    -- Display a message indicating the toggle is done
+    print("Toggle between tabs and spaces in the current buffer")
+    print("Current tabstop: " .. tabstop .. ", shiftwidth: " .. shiftwidth)
+end
+
+vim.keymap.set('n', '<leader>ts', toggle_spaces_width, { desc = "Toggle Tab size", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ti', toggle_tabs_and_spaces,
+    { desc = "Toggle indentation mode (Tabs <-> Spaces)", noremap = true, silent = true })
 
 -- Persistence
 vim.keymap.set('n', '<leader>pc', "<cmd>lua require('persistence').load()<cr>",
@@ -146,4 +184,9 @@ vim.keymap.set('n', '<A-7>', ':BufferGoto 7<CR>', { desc = 'Go to tab 7', norema
 vim.keymap.set('n', '<A-8>', ':BufferGoto 8<CR>', { desc = 'Go to tab 8', noremap = true, silent = true })
 vim.keymap.set('n', '<A-9>', ':BufferGoto 9<CR>', { desc = 'Go to tab 9', noremap = true, silent = true })
 vim.keymap.set('n', '<A-0>', ':BufferLast<CR>', { desc = 'Go to last tab', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>q', close_buffer, { noremap = true, silent = true, desc = 'Kill buffer' })
+vim.keymap.set('n', '<leader>q', ':BufferClose<CR>', { noremap = true, silent = true, desc = 'Kill buffer' })
+
+vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true, silent = true })
+vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true, silent = true })
+vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true, silent = true })
+vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true, silent = true })
