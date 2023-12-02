@@ -151,8 +151,8 @@ function toggle_tabs_and_spaces()
     vim.fn.execute('retab!')
 
     -- Display a message indicating the toggle is done
-    print("Toggle between tabs and spaces in the current buffer")
-    print("Current tabstop: " .. tabstop .. ", shiftwidth: " .. shiftwidth)
+    local current_mode = vim.bo.expandtab == true and "Spaces" or "Tabs"
+    print("Current indentation mode: " .. current_mode)
 end
 
 vim.keymap.set('n', '<leader>ts', toggle_spaces_width, { desc = "Toggle Tab size", noremap = true, silent = true })
@@ -186,7 +186,4 @@ vim.keymap.set('n', '<A-9>', ':BufferGoto 9<CR>', { desc = 'Go to tab 9', norema
 vim.keymap.set('n', '<A-0>', ':BufferLast<CR>', { desc = 'Go to last tab', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>q', ':BufferClose<CR>', { noremap = true, silent = true, desc = 'Kill buffer' })
 
-vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true, silent = true })
-vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true, silent = true })
-vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true, silent = true })
-vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true, silent = true })
+vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true })

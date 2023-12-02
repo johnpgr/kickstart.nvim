@@ -10,8 +10,6 @@ vim.g.maplocalleader = ' '
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.opt.relativenumber = true
--- Set highlight on search
-vim.o.hlsearch = false
 -- Make line numbers default
 vim.wo.number = true
 -- Enable mouse mode
@@ -59,5 +57,13 @@ else
     vim.cmd('colorscheme ' .. default_ltheme)
 end
 
-vim.cmd("set list")
-vim.cmd("set listchars=tab:··,space:·,trail:·,extends:→,precedes:←,nbsp:␣")
+require('nvim-web-devicons').set_icon({
+    v = {
+        icon = "",
+        color = "#4b6c88",
+        cterm_color = "24",
+        name = "Vlang"
+    }
+})
+
+vim.cmd('set guicursor=i:block')
