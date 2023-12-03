@@ -7,6 +7,8 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- Select all
 vim.keymap.set('n', '<c-a>', 'gg<S-v>G')
 
+-- Clear search highlights
+vim.keymap.set('n', '<leader>ch', ':noh<CR>', { noremap = true, silent = true, desc = 'Clear search highlights' })
 
 -- Split generation
 vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { silent = true, desc = 'Vertical split' })
