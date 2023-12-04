@@ -46,8 +46,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
 })
 
-local default_ltheme = 'gruber-darker'
-local default_ntheme = 'gruber-darker'
+local default_ltheme = 'default'
+local default_ntheme = 'default'
 
 local time = os.date("*t")
 
@@ -56,14 +56,5 @@ if time.hour < 6 or time.hour >= 18 then
 else
     vim.cmd('colorscheme ' .. default_ltheme)
 end
-
-require('nvim-web-devicons').set_icon({
-    v = {
-        icon = "",
-        color = "#4b6c88",
-        cterm_color = "24",
-        name = "Vlang"
-    }
-})
 
 vim.cmd('set guicursor=i:block')

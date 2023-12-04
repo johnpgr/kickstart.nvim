@@ -332,20 +332,6 @@ return {
         end,
     },
 
-    -- LSP Signature on write
-    -- {
-    --     "ray-x/lsp_signature.nvim",
-    --     event = "VeryLazy",
-    --     opts = {
-    --         bind = true,
-    --         handler_opts = {
-    --             border = "none"
-    --         },
-    --         always_trigger = false,
-    --     },
-    --     config = function(_, opts) require 'lsp_signature'.setup(opts) end
-    -- },
-
     -- Auto close html tags
     {
         "windwp/nvim-ts-autotag",
@@ -353,203 +339,6 @@ return {
             require("nvim-ts-autotag").setup()
         end,
     },
-
-    -- -- File explorer
-    -- {
-    --     "nvim-neo-tree/neo-tree.nvim",
-    --     branch = "v3.x",
-    --     dependencies = {
-    --         "nvim-lua/plenary.nvim",
-    --         "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
-    --         "MunifTanjim/nui.nvim",
-    --     },
-    -- },
-    -- {
-    --     "nvim-tree/nvim-tree.lua",
-    --     version = "*",
-    --     lazy = false,
-    --     dependencies = {
-    --         "nvim-tree/nvim-web-devicons",
-    --     },
-    --     config = function()
-    --         require("nvim-tree").setup {
-    --             view = {
-    --                 width = 30,
-    --             },
-    --             git = {
-    --                 enable = true,
-    --                 ignore = false,
-    --                 timeout = 500
-    --             },
-    --             on_attach = function(bufnr)
-    --                 local api = require "nvim-tree.api"
-    --
-    --                 local function opts(desc)
-    --                     return {
-    --                         desc = "nvim-tree: " .. desc,
-    --                         buffer = bufnr,
-    --                         noremap = true,
-    --                         silent = true,
-    --                         nowait = true
-    --                     }
-    --                 end
-    --
-    --                 -- default mappings
-    --                 vim.keymap.set('n', '<C-]>', api.tree.change_root_to_node, opts('CD'))
-    --                 vim.keymap.set('n', '<C-e>', api.node.open.replace_tree_buffer, opts('Open: In Place'))
-    --                 vim.keymap.set('n', '<C-k>', api.node.show_info_popup, opts('Info'))
-    --                 vim.keymap.set('n', '<C-r>', api.fs.rename_sub, opts('Rename: Omit Filename'))
-    --                 vim.keymap.set('n', '<C-t>', api.node.open.tab, opts('Open: New Tab'))
-    --                 vim.keymap.set('n', '<C-v>', api.node.open.vertical, opts('Open: Vertical Split'))
-    --                 vim.keymap.set('n', '<C-x>', api.node.open.horizontal, opts('Open: Horizontal Split'))
-    --                 vim.keymap.set('n', '<BS>', api.node.navigate.parent_close, opts('Close Directory'))
-    --                 vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
-    --                 vim.keymap.set('n', '>', api.node.navigate.sibling.next, opts('Next Sibling'))
-    --                 vim.keymap.set('n', '<', api.node.navigate.sibling.prev, opts('Previous Sibling'))
-    --                 vim.keymap.set('n', '.', api.node.run.cmd, opts('Run Command'))
-    --                 vim.keymap.set('n', '-', api.tree.change_root_to_parent, opts('Up'))
-    --                 vim.keymap.set('n', 'a', api.fs.create, opts('Create'))
-    --                 vim.keymap.set('n', 'bd', api.marks.bulk.delete, opts('Delete Bookmarked'))
-    --                 vim.keymap.set('n', 'bt', api.marks.bulk.trash, opts('Trash Bookmarked'))
-    --                 vim.keymap.set('n', 'bmv', api.marks.bulk.move, opts('Move Bookmarked'))
-    --                 vim.keymap.set('n', 'B', api.tree.toggle_no_buffer_filter, opts('Toggle Filter: No Buffer'))
-    --                 vim.keymap.set('n', 'c', api.fs.copy.node, opts('Copy'))
-    --                 vim.keymap.set('n', 'C', api.tree.toggle_git_clean_filter, opts('Toggle Filter: Git Clean'))
-    --                 vim.keymap.set('n', '[c', api.node.navigate.git.prev, opts('Prev Git'))
-    --                 vim.keymap.set('n', ']c', api.node.navigate.git.next, opts('Next Git'))
-    --                 vim.keymap.set('n', 'd', api.fs.remove, opts('Delete'))
-    --                 vim.keymap.set('n', 'D', api.fs.trash, opts('Trash'))
-    --                 vim.keymap.set('n', 'E', api.tree.expand_all, opts('Expand All'))
-    --                 vim.keymap.set('n', 'e', api.fs.rename_basename, opts('Rename: Basename'))
-    --                 vim.keymap.set('n', ']e', api.node.navigate.diagnostics.next, opts('Next Diagnostic'))
-    --                 vim.keymap.set('n', '[e', api.node.navigate.diagnostics.prev, opts('Prev Diagnostic'))
-    --                 vim.keymap.set('n', 'F', api.live_filter.clear, opts('Clean Filter'))
-    --                 vim.keymap.set('n', 'f', api.live_filter.start, opts('Filter'))
-    --                 vim.keymap.set('n', 'g?', api.tree.toggle_help, opts('Help'))
-    --                 vim.keymap.set('n', 'gy', api.fs.copy.absolute_path, opts('Copy Absolute Path'))
-    --                 vim.keymap.set('n', 'H', api.tree.toggle_hidden_filter, opts('Toggle Filter: Dotfiles'))
-    --                 vim.keymap.set('n', 'I', api.tree.toggle_gitignore_filter, opts('Toggle Filter: Git Ignore'))
-    --                 vim.keymap.set('n', 'J', api.node.navigate.sibling.last, opts('Last Sibling'))
-    --                 vim.keymap.set('n', 'K', api.node.navigate.sibling.first, opts('First Sibling'))
-    --                 vim.keymap.set('n', 'm', api.marks.toggle, opts('Toggle Bookmark'))
-    --                 vim.keymap.set('n', 'O', api.node.open.no_window_picker, opts('Open: No Window Picker'))
-    --                 vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
-    --                 vim.keymap.set('n', 'P', api.node.navigate.parent, opts('Parent Directory'))
-    --                 vim.keymap.set('n', 'q', api.tree.close, opts('Close'))
-    --                 vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
-    --                 vim.keymap.set('n', 'R', api.tree.reload, opts('Refresh'))
-    --                 vim.keymap.set('n', 's', api.node.run.system, opts('Run System'))
-    --                 vim.keymap.set('n', 'S', api.tree.search_node, opts('Search'))
-    --                 vim.keymap.set('n', 'u', api.fs.rename_full, opts('Rename: Full Path'))
-    --                 vim.keymap.set('n', 'U', api.tree.toggle_custom_filter, opts('Toggle Filter: Hidden'))
-    --                 vim.keymap.set('n', 'W', api.tree.collapse_all, opts('Collapse'))
-    --                 vim.keymap.set('n', 'x', api.fs.cut, opts('Cut'))
-    --                 vim.keymap.set('n', 'y', api.fs.copy.filename, opts('Copy Name'))
-    --                 vim.keymap.set('n', 'Y', api.fs.copy.relative_path, opts('Copy Relative Path'))
-    --                 vim.keymap.set('n', '<2-LeftMouse>', api.node.open.edit, opts('Open'))
-    --                 vim.keymap.set('n', '<2-RightMouse>', api.tree.change_root_to_node, opts('CD'))
-    --                 vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
-    --                 vim.keymap.set('n', 'h', api.node.navigate.parent_close, opts('Close directory'))
-    --             end
-    --         }
-    --     end,
-    -- },
-
-    -- Highlight matching occurrences of word under cursor
-    {
-        "RRethy/vim-illuminate",
-        config = function()
-            -- default configuration
-            require('illuminate').configure({
-                -- providers: provider used to get references in the buffer, ordered by priority
-                providers = {
-                    'lsp',
-                    'treesitter',
-                    'regex',
-                },
-                -- delay: delay in milliseconds
-                delay = 100,
-                -- filetype_overrides: filetype specific overrides.
-                -- The keys are strings to represent the filetype while the values are tables that
-                -- supports the same keys passed to .configure except for filetypes_denylist and filetypes_allowlist
-                filetype_overrides = {},
-                -- filetypes_denylist: filetypes to not illuminate, this overrides filetypes_allowlist
-                filetypes_denylist = {
-                    'dirbuf',
-                    'dirvish',
-                    'fugitive',
-                },
-                -- filetypes_allowlist: filetypes to illuminate, this is overridden by filetypes_denylist
-                -- You must set filetypes_denylist = {} to override the defaults to allow filetypes_allowlist to take effect
-                filetypes_allowlist = {},
-                -- modes_denylist: modes to not illuminate, this overrides modes_allowlist
-                -- See `:help mode()` for possible values
-                modes_denylist = {},
-                -- modes_allowlist: modes to illuminate, this is overridden by modes_denylist
-                -- See `:help mode()` for possible values
-                modes_allowlist = {},
-                -- providers_regex_syntax_denylist: syntax to not illuminate, this overrides providers_regex_syntax_allowlist
-                -- Only applies to the 'regex' provider
-                -- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
-                providers_regex_syntax_denylist = {},
-                -- providers_regex_syntax_allowlist: syntax to illuminate, this is overridden by providers_regex_syntax_denylist
-                -- Only applies to the 'regex' provider
-                -- Use :echom synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
-                providers_regex_syntax_allowlist = {},
-                -- under_cursor: whether or not to illuminate under the cursor
-                under_cursor = true,
-                -- large_file_cutoff: number of lines at which to use large_file_config
-                -- The `under_cursor` option is disabled when this cutoff is hit
-                large_file_cutoff = nil,
-                -- large_file_config: config to use for large files (based on large_file_cutoff).
-                -- Supports the same keys passed to .configure
-                -- If nil, vim-illuminate will be disabled for large files.
-                large_file_overrides = nil,
-                -- min_count_to_highlight: minimum number of matches required to perform highlighting
-                min_count_to_highlight = 1,
-                -- should_enable: a callback that overrides all other settings to
-                -- enable/disable illumination. This will be called a lot so don't do
-                -- anything expensive in it.
-                should_enable = function(bufnr) return true end,
-                -- case_insensitive_regex: sets regex case sensitivity
-                case_insensitive_regex = false,
-            })
-        end
-    },
-
-    -- Toggle terminals inside editor
-    -- {
-    --     'akinsho/toggleterm.nvim',
-    --     version = "*",
-    --     config = function()
-    --         require("toggleterm").setup({
-    --             -- size can be a number or function which is passed the current terminal
-    --             size = 15,
-    --             open_mapping = [[<c-\>]],
-    --             hide_numbers = true,      -- hide the number column in toggleterm buffers
-    --             shade_filetypes = {},
-    --             shade_terminals = true,   -- NOTE: this option takes priority over highlights specified so if you specify Normal highlights you should set this to false
-    --             shading_factor = 2,       -- the percentage by which to lighten terminal background, default: -30 (gets multiplied by -3 if background is light)
-    --             start_in_insert = true,
-    --             insert_mappings = true,   -- whether or not the open mapping applies in insert mode
-    --             terminal_mappings = true, -- whether or not the open mapping applies in the opened terminals
-    --             persist_size = true,
-    --             persist_mode = true,      -- if set to true (default) the previous terminal mode will be remembered
-    --             direction = 'horizontal',
-    --             close_on_exit = true,     -- close the terminal window when the process exits
-    --             shell = vim.o.shell,
-    --             auto_scroll = true,       -- automatically scroll to the bottom on terminal output
-    --             float_opts = {
-    --                 border = 'curved',
-    --                 winblend = 0,
-    --                 highlights = {
-    --                     border = "Normal",
-    --                     background = "Normal"
-    --                 }
-    --             }
-    --         })
-    --     end
-    -- },
 
     -- Surround Utils
     {
@@ -563,20 +352,6 @@ return {
     -- Multi cursor
     { "mg979/vim-visual-multi" },
 
-    -- Save cursor place on close
-    -- {
-    --     "ethanholz/nvim-lastplace",
-    --     config = function()
-    --         require("nvim-lastplace").setup({
-    --             lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
-    --             lastplace_ignore_filetype = {
-    --                 "gitcommit", "gitrebase", "svn", "hgcommit",
-    --             },
-    --             lastplace_open_folds = true,
-    --         })
-    --     end,
-    -- },
-
     -- Todo Comment highlights
     {
         "folke/todo-comments.nvim",
@@ -585,7 +360,6 @@ return {
             require("todo-comments").setup()
         end,
     },
-    { "ollykel/v-vim" },
     {
         "catppuccin/nvim",
         name = "catppuccin",
@@ -649,7 +423,6 @@ return {
             }
         end,
     },
-
     {
         'neovim/nvim-lspconfig',
         config = function()
@@ -832,8 +605,33 @@ return {
             keymaps = {
                 ["<bs>"] = "actions.parent",
             }
+        }, -- Optional dependencies dependencies = { "nvim-tree/nvim-web-devicons" },
+    },
+    {
+        "folke/noice.nvim",
+        event = "VeryLazy",
+        opts = {
+            lsp = {
+                -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+                override = {
+                    ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                    ["vim.lsp.util.stylize_markdown"] = true,
+                    ["cmp.entry.get_documentation"] = true,
+                },
+            },
+            -- you can enable a preset for easier configuration
+            presets = {
+                bottom_search = false,        -- use a classic bottom cmdline for search
+                command_palette = true,       -- position the cmdline and popupmenu together
+                long_message_to_split = true, -- long messages will be sent to a split
+                inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+                lsp_doc_border = false,       -- add a border to hover docs and signature help
+            },
         },
-        -- Optional dependencies
-        dependencies = { "nvim-tree/nvim-web-devicons" },
-    }
+        dependencies = {
+            -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+            "MunifTanjim/nui.nvim",
+        }
+    },
+    { "onsails/lspkind.nvim" }
 }

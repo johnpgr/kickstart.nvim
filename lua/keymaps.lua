@@ -10,6 +10,10 @@ vim.keymap.set('n', '<c-a>', 'gg<S-v>G')
 -- Clear search highlights
 vim.keymap.set('n', '<leader>ch', ':noh<CR>', { noremap = true, silent = true, desc = 'Clear search highlights' })
 
+-- Duplicate lines
+vim.keymap.set('n', '<M-J>', ':t.<CR>', { noremap = true, silent = true, desc = 'Duplicate line below' })
+vim.keymap.set('n', '<M-K>', ':t-1<CR>', { noremap = true, silent = true, desc = 'Duplicate line above' })
+
 -- Split generation
 vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { silent = true, desc = 'Vertical split' })
 vim.keymap.set('n', '<leader>h', ':split<CR>', { silent = true, desc = 'Horizontal split' })
@@ -27,8 +31,15 @@ vim.keymap.set('n', '<C-left>', ':vertical resize -3<CR>', { silent = true })
 vim.keymap.set('n', '<C-right>', ':vertical resize +3<CR>', { silent = true })
 
 -- Move lines
-vim.keymap.set('v', '<s-j>', ":m '>+1<CR>gv=gv", { silent = true, desc = 'Move line down' })
-vim.keymap.set('v', '<s-k>', ":m '<-2<CR>gv=gv", { silent = true, desc = 'Move line up' })
+vim.keymap.set('v', '<s-j>', ":m '>+1<CR>gv=gv", { silent = true, noremap = true, desc = 'Move line down' })
+vim.keymap.set('v', '<s-k>', ":m '<-2<CR>gv=gv", { silent = true, noremap = true, desc = 'Move line up' })
+
+-- Select all occurences of word under cursor
+vim.cmd([[
+    nmap <C-M-n> <Plug>(VM-Select-All)
+    imap <C-M-n> <ESC><Plug>(VM-Select-All)
+    vmap <C-M-n> <ESC><Plug>(VM-Select-All)
+]])
 
 -- Scrolling remaps
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
@@ -84,6 +95,8 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = '[E]xplorer', silent = true })
+vim.keymap.set('n', '<leader>sh', ':Telescope noice<CR>',
+    { desc = '[S]earch notification [H]istory', noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -166,3 +179,4 @@ vim.keymap.set('n', '<A-0>', ':BufferLast<CR>', { desc = 'Go to last tab', norem
 vim.keymap.set('n', '<leader>q', ':BufferClose<CR>', { noremap = true, silent = true, desc = 'Kill buffer' })
 
 vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true })
+vim.keymap.set({ 'n', 'v' }, '<F5>', ':SnipRun<CR>', { desc = 'Sniprun', noremap = true, silent = true })
