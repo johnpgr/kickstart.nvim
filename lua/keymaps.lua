@@ -83,7 +83,7 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = '[E]xplorer', silent = true })
+vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = '[E]xplorer', silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -106,31 +106,8 @@ local function toggle_spaces_width()
     print("Shiftwidth: " .. vim.opt.shiftwidth:get() .. " Tabstop: " .. vim.opt.tabstop:get())
 end
 
-function replace_tabs_with_spaces()
-    -- Get the current buffer number
-    local bufnr = vim.fn.bufnr()
 
-    -- Get the current tabstop and shiftwidth values
-    local tabstop = vim.bo.tabstop
-    local shiftwidth = vim.bo.shiftwidth
-
-    -- Calculate the number of spaces to replace a tab
-    local spaces = string.rep(' ', shiftwidth)
-
-    -- Start a transaction to make the changes atomically
-    vim.fn.setline(1, vim.fn.getline(1, '$'))
-
-    -- Replace all tabs with the calculated number of spaces in the entire buffer
-    vim.fn.execute('%s/\t/' .. spaces .. '/g')
-
-    -- End the transaction
-    vim.fn.setline(1, vim.fn.getline(1, '$'))
-
-    -- Display a message indicating the replacement is done
-    print("Tabs replaced with " .. shiftwidth .. " spaces in the current buffer")
-end
-
-function toggle_tabs_and_spaces()
+local function toggle_tabs_and_spaces()
     -- Get the current buffer number
     local bufnr = vim.fn.bufnr()
 
