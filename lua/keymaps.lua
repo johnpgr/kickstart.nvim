@@ -56,26 +56,6 @@ vim.keymap.set('v', '>', '>gv')
 -- Open Alpha dashboard
 vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" })
 
--- ToggleTerm Keymaps
--- vim.keymap.set('n', '<leader>th', ':ToggleTerm direction=horizontal size=15<CR>',
---     { noremap = true, silent = true, desc = "Toggle horizontal terminal" }) -- Horizontal terminal
--- vim.keymap.set('n', '<leader>tv', ':ToggleTerm direction=vertical size=80<CR>',
---     { noremap = true, silent = true, desc = "Toggle vertical terminal" })   -- Vertical terminal
--- vim.keymap.set('n', '<leader>tt', ':ToggleTerm direction=float size=100<CR>',
---     { noremap = true, silent = true, desc = "Toggle terminal" })            -- Toggle terminal
---
--- function _G.set_terminal_keymaps()
---     local opts = { noremap = true, silent = true }
---     vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)       -- Esc to exit terminal mode
---     vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)          -- jk to exit terminal mode
---     vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-w>h]], opts) -- Navigate between splits
---     vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-w>j]], opts) -- Navigate between splits
---     vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-w>k]], opts) -- Navigate between splits
---     vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-w>l]], opts) -- Navigate between splits
--- end
---
--- vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()') -- Set keymaps when opening terminal
-
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
@@ -94,7 +74,7 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = '[E]xplorer', silent = true })
+vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = '[E]xplorer', silent = true })
 vim.keymap.set('n', '<leader>sh', ':Telescope noice<CR>',
     { desc = '[S]earch notification [H]istory', noremap = true, silent = true })
 
@@ -164,19 +144,21 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
 vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>', { desc = 'Open Lazygit' })
 
 -- Tabs
-vim.keymap.set('n', '<tab>', ':BufferNext<CR>', { desc = 'Next tab', noremap = true, silent = true })
-vim.keymap.set('n', '<s-tab>', ':BufferPrevious<CR>', { desc = 'Previous tab', noremap = true, silent = true })
-vim.keymap.set('n', '<A-1>', ':BufferGoto 1<CR>', { desc = 'Go to tab 1', noremap = true, silent = true })
-vim.keymap.set('n', '<A-2>', ':BufferGoto 2<CR>', { desc = 'Go to tab 2', noremap = true, silent = true })
-vim.keymap.set('n', '<A-3>', ':BufferGoto 3<CR>', { desc = 'Go to tab 3', noremap = true, silent = true })
-vim.keymap.set('n', '<A-4>', ':BufferGoto 4<CR>', { desc = 'Go to tab 4', noremap = true, silent = true })
-vim.keymap.set('n', '<A-5>', ':BufferGoto 5<CR>', { desc = 'Go to tab 5', noremap = true, silent = true })
-vim.keymap.set('n', '<A-6>', ':BufferGoto 6<CR>', { desc = 'Go to tab 6', noremap = true, silent = true })
-vim.keymap.set('n', '<A-7>', ':BufferGoto 7<CR>', { desc = 'Go to tab 7', noremap = true, silent = true })
-vim.keymap.set('n', '<A-8>', ':BufferGoto 8<CR>', { desc = 'Go to tab 8', noremap = true, silent = true })
-vim.keymap.set('n', '<A-9>', ':BufferGoto 9<CR>', { desc = 'Go to tab 9', noremap = true, silent = true })
-vim.keymap.set('n', '<A-0>', ':BufferLast<CR>', { desc = 'Go to last tab', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>q', ':BufferClose<CR>', { noremap = true, silent = true, desc = 'Kill buffer' })
+vim.keymap.set('n', '<tab>', ':BufferLineCycleNext<CR>', { desc = 'Next tab', noremap = true, silent = true })
+vim.keymap.set('n', '<s-tab>', ':BufferLineCyclePrev<CR>', { desc = 'Previous tab', noremap = true, silent = true })
+vim.keymap.set('n', '<A-1>', ':BufferLineGoToBuffer 1<CR>', { desc = 'Go to tab 1', noremap = true, silent = true })
+vim.keymap.set('n', '<A-2>', ':BufferLineGoToBuffer 2<CR>', { desc = 'Go to tab 2', noremap = true, silent = true })
+vim.keymap.set('n', '<A-3>', ':BufferLineGoToBuffer 3<CR>', { desc = 'Go to tab 3', noremap = true, silent = true })
+vim.keymap.set('n', '<A-4>', ':BufferLineGoToBuffer 4<CR>', { desc = 'Go to tab 4', noremap = true, silent = true })
+vim.keymap.set('n', '<A-5>', ':BufferLineGoToBuffer 5<CR>', { desc = 'Go to tab 5', noremap = true, silent = true })
+vim.keymap.set('n', '<A-6>', ':BufferLineGoToBuffer 6<CR>', { desc = 'Go to tab 6', noremap = true, silent = true })
+vim.keymap.set('n', '<A-7>', ':BufferLineGoToBuffer 7<CR>', { desc = 'Go to tab 7', noremap = true, silent = true })
+vim.keymap.set('n', '<A-8>', ':BufferLineGoToBuffer 8<CR>', { desc = 'Go to tab 8', noremap = true, silent = true })
+vim.keymap.set('n', '<A-9>', ':BufferLineGoToBuffer 9<CR>', { desc = 'Go to tab 9', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>q', ':bdelete<CR>', { desc = 'Close current buffer', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>Q', ':BufferLineCloseOthers<CR>',
+    { desc = 'Close all other buffers', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>n', ':enew<CR>', { desc = 'New buffer', noremap = true, silent = true })
 
 vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true })
 vim.keymap.set({ 'n', 'v' }, '<F5>', ':SnipRun<CR>', { desc = 'Sniprun', noremap = true, silent = true })

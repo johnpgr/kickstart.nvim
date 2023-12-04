@@ -379,7 +379,7 @@ return {
             dashboard.section.buttons.val = {
                 dashboard.button("n", "󰈔  New file", ":ene <BAR> startinsert <CR>"),
                 dashboard.button("f", "󰱼  Find file", ":Telescope find_files <CR>"),
-                dashboard.button("e", "󰥨  Explorer", ":Oil <CR>"),
+                dashboard.button("e", "󰥨  Explorer", ":Neotree position=current<CR>"),
                 dashboard.button("r", "󰄉  Recently used files", ":Telescope oldfiles cwd_only=true <CR>"),
                 dashboard.button("t", "󰊄  Find text", ":Telescope live_grep <CR>"),
                 dashboard.button("g", "  Lazygit", ":LazyGit<CR>"),
@@ -493,30 +493,25 @@ return {
         end
     },
     {
-        'romgrk/barbar.nvim',
-        dependencies = {
-            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
-            'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
-        },
-        init = function() vim.g.barbar_auto_setup = false end,
-        opts = {
-            -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
-            -- animation = true,
-            -- insert_at_start = true,
-            -- …etc.
-            -- Set the filetypes which barbar will offset itself for
-            sidebar_filetypes = {
-                -- Use the default values: {event = 'BufWinLeave', text = nil}
-                NvimTree = true,
-                -- Or, specify the text used for the offset:
-                undotree = { text = 'undotree' },
-                -- Or, specify the event which the sidebar executes when leaving:
-                ['neo-tree'] = { event = 'BufWipeout' },
-                -- Or, specify both
-                Outline = { event = 'BufWinLeave', text = 'symbols-outline' },
-            },
-        },
-        version = '^1.0.0', -- optional: only update when a new 1.x version is released
+        'akinsho/bufferline.nvim',
+        version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons',
+        config = function()
+            require("bufferline").setup {
+                options = {
+                    separator_style = "slant",
+
+                    offsets = {
+                        {
+                            filetype = "neo-tree",
+                            text = "File Explorer",
+                            highlight = "Directory",
+                            text_align = "left",
+                        }
+                    }
+                }
+            }
+        end
     },
     {
         "no-clown-fiesta/no-clown-fiesta.nvim",
@@ -600,12 +595,53 @@ return {
         opts = {},
     },
     {
-        'stevearc/oil.nvim',
-        opts = {
-            keymaps = {
-                ["<bs>"] = "actions.parent",
-            }
-        }, -- Optional dependencies dependencies = { "nvim-tree/nvim-web-devicons" },
+        "nvim-neo-tree/neo-tree.nvim",
+        branch = "v3.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+            "MunifTanjim/nui.nvim",
+        },
+        config = function()
+            require("neo-tree").setup({
+                source_selector = {
+                    winbar = true,
+                    statusline = true
+                },
+                window = {
+                    width = 30,
+                },
+
+                filesystem = {
+                    filtered_items = {
+                        visible = true, -- when true, they will just be displayed differently than normal items
+                        hide_dotfiles = true,
+                        hide_gitignored = true,
+                        hide_hidden = true, -- only works on Windows for hidden files/directories
+                        hide_by_name = {
+                            ".DS_Store",
+                            "thumbs.db",
+                            --"node_modules",
+                        },
+                        hide_by_pattern = {
+                            --"*.meta",
+                            --"*/src/*/tsconfig.json",
+                        },
+                        always_show = { -- remains visible even if other settings would normally hide it
+                            --".gitignored",
+                        },
+                        never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
+                            --".DS_Store",
+                            --"thumbs.db",
+                        },
+                        never_show_by_pattern = { -- uses glob style patterns
+                            --".null-ls_*",
+                        },
+                    },
+                }
+            })
+        end
+
     },
     {
         "folke/noice.nvim",
