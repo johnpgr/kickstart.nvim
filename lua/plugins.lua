@@ -493,25 +493,29 @@ return {
         end
     },
     {
-        'akinsho/bufferline.nvim',
-        version = "*",
-        dependencies = 'nvim-tree/nvim-web-devicons',
-        config = function()
-            require("bufferline").setup {
-                options = {
-                    separator_style = "slant",
-
-                    offsets = {
-                        {
-                            filetype = "neo-tree",
-                            text = "File Explorer",
-                            highlight = "Directory",
-                            text_align = "left",
-                        }
-                    }
-                }
-            }
-        end
+        'romgrk/barbar.nvim',
+        dependencies = {
+            'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
+            'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
+        },
+        init = function() vim.g.barbar_auto_setup = false end,
+        opts = {
+            -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
+            -- animation = true,
+            -- insert_at_start = true,
+            -- …etc.
+            sidebar_filetypes = {
+                -- Use the default values: {event = 'BufWinLeave', text = nil}
+                NvimTree = true,
+                -- Or, specify the text used for the offset:
+                undotree = { text = 'undotree' },
+                -- Or, specify the event which the sidebar executes when leaving:
+                ['neo-tree'] = { event = 'BufWipeout' },
+                -- Or, specify both
+                Outline = { event = 'BufWinLeave', text = 'symbols-outline' },
+            },
+        },
+        version = '^1.0.0', -- optional: only update when a new 1.x version is released
     },
     {
         "no-clown-fiesta/no-clown-fiesta.nvim",
@@ -614,7 +618,7 @@ return {
 
                 filesystem = {
                     filtered_items = {
-                        visible = true, -- when true, they will just be displayed differently than normal items
+                        visible = false, -- when true, they will just be displayed differently than normal items
                         hide_dotfiles = true,
                         hide_gitignored = true,
                         hide_hidden = true, -- only works on Windows for hidden files/directories
@@ -669,5 +673,6 @@ return {
             "MunifTanjim/nui.nvim",
         }
     },
-    { "onsails/lspkind.nvim" }
+    { "onsails/lspkind.nvim" },
+    { "puremourning/vimspector" }
 }

@@ -46,8 +46,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
 })
 
-local default_ltheme = 'default'
-local default_ntheme = 'default'
+local default_ltheme = 'xcode'
+local default_ntheme = 'xcode'
 
 local time = os.date("*t")
 

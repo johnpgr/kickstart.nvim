@@ -144,21 +144,25 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
 vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>', { desc = 'Open Lazygit' })
 
 -- Tabs
-vim.keymap.set('n', '<tab>', ':BufferLineCycleNext<CR>', { desc = 'Next tab', noremap = true, silent = true })
-vim.keymap.set('n', '<s-tab>', ':BufferLineCyclePrev<CR>', { desc = 'Previous tab', noremap = true, silent = true })
-vim.keymap.set('n', '<A-1>', ':BufferLineGoToBuffer 1<CR>', { desc = 'Go to tab 1', noremap = true, silent = true })
-vim.keymap.set('n', '<A-2>', ':BufferLineGoToBuffer 2<CR>', { desc = 'Go to tab 2', noremap = true, silent = true })
-vim.keymap.set('n', '<A-3>', ':BufferLineGoToBuffer 3<CR>', { desc = 'Go to tab 3', noremap = true, silent = true })
-vim.keymap.set('n', '<A-4>', ':BufferLineGoToBuffer 4<CR>', { desc = 'Go to tab 4', noremap = true, silent = true })
-vim.keymap.set('n', '<A-5>', ':BufferLineGoToBuffer 5<CR>', { desc = 'Go to tab 5', noremap = true, silent = true })
-vim.keymap.set('n', '<A-6>', ':BufferLineGoToBuffer 6<CR>', { desc = 'Go to tab 6', noremap = true, silent = true })
-vim.keymap.set('n', '<A-7>', ':BufferLineGoToBuffer 7<CR>', { desc = 'Go to tab 7', noremap = true, silent = true })
-vim.keymap.set('n', '<A-8>', ':BufferLineGoToBuffer 8<CR>', { desc = 'Go to tab 8', noremap = true, silent = true })
-vim.keymap.set('n', '<A-9>', ':BufferLineGoToBuffer 9<CR>', { desc = 'Go to tab 9', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>q', ':bdelete<CR>', { desc = 'Close current buffer', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>Q', ':BufferLineCloseOthers<CR>',
+vim.keymap.set('n', '<tab>', ':BufferNext<CR>', { desc = 'Next tab', noremap = true, silent = true })
+vim.keymap.set('n', '<s-tab>', ':BufferPrevious<CR>', { desc = 'Previous tab', noremap = true, silent = true })
+vim.keymap.set('n', '<A-1>', ':BufferGoto 1<CR>', { desc = 'Go to tab 1', noremap = true, silent = true })
+vim.keymap.set('n', '<A-2>', ':BufferGoto 2<CR>', { desc = 'Go to tab 2', noremap = true, silent = true })
+vim.keymap.set('n', '<A-3>', ':BufferGoto 3<CR>', { desc = 'Go to tab 3', noremap = true, silent = true })
+vim.keymap.set('n', '<A-4>', ':BufferGoto 4<CR>', { desc = 'Go to tab 4', noremap = true, silent = true })
+vim.keymap.set('n', '<A-5>', ':BufferGoto 5<CR>', { desc = 'Go to tab 5', noremap = true, silent = true })
+vim.keymap.set('n', '<A-6>', ':BufferGoto 6<CR>', { desc = 'Go to tab 6', noremap = true, silent = true })
+vim.keymap.set('n', '<A-7>', ':BufferGoto 7<CR>', { desc = 'Go to tab 7', noremap = true, silent = true })
+vim.keymap.set('n', '<A-8>', ':BufferGoto 8<CR>', { desc = 'Go to tab 8', noremap = true, silent = true })
+vim.keymap.set('n', '<A-9>', ':BufferGoto 9<CR>', { desc = 'Go to tab 9', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>q', ':BufferClose<CR>', { desc = 'Close current buffer', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>Q', ':BufferCloseAllButCurrentOrPinned<CR>',
     { desc = 'Close all other buffers', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>n', ':enew<CR>', { desc = 'New buffer', noremap = true, silent = true })
+vim.keymap.set('n', '<A-l>', ':BufferMoveNext<CR>',
+    { desc = 'Move buffer to next position', noremap = true, silent = true })
+vim.keymap.set('n', '<A-h>', ':BufferMovePrevious<CR>',
+    { desc = 'Move buffer to previous position', noremap = true, silent = true })
 
 vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true })
 vim.keymap.set({ 'n', 'v' }, '<F5>', ':SnipRun<CR>', { desc = 'Sniprun', noremap = true, silent = true })
