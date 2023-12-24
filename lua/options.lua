@@ -4,7 +4,6 @@
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-vim.opt.statuscolumn = '%=%{v:relnum?v:relnum:v:lnum} '
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 -- General
@@ -13,6 +12,7 @@ vim.o.shiftwidth = 4
 vim.opt.relativenumber = true
 -- Make line numbers default
 vim.wo.number = true
+vim.wo.numberwidth = 2
 -- Enable mouse mode
 vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.
