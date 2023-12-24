@@ -4,6 +4,7 @@
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.opt.statuscolumn = '%=%{v:relnum?v:relnum:v:lnum} '
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 -- General
@@ -46,8 +47,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
 })
 
-local default_ltheme = 'xcode'
-local default_ntheme = 'xcode'
+local default_ltheme = 'darcula-solid'
+local default_ntheme = 'darcula-solid'
 
 local time = os.date("*t")
 
@@ -57,4 +58,4 @@ else
     vim.cmd('colorscheme ' .. default_ltheme)
 end
 
-vim.cmd('set guicursor=i:block')
+-- vim.cmd('set guicursor=i:block')

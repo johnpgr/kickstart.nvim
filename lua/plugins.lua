@@ -165,7 +165,9 @@ return {
             -- Color whole diagnostic text or only underline
             vim.g.doom_one_diagnostics_text_color = false
             -- Enable transparent background
+
             vim.g.doom_one_transparent_background = true
+
 
             -- Pumblend transparency
             vim.g.doom_one_pumblend_enable = false
@@ -219,15 +221,20 @@ return {
         },
     },
 
-    -- {
-    --     -- Add indentation guides even on blank lines
-    --     'lukas-reineke/indent-blankline.nvim',
-    --     -- Enable `lukas-reineke/indent-blankline.nvim`
-    --     -- See `:help indent_blankline.txt`
-    --     config = function()
-    --         require('ibl').setup {}
-    --     end,
-    -- },
+    {
+        -- Add indentation guides even on blank lines
+        'lukas-reineke/indent-blankline.nvim',
+        -- Enable `lukas-reineke/indent-blankline.nvim`
+        -- See `:help indent_blankline.txt`
+        config = function()
+            require('ibl').setup {
+                enabled = true,
+                indent = {
+                    char = "▏"
+                }
+            }
+        end,
+    },
 
     -- Fuzzy Finder (files, lsp, etc)
     {
@@ -379,7 +386,6 @@ return {
             dashboard.section.buttons.val = {
                 dashboard.button("n", "󰈔  New file", ":ene <BAR> startinsert <CR>"),
                 dashboard.button("f", "󰱼  Find file", ":Telescope find_files <CR>"),
-                dashboard.button("e", "󰥨  Explorer", ":Neotree position=current<CR>"),
                 dashboard.button("r", "󰄉  Recently used files", ":Telescope oldfiles cwd_only=true <CR>"),
                 dashboard.button("t", "󰊄  Find text", ":Telescope live_grep <CR>"),
                 dashboard.button("g", "  Lazygit", ":LazyGit<CR>"),
@@ -387,8 +393,9 @@ return {
                 dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
                 dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
             }
+
             local function footer()
-                local cmd = "~/.local/bin/bible-reader -f ~/bible-por-nvi.xml random -v 5"
+                local cmd = "~/.local/bin/bible-reader -f ~/bible-por-nvi.xml random"
                 local handle = io.popen(cmd)
 
                 if handle then
@@ -407,7 +414,6 @@ return {
             dashboard.section.footer.opts.hl = "Type"
             dashboard.section.header.opts.hl = "Include"
             dashboard.section.buttons.opts.hl = "Keyword"
-
             dashboard.opts.opts.noautocmd = true
             alpha.setup(dashboard.opts)
         end
@@ -615,7 +621,6 @@ return {
                 window = {
                     width = 30,
                 },
-
                 filesystem = {
                     filtered_items = {
                         visible = false, -- when true, they will just be displayed differently than normal items
@@ -674,5 +679,11 @@ return {
         }
     },
     { "onsails/lspkind.nvim" },
-    { "puremourning/vimspector" }
+    { "puremourning/vimspector" },
+    {
+        "briones-gabriel/darcula-solid.nvim",
+        dependencies = {
+            "rktjmp/lush.nvim"
+        }
+    }
 }
