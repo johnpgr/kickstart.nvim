@@ -47,8 +47,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
 })
 
-local default_ltheme = 'darcula-solid'
-local default_ntheme = 'darcula-solid'
+local default_ltheme = 'default'
+local default_ntheme = 'default'
 
 local time = os.date("*t")
 

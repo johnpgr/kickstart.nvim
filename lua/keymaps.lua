@@ -56,6 +56,12 @@ vim.keymap.set('v', '>', '>gv')
 -- Open Alpha dashboard
 vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" })
 
+-- Open explorer
+vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = '[E]xplorer', silent = true })
+-- Change colorscheme
+vim.keymap.set('n', '<leader>cc', ':lua require("telescope.builtin").colorscheme({enable_preview = true})<CR>',
+    { desc = '[C]hange [C]olorscheme', noremap = true, silent = true })
+
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
@@ -74,9 +80,6 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = '[E]xplorer', silent = true })
-vim.keymap.set('n', '<leader>sh', ':Telescope noice<CR>',
-    { desc = '[S]earch notification [H]istory', noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
