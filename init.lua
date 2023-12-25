@@ -1,6 +1,3 @@
-local g = vim.g
-g.base46_cache = vim.fn.stdpath "data" .. "/nvchad/base46/"
-
 local plugins = require("plugins")
 require('lazy').setup(plugins, {})
 require("options")

@@ -119,3 +119,16 @@ if not configs['v-analyzer'] then
     }
 end
 lspconfig['v-analyzer'].setup {}
+
+-- Make sure that .v files are treated as vlang
+vim.filetype.add({
+    extension = {
+        v = 'vlang',
+        vsh = 'vlang'
+    },
+})
+
+-- vim.api.nvim_create_autocmd('BufEnter', {
+--     pattern = "*.v",
+--     command = "set ft=vlang"
+-- })

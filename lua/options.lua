@@ -1,6 +1,3 @@
--- [[ Setting options ]]
--- See `:help vim.o`
-
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -47,15 +44,4 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
 })
 
-local default_ltheme = 'default'
-local default_ntheme = 'default'
-
-local time = os.date("*t")
-
-if time.hour < 6 or time.hour >= 18 then
-    vim.cmd('colorscheme ' .. default_ntheme)
-else
-    vim.cmd('colorscheme ' .. default_ltheme)
-end
-
--- vim.cmd('set guicursor=i:block')
+vim.cmd('colorscheme gruber-darker')

@@ -57,9 +57,10 @@ vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" })
 
 -- Open explorer
-vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>', { desc = '[E]xplorer', silent = true })
+vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = '[E]xplorer', silent = true })
+
 -- Change colorscheme
-vim.keymap.set('n', '<leader>cc', ':lua require("telescope.builtin").colorscheme({enable_preview = true})<CR>',
+vim.keymap.set('n', '<leader>cc', require('telescope.builtin').colorscheme,
     { desc = '[C]hange [C]olorscheme', noremap = true, silent = true })
 
 -- See `:help telescope.builtin`
