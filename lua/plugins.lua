@@ -676,15 +676,4 @@ return {
 			"rktjmp/lush.nvim"
 		}
 	},
-	{
-		'zaldih/themery.nvim',
-		config = function()
-			-- Minimal config
-			require("themery").setup({
-				themes = vim.fn.getcompletion("", "color"),
-				themeConfigFile = "~/.config/nvim/lua/colorscheme.lua", -- Described below
-				livePreview = true,                         -- Apply theme while browsing. Default to true.
-			})
-		end
-	}
 }
