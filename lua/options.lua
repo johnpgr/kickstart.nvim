@@ -43,5 +43,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     group = highlight_group,
     pattern = '*',
 })
-
-vim.cmd('colorscheme gruber-darker')
+--
+-- local colorscheme = require('colorscheme')
+-- vim.cmd('colorscheme ' .. colorscheme)

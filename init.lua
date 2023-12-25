@@ -3,6 +3,7 @@ require('lazy').setup(plugins, {})
 require("options")
 require("keymaps")
 require("lsp")
+require("colorscheme")
 
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`

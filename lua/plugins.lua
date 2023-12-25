@@ -260,6 +260,13 @@ return {
 				pickers = {
 					colorscheme = {
 						enable_preview = true,
+						on_change = function(new_val, old_val)
+							local file = io.open(vim.fn.stdpath('config') .. '/lua/colorscheme.lua', 'w')
+							if file then
+								file:write('vim.cmd("colorscheme ' .. new_val .. '")')
+								file:close()
+							end
+						end
 					},
 				}
 			})
@@ -668,5 +675,16 @@ return {
 		dependencies = {
 			"rktjmp/lush.nvim"
 		}
+	},
+	{
+		'zaldih/themery.nvim',
+		config = function()
+			-- Minimal config
+			require("themery").setup({
+				themes = vim.fn.getcompletion("", "color"),
+				themeConfigFile = "~/.config/nvim/lua/colorscheme.lua", -- Described below
+				livePreview = true,                         -- Apply theme while browsing. Default to true.
+			})
+		end
 	}
 }
