@@ -63,6 +63,10 @@ vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { desc = '[E]xplorer', s
 vim.keymap.set('n', '<leader>cc', require('telescope.builtin').colorscheme,
     { desc = '[C]hange [C]olorscheme', noremap = true, silent = true })
 
+-- Search notification history
+vim.keymap.set('n', '<leader>sh', ':Telescope noice<CR>',
+    { desc = '[S]earch notification [H]istory', noremap = true, silent = true })
+
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
@@ -167,6 +171,3 @@ vim.keymap.set('n', '<A-l>', ':BufferMoveNext<CR>',
     { desc = 'Move buffer to next position', noremap = true, silent = true })
 vim.keymap.set('n', '<A-h>', ':BufferMovePrevious<CR>',
     { desc = 'Move buffer to previous position', noremap = true, silent = true })
-
-vim.keymap.set('n', '<F1>', ':Splitrun ', { desc = 'Splitrun', noremap = true })
-vim.keymap.set({ 'n', 'v' }, '<F5>', ':SnipRun<CR>', { desc = 'Sniprun', noremap = true, silent = true })

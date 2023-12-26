@@ -1,6 +1,3 @@
--- Install package manager
---    https://github.com/folke/lazy.nvim
---    `:help lazy.nvim.txt` for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system {
@@ -14,7 +11,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-return {
+require("lazy").setup({
 	-- NOTE: First, some plugins that don't require any configuration
 	{
 		-- Theme inspired by Atom
@@ -93,6 +90,67 @@ return {
 			-- Adds a number of user-friendly snippets
 			'rafamadriz/friendly-snippets',
 		},
+		config = function()
+			local cmp = require 'cmp'
+			local luasnip = require 'luasnip'
+			require('luasnip.loaders.from_vscode').lazy_load()
+			luasnip.config.setup {}
+			local lspkind = require('lspkind')
+
+			cmp.setup {
+				formatting = {
+					fields = {
+						'kind',
+						'abbr',
+						'menu'
+					},
+					format = lspkind.cmp_format({
+						preset = 'codicons',
+						mode = 'symbol', -- show only symbol annotations
+						maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+						ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
+					})
+				},
+				snippet = {
+					expand = function(args)
+						luasnip.lsp_expand(args.body)
+					end,
+				},
+				mapping = cmp.mapping.preset.insert {
+					['<C-n>'] = cmp.mapping.select_next_item(),
+					['<C-p>'] = cmp.mapping.select_prev_item(),
+					['<C-d>'] = cmp.mapping.scroll_docs(-4),
+					['<C-f>'] = cmp.mapping.scroll_docs(4),
+					['<C-Space>'] = cmp.mapping.complete {},
+					['<CR>'] = cmp.mapping.confirm {
+						behavior = cmp.ConfirmBehavior.Replace,
+						select = true,
+					},
+					['<Tab>'] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						elseif luasnip.expand_or_locally_jumpable() then
+							luasnip.expand_or_jump()
+						else
+							fallback()
+						end
+					end, { 'i', 's' }),
+					['<S-Tab>'] = cmp.mapping(function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						elseif luasnip.locally_jumpable(-1) then
+							luasnip.jump(-1)
+						else
+							fallback()
+						end
+					end, { 'i', 's' }),
+				},
+				sources = {
+					{ name = 'nvim_lsp' },
+					{ name = 'luasnip' },
+				},
+			}
+		end
 	},
 
 	-- Useful plugin to show you pending keybinds.
@@ -257,6 +315,18 @@ return {
 		},
 		config = function()
 			require('telescope').setup({
+				defaults = {
+					mappings = {
+						i = {
+							['<C-u>'] = false,
+							['<C-d>'] = require("telescope.actions").delete_buffer,
+							['<C-h>'] = "which_key",
+						},
+						n = {
+							['C-d'] = require("telescope.actions").delete_buffer
+						}
+					},
+				},
 				pickers = {
 					colorscheme = {
 						enable_preview = true,
@@ -281,6 +351,82 @@ return {
 			'JoosepAlviste/nvim-ts-context-commentstring',
 		},
 		build = ':TSUpdate',
+		config = function()
+			require('nvim-treesitter.configs').setup {
+				-- Add languages to be installed here that you want installed for treesitter
+				ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
+
+				-- Commentstring
+				-- context_commentstring = {
+				--     enable = true,
+				--     enable_autocmd = false,
+				-- },
+
+				-- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+				auto_install = false,
+
+				highlight = { enable = true },
+				indent = { enable = true },
+				incremental_selection = {
+					enable = true,
+					keymaps = {
+						init_selection = '<c-space>',
+						node_incremental = '<c-space>',
+						scope_incremental = '<c-s>',
+						node_decremental = '<M-space>',
+					},
+				},
+				textobjects = {
+					select = {
+						enable = true,
+						lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+						keymaps = {
+							-- You can use the capture groups defined in textobjects.scm
+							['aa'] = '@parameter.outer',
+							['ia'] = '@parameter.inner',
+							['af'] = '@function.outer',
+							['if'] = '@function.inner',
+							['ac'] = '@class.outer',
+							['ic'] = '@class.inner',
+						},
+					},
+					move = {
+						enable = true,
+						set_jumps = true, -- whether to set jumps in the jumplist
+						goto_next_start = {
+							[']m'] = '@function.outer',
+							[']]'] = '@class.outer',
+						},
+						goto_next_end = {
+							[']M'] = '@function.outer',
+							[']['] = '@class.outer',
+						},
+						goto_previous_start = {
+							['[m'] = '@function.outer',
+							['[['] = '@class.outer',
+						},
+						goto_previous_end = {
+							['[M'] = '@function.outer',
+							['[]'] = '@class.outer',
+						},
+					},
+					swap = {
+						enable = true,
+						swap_next = {
+							['<leader>a'] = '@parameter.inner',
+						},
+						swap_previous = {
+							['<leader>A'] = '@parameter.inner',
+						},
+					},
+				},
+			}
+
+			require('ts_context_commentstring').setup({
+				enable = true,
+				enable_autocmd = false,
+			})
+		end
 	},
 
 	-- Auto pair brackets, quotes, etc
@@ -556,37 +702,6 @@ return {
 			})
 		end
 	},
-	{
-		"michaelb/sniprun",
-		branch = "master",
-
-		build = "sh install.sh",
-		-- do 'sh install.sh 1' if you want to force compile locally
-		-- (instead of fetching a binary from the github release). Requires Rust >= 1.65
-
-		config = function()
-			require("sniprun").setup({
-				interpreter_options = {
-					Generic = {
-						Vlang = {
-							supported_filetypes = { "vlang" },
-							extension = ".v",
-							interpreter = "v run",
-							compiler = "",
-						},
-						Bun = {
-							supported_filetypes = { "ts" },
-							extension = ".ts",
-							interpreter = "bun repl",
-							compiler = "",
-						}
-					}
-				},
-				selected_interpreters = { 'Generic' },
-				repl_enable = { 'Generic_Vlang' }
-			})
-		end,
-	},
 	{ 'lunacookies/vim-colors-xcode' },
 	{
 		"kdheepak/lazygit.nvim",
@@ -615,10 +730,6 @@ return {
 				},
 			}
 		end
-	},
-	{
-		"Hubro/nvim-splitrun",
-		opts = {},
 	},
 	{
 		"nvim-neo-tree/neo-tree.nvim",
@@ -676,4 +787,42 @@ return {
 			"rktjmp/lush.nvim"
 		}
 	},
-}
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			lsp = {
+				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+				override = {
+					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+					["vim.lsp.util.stylize_markdown"] = true,
+					["cmp.entry.get_documentation"] = true,
+				},
+			},
+			-- you can enable a preset for easier configuration
+			presets = {
+				bottom_search = false, -- use a classic bottom cmdline for search
+				command_palette = true, -- position the cmdline and popupmenu together
+				long_message_to_split = true, -- long messages will be sent to a split
+				inc_rename = false, -- enables an input dialog for inc-rename.nvim
+				lsp_doc_border = false, -- add a border to hover docs and signature help
+			},
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+		}
+	},
+}, {})
+
+-- Enable telescope fzf native, if installed
+pcall(require('telescope').load_extension, 'fzf')
+
+require('nvim-web-devicons').set_icon({
+	v = {
+		icon = "",
+		color = "#4b6c88",
+		cterm_color = "24",
+		name = "Vlang"
+	}
+})
