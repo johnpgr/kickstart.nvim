@@ -58,9 +58,11 @@ local servers = {
     -- clangd = {},
     -- gopls = {},
     -- pyright = {},
-    -- rust_analyzer = {},
-    -- html = { filetypes = { 'html', 'twig', 'hbs'} },
-
+    rust_analyzer = {},
+    v_analyzer = { filetypes = { 'vlang', 'v' } },
+    tsserver = {},
+    tailwindcss = {},
+    html = { filetypes = { 'html', 'twig', 'hbs' } },
     lua_ls = {
         Lua = {
             workspace = { checkThirdParty = false },
@@ -79,6 +81,22 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 
+local lspconfig = require('lspconfig')
+
+lspconfig.htmx.setup {
+    filetypes = {
+        "html",
+    }
+}
+
+-- Make sure that .v files are treated as vlang
+vim.filetype.add({
+    extension = {
+        v = 'vlang',
+        vsh = 'vlang'
+    },
+})
+
 mason_lspconfig.setup {
     ensure_installed = vim.tbl_keys(servers),
 }
@@ -93,42 +111,3 @@ mason_lspconfig.setup_handlers {
         }
     end
 }
-
-local lspconfig = require('lspconfig')
-
-lspconfig.htmx.setup {
-    filetypes = {
-        "html",
-        "javascript",
-        "javascriptreact",
-        "typescript",
-        "typescriptreact"
-    }
-}
-
--- V-Analyzer
-local configs = require('lspconfig.configs')
-local lspconfig = require('lspconfig')
-if not configs['v-analyzer'] then
-    configs['v-analyzer'] = {
-        default_config = {
-            cmd = { 'v-analyzer' },
-            root_dir = lspconfig.util.root_pattern('.git', '.v-analyzer'),
-            filetypes = { 'v', 'vlang' },
-        },
-    }
-end
-lspconfig['v-analyzer'].setup {}
-
--- Make sure that .v files are treated as vlang
-vim.filetype.add({
-    extension = {
-        v = 'vlang',
-        vsh = 'vlang'
-    },
-})
-
--- vim.api.nvim_create_autocmd('BufEnter', {
---     pattern = "*.v",
---     command = "set ft=vlang"
--- })
