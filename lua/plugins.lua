@@ -312,6 +312,8 @@ require("lazy").setup({
 					return vim.fn.executable 'make' == 1
 				end,
 			},
+			{ "chip/telescope-software-licenses.nvim" },
+			{ "barrett-ruth/telescope-http.nvim" }
 		},
 		config = function()
 			require('telescope').setup({
@@ -868,10 +870,10 @@ require("lazy").setup({
 	}
 }, {})
 
--- Enable telescope fzf native
 require('telescope').load_extension("fzf")
--- Enable telescope noice
 require("telescope").load_extension("noice")
+require("telescope").load_extension("software-licenses")
+require("telescope").load_extension("http")
 
 require('nvim-web-devicons').set_icon({
 	v = {

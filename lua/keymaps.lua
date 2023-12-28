@@ -81,6 +81,11 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader>sc', require('telescope.builtin').colorscheme,
     { desc = '[S]earch [C]olorscheme', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sl', require('telescope').extensions['software-licenses'].find,
+    { desc = '[S]earch [L]icenses', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sH', require('telescope').extensions.http.list,
+    { desc = '[S]earch [H]TTP status codes', noremap = true, silent = true })
+
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
