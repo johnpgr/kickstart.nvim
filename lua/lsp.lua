@@ -59,7 +59,7 @@ local servers = {
     -- gopls = {},
     -- pyright = {},
     rust_analyzer = {},
-    v_analyzer = { filetypes = { 'vlang', 'v' } },
+    v_analyzer = { filetypes = { 'vlang' } },
     tsserver = {},
     tailwindcss = {},
     html = { filetypes = { 'html', 'twig', 'hbs' } },

@@ -9,7 +9,7 @@ vim.o.shiftwidth = 4
 vim.opt.relativenumber = true
 -- Make line numbers default
 vim.wo.number = true
-vim.wo.numberwidth = 2
+vim.wo.numberwidth = 1
 -- Enable mouse mode
 vim.o.mouse = 'a'
 -- Sync clipboard between OS and Neovim.

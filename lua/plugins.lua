@@ -197,12 +197,12 @@ require("lazy").setup({
 				---LHS of toggle mappings in NORMAL mode
 				toggler = {
 					---Line-comment toggle keymap
-					line = '<C-_>',
+					line = '<C-/>',
 				},
 				---LHS of operator-pending mappings in NORMAL and VISUAL mode
 				opleader = {
 					---Line-comment keymap
-					line = '<C-_>',
+					line = '<C-/>',
 				},
 			}
 		end
@@ -286,7 +286,7 @@ require("lazy").setup({
 		-- See `:help indent_blankline.txt`
 		config = function()
 			require('ibl').setup {
-				enabled = true,
+				enabled = false,
 				indent = {
 					char = "▏"
 				}
@@ -330,13 +330,24 @@ require("lazy").setup({
 				pickers = {
 					colorscheme = {
 						enable_preview = true,
-						on_change = function(new_val, old_val)
-							local file = io.open(vim.fn.stdpath('config') .. '/lua/colorscheme.lua', 'w')
-							if file then
-								file:write('vim.cmd("colorscheme ' .. new_val .. '")')
-								file:close()
-							end
-						end
+						mappings = {
+							i = {
+								['<CR>'] = function(bufnr)
+									local actions = require("telescope.actions")
+									local action_state = require("telescope.actions.state")
+									local selection = action_state.get_selected_entry()
+									local new = selection.value
+									local file = io.open(vim.fn.stdpath('config') .. '/lua/colorscheme.lua', 'w')
+
+									actions.close(bufnr)
+									vim.cmd.colorscheme(new)
+									if file then
+										file:write('vim.cmd.colorscheme("' .. new .. '")')
+										file:close()
+									end
+								end
+							}
+						}
 					},
 				}
 			})

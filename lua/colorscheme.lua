@@ -1,1 +1,1 @@
-vim.cmd("colorscheme darcula-solid")
+vim.cmd.colorscheme("gruber-darker")
