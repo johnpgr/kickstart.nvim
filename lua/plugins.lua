@@ -868,8 +868,10 @@ require("lazy").setup({
 	}
 }, {})
 
--- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
+-- Enable telescope fzf native
+require('telescope').load_extension("fzf")
+-- Enable telescope noice
+require("telescope").load_extension("noice")
 
 require('nvim-web-devicons').set_icon({
 	v = {
