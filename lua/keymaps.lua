@@ -150,7 +150,7 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
     desc = 'Quit without saving session', silent = true
 })
 
-vim.keymap.set('n', '<leader>gg', ':LazyGit<CR>', { desc = 'Open Lazygit' })
+vim.keymap.set('n', '<leader>g', ':LazyGit<CR>', { desc = 'Open Lazygit' })
 
 -- Tabs
 vim.keymap.set('n', '<tab>', ':BufferNext<CR>', { desc = 'Next tab', noremap = true, silent = true })
