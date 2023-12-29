@@ -9,10 +9,18 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.opt.relativenumber = true
 
+-- Set colorcolumn to 80 characters
+vim.opt.colorcolumn = '80'
+
+-- Set cursor to block on insert mode
+vim.opt.guicursor = 'n-v-c-i:block'
+
 -- Make line numbers default
 vim.wo.number = true
 vim.wo.numberwidth = 2
 
+-- Disable search results highlighting
+vim.o.hlsearch = false
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
@@ -60,6 +68,3 @@ vim.cmd([[
     set listchars=tab:··,trail:·,nbsp:·,space:·
     set list
 ]])
-
--- set cursor to block on insert mode
-vim.opt.guicursor = 'n-v-c-i:block'
