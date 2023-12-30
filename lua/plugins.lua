@@ -864,9 +864,20 @@ require("lazy").setup({
 			null_ls.setup({
 				sources = {
 					null_ls.builtins.formatting.prettierd,
+					null_ls.builtins.formatting.sql_formatter
 				}
 			})
 		end
+	},
+	{
+		"johmsalas/text-case.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		-- Author's Note: If default keymappings fail to register (possible config issue in my local setup),
+		-- verify lazy loading functionality. On failure, disable lazy load and report issue
+		-- lazy = false,
+		config = function()
+			require("textcase").setup({})
+		end,
 	}
 }, {})
 
@@ -874,6 +885,7 @@ require('telescope').load_extension("fzf")
 require("telescope").load_extension("noice")
 require("telescope").load_extension("software-licenses")
 require("telescope").load_extension("http")
+require("telescope").load_extension("textcase")
 
 require('nvim-web-devicons').set_icon({
 	v = {

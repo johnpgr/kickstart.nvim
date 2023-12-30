@@ -1,5 +1,3 @@
--- [[ Basic Keymaps ]]
-
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
@@ -136,9 +134,11 @@ local function toggle_tabs_and_spaces()
     print("Current indentation mode: " .. current_mode)
 end
 
-vim.keymap.set('n', '<leader>ts', toggle_spaces_width, { desc = "Toggle Tab size", noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ts', toggle_spaces_width, { desc = "Toggle [T]ab [S]ize", noremap = true, silent = true })
 vim.keymap.set('n', '<leader>ti', toggle_tabs_and_spaces,
-    { desc = "Toggle indentation mode (Tabs <-> Spaces)", noremap = true, silent = true })
+    { desc = "[T]oggle [I]ndentation (Tabs <-> Spaces)", noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>tc', '<cmd>TextCaseOpenTelescope<CR>',
+    { desc = "[T]ext [C]ase converter", noremap = true, silent = true })
 
 -- Persistence
 vim.keymap.set('n', '<leader>pc', "<cmd>lua require('persistence').load()<cr>",
