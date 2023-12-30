@@ -139,6 +139,9 @@ vim.keymap.set('n', '<leader>ti', toggle_tabs_and_spaces,
     { desc = "[T]oggle [I]ndentation (Tabs <-> Spaces)", noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>tc', '<cmd>TextCaseOpenTelescope<CR>',
     { desc = "[T]ext [C]ase converter", noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>cs', function() require("textcase").current_word('to_snake_case') end, {
+    desc = "[C]hange word to [S]nake case", noremap = true, silent = true
+})
 
 -- Persistence
 vim.keymap.set('n', '<leader>pc', "<cmd>lua require('persistence').load()<cr>",
@@ -152,6 +155,17 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
 
 vim.keymap.set('n', '<leader>g', ':LazyGit<CR>', { desc = 'Open Lazygit' })
 
+-- Close current window if there's more than one window open
+-- Otherwise, close the current buffer
+local function close_current_buffer_and_window()
+    local windows = vim.api.nvim_list_wins()
+    if #windows > 1 then
+        vim.api.nvim_win_close(0, true)
+    else
+        vim.cmd("BufferClose")
+    end
+end
+
 -- Tabs
 vim.keymap.set('n', '<tab>', ':BufferNext<CR>', { desc = 'Next tab', noremap = true, silent = true })
 vim.keymap.set('n', '<s-tab>', ':BufferPrevious<CR>', { desc = 'Previous tab', noremap = true, silent = true })
@@ -164,7 +178,8 @@ vim.keymap.set('n', '<A-6>', ':BufferGoto 6<CR>', { desc = 'Go to tab 6', norema
 vim.keymap.set('n', '<A-7>', ':BufferGoto 7<CR>', { desc = 'Go to tab 7', noremap = true, silent = true })
 vim.keymap.set('n', '<A-8>', ':BufferGoto 8<CR>', { desc = 'Go to tab 8', noremap = true, silent = true })
 vim.keymap.set('n', '<A-9>', ':BufferGoto 9<CR>', { desc = 'Go to tab 9', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>q', ':BufferClose<CR>', { desc = 'Close current buffer', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>q', close_current_buffer_and_window,
+    { desc = 'Close current buffer', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>Q', ':BufferCloseAllButCurrentOrPinned<CR>',
     { desc = 'Close all other buffers', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>n', ':enew<CR>', { desc = 'New buffer', noremap = true, silent = true })
