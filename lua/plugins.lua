@@ -1,3 +1,6 @@
+local utils = require('utils')
+local colorschemes = require('colorschemes')
+
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
 	vim.fn.system {
@@ -11,52 +14,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
-	-- NOTE: First, some plugins that don't require any configuration
-	{
-		-- Theme inspired by Atom
-		'navarasu/onedark.nvim',
-		priority = 1000,
-		-- config = function()
-		--     vim.cmd("colorscheme onedark")
-		-- end
-	},
-	{
-		"blazkowolf/gruber-darker.nvim",
-		opts = {
-			italic = {
-				strings = false,
-				comments = false,
-				operators = false,
-				folds = false,
-			}
-		}
-	},
-	{
-		"ellisonleao/gruvbox.nvim",
-		priority = 1000,
-		config = function()
-			require('gruvbox').setup({
-				italic = {
-					folds = false,
-					strings = false,
-					comments = false,
-					emphasis = false,
-					operators = false
-				},
-				-- contrast = "hard"
-				transparent_mode = true
-			})
-		end
-	},
-
+local plugins = {
 	-- Git related plugins
 	'tpope/vim-fugitive',
 	'tpope/vim-rhubarb',
-
 	-- Detect tabstop and shiftwidth automatically
 	'tpope/vim-sleuth',
-
 	-- NOTE: This is where your plugins related to LSP can be installed.
 	--  The configuration is done below. Search for lspconfig to find it below.
 	{
@@ -75,7 +38,6 @@ require("lazy").setup({
 			'folke/neodev.nvim',
 		},
 	},
-
 	{
 		-- Autocompletion
 		'hrsh7th/nvim-cmp',
@@ -97,8 +59,14 @@ require("lazy").setup({
 			luasnip.config.setup {}
 			local lspkind = require('lspkind')
 
-			cmp.setup {
+			cmp.setup({
+				window = {
+					completion = cmp.config.window.bordered({
+						scrollbar = false,
+					}),
+				},
 				formatting = {
+					expandable_indicator = true,
 					fields = {
 						'kind',
 						'abbr',
@@ -149,10 +117,9 @@ require("lazy").setup({
 					{ name = 'nvim_lsp' },
 					{ name = 'luasnip' },
 				},
-			}
+			})
 		end
 	},
-
 	-- Useful plugin to show you pending keybinds.
 	{ 'folke/which-key.nvim',  opts = {} },
 	{
@@ -186,13 +153,11 @@ require("lazy").setup({
 			end,
 		},
 	},
-
-	-- "gc" to comment visual regions/lines
 	{
 		'numToStr/Comment.nvim',
 		opts = {},
-		config = function()
-			require('Comment').setup {
+		config = function(_, opts)
+			require('Comment').setup({
 				pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook(),
 				---LHS of toggle mappings in NORMAL mode
 				toggler = {
@@ -204,48 +169,23 @@ require("lazy").setup({
 					---Line-comment keymap
 					line = '<C-/>',
 				},
-			}
+			})
 		end
 	},
-
 	{
-		'NTBBloodbath/doom-one.nvim',
-		priority = 1000,
-		setup = function()
-			-- Add color to cursor
-			vim.g.doom_one_cursor_coloring = false
-			-- Set :terminal colors
-			vim.g.doom_one_terminal_colors = true
-			-- Enable italic comments
-			vim.g.doom_one_italic_comments = false
-			-- Enable TS support
-			vim.g.doom_one_enable_treesitter = true
-			-- Color whole diagnostic text or only underline
-			vim.g.doom_one_diagnostics_text_color = false
-			-- Enable transparent background
-
-			vim.g.doom_one_transparent_background = true
-
-
-			-- Pumblend transparency
-			vim.g.doom_one_pumblend_enable = false
-			vim.g.doom_one_pumblend_transparency = 20
-
-			-- Plugins integration
-			vim.g.doom_one_plugin_neorg = true
-			vim.g.doom_one_plugin_barbar = false
-			vim.g.doom_one_plugin_telescope = true
-			vim.g.doom_one_plugin_neogit = true
-			vim.g.doom_one_plugin_nvim_tree = true
-			vim.g.doom_one_plugin_dashboard = true
-			vim.g.doom_one_plugin_startify = true
-			vim.g.doom_one_plugin_whichkey = true
-			vim.g.doom_one_plugin_indent_blankline = true
-			vim.g.doom_one_plugin_vim_illuminate = true
-			vim.g.doom_one_plugin_lspsaga = false
-		end,
+		'xiyaowong/transparent.nvim',
 		config = function()
-			-- vim.cmd("colorscheme doom-one")
+			require("transparent").setup({ -- Optional, you don't have to run setup.
+				groups = {        -- table: default groups
+					'Normal', 'NormalNC', 'Comment', 'Constant', 'Special', 'Identifier',
+					'Statement', 'PreProc', 'Type', 'Underlined', 'Todo', 'String', 'Function',
+					'Conditional', 'Repeat', 'Operator', 'Structure', 'LineNr', 'NonText',
+					'SignColumn', 'CursorLine', 'CursorLineNr', 'StatusLine', 'StatusLineNC',
+					'EndOfBuffer',
+				},
+				extra_groups = {}, -- table: additional groups that should be cleared
+				exclude_groups = {}, -- table: groups you don't want to clear
+			})
 		end
 	},
 	{
@@ -278,7 +218,6 @@ require("lazy").setup({
 			},
 		},
 	},
-
 	{
 		-- Add indentation guides even on blank lines
 		'lukas-reineke/indent-blankline.nvim',
@@ -286,14 +225,16 @@ require("lazy").setup({
 		-- See `:help indent_blankline.txt`
 		config = function()
 			require('ibl').setup {
-				enabled = false,
+				enabled = true,
 				indent = {
 					char = "▏"
+				},
+				scope = {
+					enabled = false
 				}
 			}
 		end,
 	},
-
 	-- Fuzzy Finder (files, lsp, etc)
 	{
 		'nvim-telescope/telescope.nvim',
@@ -355,7 +296,6 @@ require("lazy").setup({
 			})
 		end
 	},
-
 	{
 		-- Highlight, edit, and navigate code
 		'nvim-treesitter/nvim-treesitter',
@@ -441,7 +381,6 @@ require("lazy").setup({
 			})
 		end
 	},
-
 	-- Auto pair brackets, quotes, etc
 	{
 		"windwp/nvim-autopairs",
@@ -458,7 +397,6 @@ require("lazy").setup({
 			)
 		end,
 	},
-
 	-- Github Copilot
 	{
 		"zbirenbaum/copilot-cmp",
@@ -513,7 +451,6 @@ require("lazy").setup({
 			end, 100)
 		end,
 	},
-
 	-- Auto close html tags
 	{
 		"windwp/nvim-ts-autotag",
@@ -521,7 +458,6 @@ require("lazy").setup({
 			require("nvim-ts-autotag").setup()
 		end,
 	},
-
 	-- Surround Utils
 	{
 		"tpope/vim-surround",
@@ -530,10 +466,8 @@ require("lazy").setup({
 		--  vim.o.timeoutlen = 500
 		-- end
 	},
-
 	-- Multi cursor
 	{ "mg979/vim-visual-multi" },
-
 	-- Todo Comment highlights
 	{
 		"folke/todo-comments.nvim",
@@ -541,17 +475,6 @@ require("lazy").setup({
 		config = function()
 			require("todo-comments").setup()
 		end,
-	},
-	{
-		"catppuccin/nvim",
-		name = "catppuccin",
-		priority = 1000,
-		-- config = function()
-		--     require('catppuccin').setup({
-		--         no_italic = true,
-		--     })
-		--     vim.cmd("colorscheme catppuccin")
-		-- end
 	},
 	{
 		'goolord/alpha-nvim',
@@ -699,24 +622,6 @@ require("lazy").setup({
 		version = '^1.0.0', -- optional: only update when a new 1.x version is released
 	},
 	{
-		"no-clown-fiesta/no-clown-fiesta.nvim",
-		config = function()
-			require("no-clown-fiesta").setup({
-				transparent = false, -- Enable this to disable the bg color
-				styles = {
-					-- You can set any of the style values specified for `:h nvim_set_hl`
-					comments = {},
-					keywords = {},
-					functions = {},
-					variables = {},
-					type = { bold = true },
-					lsp = { underline = true }
-				},
-			})
-		end
-	},
-	{ 'lunacookies/vim-colors-xcode' },
-	{
 		"kdheepak/lazygit.nvim",
 		-- optional for floating window border decoration
 		dependencies = {
@@ -790,16 +695,9 @@ require("lazy").setup({
 				}
 			})
 		end
-
 	},
 	{ "onsails/lspkind.nvim" },
 	{ "puremourning/vimspector" },
-	{
-		"briones-gabriel/darcula-solid.nvim",
-		dependencies = {
-			"rktjmp/lush.nvim"
-		}
-	},
 	{
 		"folke/noice.nvim",
 		event = "VeryLazy",
@@ -818,7 +716,7 @@ require("lazy").setup({
 				command_palette = true, -- position the cmdline and popupmenu together
 				long_message_to_split = true, -- long messages will be sent to a split
 				inc_rename = false, -- enables an input dialog for inc-rename.nvim
-				lsp_doc_border = false, -- add a border to hover docs and signature help
+				lsp_doc_border = true, -- add a border to hover docs and signature help
 			},
 		},
 		dependencies = {
@@ -879,7 +777,9 @@ require("lazy").setup({
 			require("textcase").setup({})
 		end,
 	}
-}, {})
+}
+
+require('lazy').setup(utils.merge(plugins, colorschemes))
 
 require('telescope').load_extension("fzf")
 require("telescope").load_extension("noice")

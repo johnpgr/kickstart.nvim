@@ -8,6 +8,7 @@ vim.g.maplocalleader = ' '
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.opt.relativenumber = true
+vim.opt.cursorline = true
 
 -- Set colorcolumn to 80 characters
 vim.opt.colorcolumn = '80'
@@ -64,7 +65,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- display spaces and tab characters as `·`
-vim.cmd([[
-    set listchars=tab:··,trail:·,nbsp:·,space:·
-    set list
-]])
+-- vim.cmd([[
+--     set listchars=tab:··,trail:·,nbsp:·,space:·
+--     set list
+-- ]])
