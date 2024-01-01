@@ -71,8 +71,8 @@ end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').git_files, { desc = '[S]earch [G]it files' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', ':Telescope noice<CR>',
-    { desc = '[S]earch notification [H]istory', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sn', ':Telescope noice<CR>',
+    { desc = '[S]earch [N]otification history', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>st', require('telescope.builtin').live_grep, { desc = '[S]earch by [T]ext' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
@@ -81,7 +81,7 @@ vim.keymap.set('n', '<leader>sc', require('telescope.builtin').colorscheme,
     { desc = '[S]earch [C]olorscheme', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sl', require('telescope').extensions['software-licenses'].find,
     { desc = '[S]earch [L]icenses', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>sH', require('telescope').extensions.http.list,
+vim.keymap.set('n', '<leader>sh', require('telescope').extensions.http.list,
     { desc = '[S]earch [H]TTP status codes', noremap = true, silent = true })
 
 
@@ -155,17 +155,6 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
 
 vim.keymap.set('n', '<leader>g', ':LazyGit<CR>', { desc = 'Open Lazygit' })
 
--- Close current window if there's more than one window open
--- Otherwise, close the current buffer
-local function close_current_buffer_and_window()
-    local windows = vim.api.nvim_list_wins()
-    if #windows > 1 then
-        vim.api.nvim_win_close(0, true)
-    else
-        vim.cmd("BufferClose")
-    end
-end
-
 -- Tabs
 vim.keymap.set('n', '<tab>', ':BufferNext<CR>', { desc = 'Next tab', noremap = true, silent = true })
 vim.keymap.set('n', '<s-tab>', ':BufferPrevious<CR>', { desc = 'Previous tab', noremap = true, silent = true })
@@ -178,10 +167,12 @@ vim.keymap.set('n', '<A-6>', ':BufferGoto 6<CR>', { desc = 'Go to tab 6', norema
 vim.keymap.set('n', '<A-7>', ':BufferGoto 7<CR>', { desc = 'Go to tab 7', noremap = true, silent = true })
 vim.keymap.set('n', '<A-8>', ':BufferGoto 8<CR>', { desc = 'Go to tab 8', noremap = true, silent = true })
 vim.keymap.set('n', '<A-9>', ':BufferGoto 9<CR>', { desc = 'Go to tab 9', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>q', close_current_buffer_and_window,
+vim.keymap.set('n', '<leader>q', ':BufferClose<CR>',
     { desc = 'Close current buffer', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>Q', ':BufferCloseAllButCurrentOrPinned<CR>',
-    { desc = 'Close all other buffers', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>Q', ':BufferClose!<CR>',
+    { desc = 'Close current buffer (force)', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>qa', ':BufferCloseAllButCurrentOrPinned<CR>',
+    { desc = 'Close all buffers except current', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>n', ':enew<CR>', { desc = 'New buffer', noremap = true, silent = true })
 vim.keymap.set('n', '<A-l>', ':BufferMoveNext<CR>',
     { desc = 'Move buffer to next position', noremap = true, silent = true })
