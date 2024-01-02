@@ -7,13 +7,6 @@ local actions = require("telescope.actions")
 local action_state = require("telescope.actions.state")
 local harpoon = require('harpoon')
 
-local function list_find(list, func)
-    for i, v in ipairs(list) do
-        if func(v, i, list) then
-            return i, v
-        end
-    end
-end
 
 local function toggle_telescope(harpoon_files)
     local file_paths = {}
@@ -33,6 +26,14 @@ local function toggle_telescope(harpoon_files)
         sorter = conf.generic_sorter({}),
         -- Make telescope select buffer from harpoon list
         attach_mappings = function(_, map)
+            local function list_find(list, func)
+                for i, v in ipairs(list) do
+                    if func(v, i, list) then
+                        return i, v
+                    end
+                end
+            end
+
             actions.select_default:replace(function(prompt_bufnr)
                 local curr_picker = action_state.get_current_picker(prompt_bufnr)
                 local curr_entry = action_state.get_selected_entry()
