@@ -5,7 +5,7 @@ return {
 		event = 'VeryLazy',
 		branch = '0.1.x',
 		dependencies = {
-			'plenary',
+			'nvim-lua/plenary.nvim',
 			-- Fuzzy Finder Algorithm which requires local dependencies to be built.
 			-- Only load if `make` is available. Make sure you have the system
 			-- requirements installed.
@@ -18,8 +18,16 @@ return {
 					return vim.fn.executable 'make' == 1
 				end,
 			},
+			-- List common software licenses
 			{ "chip/telescope-software-licenses.nvim" },
-			{ "barrett-ruth/telescope-http.nvim" }
+			-- List HTTP codes
+			{ "barrett-ruth/telescope-http.nvim" },
+			-- List Undo history tree
+			{ "debugloop/telescope-undo.nvim" },
+			-- Useful text case converter
+			{ "johmsalas/text-case.nvim" },
+			-- Use telescope for LSP code action popup
+			{ "nvim-telescope/telescope-ui-select.nvim" },
 		},
 		config = function()
 			require('telescope').setup({
@@ -27,15 +35,14 @@ return {
 					mappings = {
 						i = {
 							['<C-u>'] = false,
-							['<C-d>'] = require("telescope.actions").delete_buffer,
 							['<C-h>'] = "which_key",
 						},
-						n = {
-							['C-d'] = require("telescope.actions").delete_buffer
-						}
 					},
 				},
 				pickers = {
+					buffers = {
+						theme = 'dropdown'
+					},
 					colorscheme = {
 						enable_preview = true,
 						mappings = {
@@ -55,23 +62,21 @@ return {
 									end
 								end
 							}
-						}
+						},
 					},
 				}
 			})
 		end,
 		init = function()
-			require("telescope").load_extension("software-licenses")
-			require('telescope').load_extension("fzf")
-			require("telescope").load_extension("http")
-			require("telescope").load_extension("noice")
-			require("telescope").load_extension("textcase")
+			local t = require('telescope')
+
+			t.load_extension("software-licenses")
+			t.load_extension("fzf")
+			t.load_extension("http")
+			t.load_extension("noice")
+			t.load_extension("textcase")
+			t.load_extension("undo")
+			t.load_extension("ui-select")
 		end
 	},
-	{
-		"johmsalas/text-case.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		priority = 1000,
-	},
-
 }

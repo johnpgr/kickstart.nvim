@@ -5,7 +5,14 @@ return {
 	-- Detect tabstop and shiftwidth automatically
 	'tpope/vim-sleuth',
 	-- Useful plugin to show you pending keybinds.
-	'folke/which-key.nvim',
+	{
+		'folke/which-key.nvim',
+		init = function()
+			require('which-key').register({
+				['<leader>'] = { name = 'VISUAL <leader>' },
+			}, { mode = { 'v', 'n' } })
+		end
+	},
 	-- Auto close html tags
 	"windwp/nvim-ts-autotag",
 	-- Surround Utils
@@ -14,12 +21,9 @@ return {
 	"mg979/vim-visual-multi",
 	-- LSP icons
 	"onsails/lspkind.nvim",
-	-- Debugger
-	"puremourning/vimspector",
 	-- Lua functions
 	{
 		'nvim-lua/plenary.nvim',
-		name = 'plenary',
 		priority = 1000,
 	},
 	{
@@ -32,7 +36,7 @@ return {
 		"kdheepak/lazygit.nvim",
 		-- Optional for floating window border decoration
 		dependencies = {
-			"plenary",
+			"nvim-lua/plenary.nvim",
 		},
 	},
 }
