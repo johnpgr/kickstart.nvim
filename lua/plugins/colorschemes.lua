@@ -123,7 +123,7 @@ return {
                     emphasis = false,
                     operators = false
                 },
-                -- contrast = "hard"
+                contrast = "soft",
                 transparent_mode = true
             })
         end
