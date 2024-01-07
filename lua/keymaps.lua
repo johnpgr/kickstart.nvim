@@ -62,6 +62,9 @@ vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = tr
 vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = '[E]xplorer', silent = true })
 
 -- Telescope
+vim.keymap.set('n', '<leader>b',
+    function() require('telescope.builtin').buffers(require('telescope.themes').get_dropdown) end,
+    { desc = '[B] List open buffers' })
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 -- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
@@ -78,6 +81,8 @@ vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { de
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
 vim.keymap.set('n', '<leader>sc', require('telescope.builtin').colorscheme,
     { desc = '[S]earch [C]olorscheme', noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers,
+    { desc = '[S]earch [B]uffers', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sl', require('telescope').extensions['software-licenses'].find,
     { desc = '[S]earch [L]icenses', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sh', require('telescope').extensions.http.list,
