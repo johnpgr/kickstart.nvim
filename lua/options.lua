@@ -9,6 +9,7 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
+vim.opt.wrap = false
 
 -- Set colorcolumn to 80 characters
 vim.opt.colorcolumn = '80'
