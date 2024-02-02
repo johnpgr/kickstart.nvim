@@ -21,13 +21,13 @@ return {
         name = "catppuccin",
         priority = 1000,
         -- config = function()
-        --     require('catppuccin').setup({
+        --     require("catppuccin").setup({
         --         no_italic = true,
         --     })
         --     vim.cmd("colorscheme catppuccin")
         -- end
     },
-    { 'lunacookies/vim-colors-xcode' },
+    { "lunacookies/vim-colors-xcode" },
     {
         "briones-gabriel/darcula-solid.nvim",
         dependencies = {
@@ -35,14 +35,14 @@ return {
         }
     },
     {
-        'rose-pine/neovim',
-        name = 'rose-pine',
+        "rose-pine/neovim",
+        name = "rose-pine",
         config = function()
-            require('rose-pine').setup({
-                --- @usage 'auto'|'main'|'moon'|'dawn'
-                variant = 'main',
-                --- @usage 'main'|'moon'|'dawn'
-                dark_variant = 'main',
+            require("rose-pine").setup({
+                --- @usage "auto"|"main"|"moon"|"dawn"
+                variant = "main",
+                --- @usage "main"|"moon"|"dawn"
+                dark_variant = "main",
                 bold_vert_split = false,
                 dim_nc_background = false,
                 disable_background = false,
@@ -51,54 +51,54 @@ return {
 
                 --- @usage string hex value or named color from rosepinetheme.com/palette
                 groups = {
-                    background = 'base',
-                    background_nc = '_experimental_nc',
-                    panel = 'surface',
-                    panel_nc = 'base',
-                    border = 'highlight_med',
-                    comment = 'muted',
-                    link = 'iris',
-                    punctuation = 'subtle',
+                    background = "base",
+                    background_nc = "_experimental_nc",
+                    panel = "surface",
+                    panel_nc = "base",
+                    border = "highlight_med",
+                    comment = "muted",
+                    link = "iris",
+                    punctuation = "subtle",
 
-                    error = 'love',
-                    hint = 'iris',
-                    info = 'foam',
-                    warn = 'gold',
+                    error = "love",
+                    hint = "iris",
+                    info = "foam",
+                    warn = "gold",
 
                     headings = {
-                        h1 = 'iris',
-                        h2 = 'foam',
-                        h3 = 'rose',
-                        h4 = 'gold',
-                        h5 = 'pine',
-                        h6 = 'foam',
+                        h1 = "iris",
+                        h2 = "foam",
+                        h3 = "rose",
+                        h4 = "gold",
+                        h5 = "pine",
+                        h6 = "foam",
                     }
                     -- or set all headings at once
-                    -- headings = 'subtle'
+                    -- headings = "subtle"
                 },
 
                 -- Change specific vim highlight groups
                 -- https://github.com/rose-pine/neovim/wiki/Recipes
                 highlight_groups = {
-                    ColorColumn = { bg = 'foam', blend = 10 },
+                    ColorColumn = { bg = "foam", blend = 10 },
 
                     -- Blend colours against the "base" background
-                    CursorLine = { bg = 'foam', blend = 10 },
-                    StatusLine = { fg = 'love', bg = 'foam', blend = 10 },
+                    CursorLine = { bg = "foam", blend = 10 },
+                    StatusLine = { fg = "love", bg = "foam", blend = 10 },
 
                     -- By default each group adds to the existing config.
                     -- If you only want to set what is written in this config exactly,
                     -- you can set the inherit option:
-                    Search = { bg = 'gold', inherit = false },
+                    Search = { bg = "gold", inherit = false },
                 }
             })
 
             -- Set colorscheme after options
-            vim.cmd('colorscheme rose-pine')
+            vim.cmd("colorscheme rose-pine")
         end
     },
     {
-        'navarasu/onedark.nvim',
+        "navarasu/onedark.nvim",
     },
     {
         "blazkowolf/gruber-darker.nvim",
@@ -112,24 +112,27 @@ return {
         }
     },
     {
-        "ellisonleao/gruvbox.nvim",
-        priority = 1000,
-        config = function()
-            require('gruvbox').setup({
-                italic = {
-                    folds = false,
-                    strings = false,
-                    comments = false,
-                    emphasis = false,
-                    operators = false
-                },
-                contrast = "soft",
-                transparent_mode = true
-            })
-        end
+        "morhetz/gruvbox"
     },
+    --    {
+    --        "ellisonleao/gruvbox.nvim",
+    --        priority = 1000,
+    --        config = function()
+    --            require("gruvbox").setup({
+    --                italic = {
+    --                    folds = false,
+    --                    strings = false,
+    --                    comments = false,
+    --                    emphasis = false,
+    --                    operators = false
+    --                },
+    --                contrast = "soft",
+    --                transparent_mode = false
+    --            })
+    --        end
+    --    },
     {
-        'NTBBloodbath/doom-one.nvim',
+        "NTBBloodbath/doom-one.nvim",
         -- priority = 1000,
         setup = function()
             -- Add color to cursor

@@ -27,7 +27,7 @@ return {
                         auto_trigger = true,
                         debounce = 75,
                         keymap = {
-                            accept = "<M-l>",
+                            accept = "<Tab>",
                             accept_word = false,
                             accept_line = false,
                             next = "<M-]>",
@@ -48,8 +48,8 @@ return {
                     },
                     copilot_node_command = 'node', -- Node.js version must be > 16.x
                     server_opts_overrides = {},
-                })                  -- https://github.com/zbirenbaum/copilot.lua/blob/master/README.md#setup-and-configuration
-                require("copilot_cmp").setup() -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
+                })                                 -- https://github.com/zbirenbaum/copilot.lua/blob/master/README.md#setup-and-configuration
+                require("copilot_cmp").setup()     -- https://github.com/zbirenbaum/copilot-cmp/blob/master/README.md#configuration
             end, 100)
         end,
     },

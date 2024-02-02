@@ -44,8 +44,8 @@ vim.cmd([[
 ]])
 
 -- Scrolling remaps
-vim.keymap.set("n", "<C-d>", "<C-d>zz")
-vim.keymap.set("n", "<C-u>", "<C-u>zz")
+-- vim.keymap.set("n", "<C-d>", "<C-d>zz")
+-- vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -66,19 +66,25 @@ vim.keymap.set('n', '<leader>b',
     function() require('telescope.builtin').buffers(require('telescope.themes').get_dropdown) end,
     { desc = '[B] List open buffers' })
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
--- vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>/', function()
-    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown())
-end, { desc = '[/] Fuzzily search in current buffer' })
+vim.keymap.set('n', '<leader>/',
+    function() require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown()) end,
+    { desc = '[/] Fuzzily search in current buffer' })
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').git_files, { desc = '[S]earch [G]it files' })
-vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+vim.keymap.set('n', '<leader>sf',
+    function() require('utils.pretty-telescope').pretty_files_picker({ picker = "find_files" }) end,
+    { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sm', ':Telescope noice<CR>',
     { desc = '[S]earch Notification [M]essages', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>st', require('telescope.builtin').live_grep, { desc = '[S]earch by [T]ext' })
+vim.keymap.set('n', '<leader>sw', function()
+    require("utils.pretty-telescope").pretty_grep_picker({ picker = "grep_string" })
+end, { desc = '[S]earch current [W]ord' })
+vim.keymap.set('n', '<leader>st',
+    function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
+    { desc = '[S]earch by [T]ext' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
--- this is maybe not that useful for me. <leader>sr could be replaced
-vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+vim.keymap.set('n', '<leader>sr',
+    function() require("utils.pretty-telescope").pretty_files_picker({ picker = "oldfiles" }) end,
+    { desc = '[S]earch [R]ecently opened files' })
 vim.keymap.set('n', '<leader>sc', require('telescope.builtin').colorscheme,
     { desc = '[S]earch [C]olorscheme', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers,
@@ -136,3 +142,6 @@ vim.keymap.set("n", "<A-9>", function() harpoon:list():select(9) end)
 -- Toggle previous & next buffers stored within Harpoon list
 vim.keymap.set("n", "<s-tab>", function() harpoon:list():prev() end)
 vim.keymap.set("n", "<tab>", function() harpoon:list():next() end)
+
+-- Noice
+vim.keymap.set("n", "<leader>nd", function() require("noice").cmd("dismiss") end, { desc = "[N]oice [D]ismiss" })

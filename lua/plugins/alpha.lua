@@ -7,9 +7,12 @@ return {
             local dashboard = require('alpha.themes.dashboard')
             dashboard.section.buttons.val = {
                 dashboard.button("n", "󰈔  New file", ":ene <BAR> startinsert <CR>"),
-                dashboard.button("f", "󰱼  Find file", ":Telescope find_files <CR>"),
-                dashboard.button("r", "󰄉  Recently used files", ":Telescope oldfiles cwd_only=true <CR>"),
-                dashboard.button("t", "󰊄  Find text", ":Telescope live_grep <CR>"),
+                dashboard.button("f", "󰱼  Find file",
+                    ":lua require('utils.pretty-telescope').pretty_files_picker({ picker = 'find_files' })<CR>"),
+                dashboard.button("r", "󰄉  Recently used files",
+                    ":lua require('utils.pretty-telescope').pretty_files_picker({ picker = 'oldfiles' })<CR>"),
+                dashboard.button("t", "󰊄  Find text",
+                    ":lua require('utils.pretty-telescope').pretty_grep_picker({ picker = 'live_grep' })<CR>"),
                 dashboard.button("g", "  Lazygit", ":LazyGit<CR>"),
                 dashboard.button("l", "󰭖  Load last session for cwd", ":lua require('persistence').load()<CR>"),
                 dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
