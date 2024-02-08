@@ -129,19 +129,15 @@ vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
 vim.keymap.set("n", "<leader><space>", function() harpoon_utils.toggle_telescope(harpoon:list()) end,
     { desc = "Open harpoon window" })
 
-vim.keymap.set("n", "<A-1>", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<A-2>", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<A-3>", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<A-4>", function() harpoon:list():select(4) end)
-vim.keymap.set("n", "<A-5>", function() harpoon:list():select(5) end)
-vim.keymap.set("n", "<A-6>", function() harpoon:list():select(6) end)
-vim.keymap.set("n", "<A-7>", function() harpoon:list():select(7) end)
-vim.keymap.set("n", "<A-8>", function() harpoon:list():select(8) end)
-vim.keymap.set("n", "<A-9>", function() harpoon:list():select(9) end)
-
--- Toggle previous & next buffers stored within Harpoon list
-vim.keymap.set("n", "<s-tab>", function() harpoon:list():prev() end)
-vim.keymap.set("n", "<tab>", function() harpoon:list():next() end)
+vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Select harpoon window 1" })
+vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Select harpoon window 2" })
+vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Select harpoon window 3" })
+vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "Select harpoon window 4" })
+vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { desc = "Select harpoon window 5" })
+vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end, { desc = "Select harpoon window 6" })
+vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end, { desc = "Select harpoon window 7" })
+vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end, { desc = "Select harpoon window 8" })
+vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end, { desc = "Select harpoon window 9" })
 
 -- Noice
 vim.keymap.set("n", "<leader>nd", function() require("noice").cmd("dismiss") end, { desc = "[N]oice [D]ismiss" })

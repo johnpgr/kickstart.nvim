@@ -5,9 +5,9 @@ return {
         -- See `:help lualine.txt`
         opts = {
             options = {
-                icons_enabled = false,
-                component_separators = '|',
-                section_separators = '',
+                icons_enabled = true,
+                component_separators = '',
+                section_separators = { left = '', right = '' },
             },
             sections = {
                 lualine_a = { 'mode' },

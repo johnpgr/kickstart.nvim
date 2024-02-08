@@ -20,12 +20,12 @@ return {
         "catppuccin/nvim",
         name = "catppuccin",
         priority = 1000,
-        -- config = function()
-        --     require("catppuccin").setup({
-        --         no_italic = true,
-        --     })
-        --     vim.cmd("colorscheme catppuccin")
-        -- end
+        config = function()
+            require("catppuccin").setup({
+                no_italic = true,
+                transparent_background = true,
+            })
+        end
     },
     { "lunacookies/vim-colors-xcode" },
     {
@@ -45,7 +45,7 @@ return {
                 dark_variant = "main",
                 bold_vert_split = false,
                 dim_nc_background = false,
-                disable_background = false,
+                disable_background = true,
                 disable_float_background = true,
                 disable_italics = true,
 
@@ -92,13 +92,15 @@ return {
                     Search = { bg = "gold", inherit = false },
                 }
             })
-
-            -- Set colorscheme after options
-            vim.cmd("colorscheme rose-pine")
         end
     },
     {
         "navarasu/onedark.nvim",
+        config = function()
+            require("onedark").setup({
+                transparent = true,
+            })
+        end
     },
     {
         "blazkowolf/gruber-darker.nvim",
@@ -114,23 +116,6 @@ return {
     {
         "morhetz/gruvbox"
     },
-    --    {
-    --        "ellisonleao/gruvbox.nvim",
-    --        priority = 1000,
-    --        config = function()
-    --            require("gruvbox").setup({
-    --                italic = {
-    --                    folds = false,
-    --                    strings = false,
-    --                    comments = false,
-    --                    emphasis = false,
-    --                    operators = false
-    --                },
-    --                contrast = "soft",
-    --                transparent_mode = false
-    --            })
-    --        end
-    --    },
     {
         "NTBBloodbath/doom-one.nvim",
         -- priority = 1000,
