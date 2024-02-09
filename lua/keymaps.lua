@@ -59,7 +59,9 @@ vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" })
 
 -- Open explorer
-vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = '[E]xplorer', silent = true })
+vim.keymap.set('n', '<leader>e', function()
+    require("oil").toggle_float()
+end, { desc = '[E]xplorer', silent = true })
 
 -- Telescope
 vim.keymap.set("n", "<leader>ss", function()
