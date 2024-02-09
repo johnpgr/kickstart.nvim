@@ -1,14 +1,27 @@
 -- Set <space> as the leader key
--- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
--- General
+-- Enable mouse mode
+vim.o.mouse = 'a'
+
+-- Sync clipboard between OS and Neovim.
+vim.o.clipboard = 'unnamedplus'
+
+-- Set indentation to 4 spaces
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
+
+-- Line numbers
 vim.opt.relativenumber = true
+vim.wo.number = true
+vim.wo.numberwidth = 2
+
+-- Cursor line highlighting
 vim.opt.cursorline = true
+
+-- Line wrapping
 vim.opt.wrap = false
 
 -- Set colorcolumn to 80 characters
@@ -17,22 +30,14 @@ vim.opt.colorcolumn = '80'
 -- Set cursor to block on insert mode
 vim.opt.guicursor = 'n-v-c-i:block'
 
--- Make line numbers default
-vim.wo.number = true
-vim.wo.numberwidth = 2
-
 -- Disable search results highlighting
 vim.o.hlsearch = false
--- Enable mouse mode
-vim.o.mouse = 'a'
-
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
-vim.o.clipboard = 'unnamedplus'
 
 -- Enable break indent
 vim.o.breakindent = true
+
+-- Enable smart indent
+vim.o.smartindent = true
 
 -- Save undo history
 vim.o.undofile = true
@@ -55,11 +60,10 @@ vim.o.completeopt = 'menuone,noselect'
 vim.opt.spell = true
 vim.opt.spelllang = 'en_us'
 
--- NOTE: You should make sure your terminal supports this
+-- Set terminal colors
 vim.o.termguicolors = true
 
 -- [[ Highlight on yank ]]
--- See `:help vim.highlight.on_yank()`
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function()
@@ -69,8 +73,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     pattern = '*',
 })
 
--- display spaces and tab characters as `·`
--- vim.cmd([[
---     set listchars=tab:··,trail:·,nbsp:·,space:·
---     set list
--- ]])
+-- Better splits
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+
+-- Better scrolling experience
+vim.opt.scrolloff = 8
