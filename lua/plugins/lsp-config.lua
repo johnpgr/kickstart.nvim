@@ -26,7 +26,6 @@ return {
             end
 
             -- Whenever an LSP attaches to a buffer, we will run this function.
-            --
             -- See `:help LspAttach` for more information about this autocmd event.
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('kickstart-lsp-attach-format', { clear = true }),
@@ -48,7 +47,7 @@ return {
                     end
 
                     -- Create an autocmd that will run *before* we save the buffer.
-                    --  Run the formatting command for the LSP that has just attached.
+                    --Run the formatting command for the LSP that has just attached.
                     vim.api.nvim_create_autocmd('BufWritePre', {
                         group = get_augroup(client),
                         buffer = bufnr,

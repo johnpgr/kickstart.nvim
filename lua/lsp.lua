@@ -63,6 +63,7 @@ local servers = {
     tailwindcss = {},
     html = { filetypes = { 'html', 'twig', 'hbs' } },
     lua_ls = {
+        cmd = { 'lua-language-server --silent' },
         Lua = {
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },

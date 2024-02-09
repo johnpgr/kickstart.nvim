@@ -17,8 +17,8 @@ vim.keymap.set('n', '<M-J>', ':t.<CR>', { noremap = true, silent = true, desc = 
 vim.keymap.set('n', '<M-K>', ':t-1<CR>', { noremap = true, silent = true, desc = 'Duplicate line above' })
 
 -- Split generation
-vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { silent = true, desc = 'Vertical split' })
-vim.keymap.set('n', '<leader>h', ':split<CR>', { silent = true, desc = 'Horizontal split' })
+vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { silent = true, desc = '[V]ertical split' })
+vim.keymap.set('n', '<leader>h', ':split<CR>', { silent = true, desc = '[H]orizontal split' })
 
 -- Move between splits
 vim.keymap.set('n', '<C-h>', '<C-w>h', { silent = true })
@@ -26,7 +26,7 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { silent = true })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { silent = true })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { silent = true })
 
--- Resize splits
+-- Re size split's
 vim.keymap.set('n', '<C-up>', ':horizontal resize -3<CR>', { silent = true })
 vim.keymap.set('n', '<C-down>', ':horizontal resize +3<CR>', { silent = true })
 vim.keymap.set('n', '<C-left>', ':vertical resize -3<CR>', { silent = true })
@@ -62,9 +62,9 @@ vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = tr
 vim.keymap.set('n', '<leader>e', ':Oil<CR>', { desc = '[E]xplorer', silent = true })
 
 -- Telescope
-vim.keymap.set('n', '<leader>b',
-    function() require('telescope.builtin').buffers(require('telescope.themes').get_dropdown) end,
-    { desc = '[B] List open buffers' })
+vim.keymap.set("n", "<leader>ss", function()
+    require("telescope.builtin").spell_suggest(require("telescope.themes").get_cursor({}))
+end, { desc = "[S]earch [S]pelling [S]uggestions" })
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader>/',
     function() require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown()) end,
@@ -122,10 +122,10 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
     desc = 'Quit without saving session', silent = true
 })
 
-vim.keymap.set('n', '<leader>g', ':LazyGit<CR>', { desc = 'Open Lazygit' })
+vim.keymap.set('n', '<leader>g', ':LazyGit<CR>', { desc = 'Lazy[G]it' })
 
 -- Harpoon
-vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
+vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end, { desc = "[A]ppend to harpoon" })
 vim.keymap.set("n", "<leader><space>", function() harpoon_utils.toggle_telescope(harpoon:list()) end,
     { desc = "Open harpoon window" })
 
