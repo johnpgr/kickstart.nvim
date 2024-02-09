@@ -54,7 +54,7 @@ return {
                 lualine_x = { current_attached_lsps },
                 lualine_y = { 'filetype', 'encoding', current_tab_mode, current_indentation },
                 lualine_z = { 'location' }
-            },
+            }
         },
     },
 }

@@ -17,13 +17,25 @@ return {
             "hrsh7th/cmp-cmdline",
             "hrsh7th/cmp-buffer",
             "hrsh7th/cmp-path",
+
+            -- Auto close html tags
+            "windwp/nvim-ts-autotag",
+
+            -- Auto pairs
+            'windwp/nvim-autopairs',
         },
         config = function()
-            local cmp = require "cmp"
-            local luasnip = require "luasnip"
+            local cmp = require("cmp")
+            local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+            local luasnip = require("luasnip")
+            local lspkind = require("lspkind")
+
             require("luasnip.loaders.from_vscode").lazy_load()
             luasnip.config.setup {}
-            local lspkind = require("lspkind")
+
+            require("nvim-autopairs").setup()
+
+            cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
             cmp.setup.cmdline("/", {
                 mapping = cmp.mapping.preset.cmdline(),
@@ -31,6 +43,7 @@ return {
                     { name = "buffer" }
                 }
             })
+
             cmp.setup.cmdline(":", {
                 mapping = cmp.mapping.preset.cmdline(),
                 sources = cmp.config.sources(

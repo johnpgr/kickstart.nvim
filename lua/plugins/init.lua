@@ -13,8 +13,6 @@ return {
 			}, { mode = { 'v', 'n' } })
 		end
 	},
-	-- Auto close html tags
-	"windwp/nvim-ts-autotag",
 	-- Surround Utils
 	"tpope/vim-surround",
 	-- Multi cursor
