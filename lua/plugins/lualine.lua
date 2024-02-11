@@ -4,7 +4,7 @@ local function filename()
     if vim.bo.filetype == "NvimTree" then
         return "  Explorer"
     else
-        return path_utils.full_file_path_home_escaped()
+        return path_utils.current_path_in_cwd_home_escaped()
     end
 end
 
@@ -44,7 +44,7 @@ local function harpoon_component()
         return ""
     end
 
-    local current_mark_name = path_utils.current_file_path_in_cwd()
+    local current_mark_name = path_utils.current_path_in_cwd_home_escaped()
     local current_mark_index = -1
 
     for index, mark in ipairs(harpoon:list().items) do
