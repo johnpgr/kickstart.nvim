@@ -1,12 +1,10 @@
+local current_file_path = require("utils.file-path").current_file_path_home_escaped
+
 local function filename()
     if vim.bo.filetype == "NvimTree" then
         return "  Explorer"
     else
-        local home = vim.fn.expand "$HOME" .. "/"
-        local fullpath = vim.fn.expand "%"
-        local escaped_home = home:gsub("[%(%)%.%%%+%-%*%?%[%]%^%$]", "%%%1")
-        local result = fullpath:gsub("^" .. escaped_home, "")
-        return result
+        return current_file_path()
     end
 end
 
@@ -46,9 +44,7 @@ local function harpoon_component()
         return ""
     end
 
-    local home_path = vim.fn.expand "$HOME"
-    local current_file_path = vim.fn.expand "%"
-    local current_mark_name = current_file_path:gsub(home_path, "")
+    local current_mark_name = current_file_path()
     local current_mark_index = -1
 
     for index, mark in ipairs(harpoon:list().items) do
@@ -58,10 +54,10 @@ local function harpoon_component()
     end
 
     if(current_mark_index == -1) then
-        return ""
+        return string.format("󱡅 %s/%d", "—", total_marks)
     end
 
-    return string.format("󱡅 %s/%d", current_mark_index, total_marks)
+    return string.format("󱡅 %d/%d", current_mark_index, total_marks)
 end
 
 return {
