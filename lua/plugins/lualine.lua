@@ -38,11 +38,38 @@ local function current_tab_mode()
     return tab_mode
 end
 
+local harpoon = require("harpoon")
+
+local function harpoon_component()
+    local total_marks = harpoon:list():length()
+    if total_marks == 0 then
+        return ""
+    end
+
+    local home_path = vim.fn.expand "$HOME"
+    local current_file_path = vim.fn.expand "%"
+    local current_mark_name = current_file_path:gsub(home_path, "")
+    local current_mark_index = -1
+
+    for index, mark in ipairs(harpoon:list().items) do
+        if mark.value == current_mark_name then
+            current_mark_index = index
+        end
+    end
+
+    if(current_mark_index == -1) then
+        return ""
+    end
+
+    return string.format("󱡅 %s/%d", current_mark_index, total_marks)
+end
+
 return {
     {
         'nvim-lualine/lualine.nvim',
         opts = {
             options = {
+                theme = 'catppuccin',
                 icons_enabled = true,
                 component_separators = '',
                 section_separators = { left = '', right = '' },
@@ -50,7 +77,7 @@ return {
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { 'branch', current_user, 'diff', 'diagnostics' },
-                lualine_c = { filename },
+                lualine_c = { filename, harpoon_component },
                 lualine_x = { current_attached_lsps },
                 lualine_y = { 'filetype', 'encoding', current_tab_mode, current_indentation },
                 lualine_z = { 'location' }
