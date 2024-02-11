@@ -75,7 +75,7 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').git_files, { desc
 vim.keymap.set('n', '<leader>sf',
     function() require('utils.pretty-telescope').pretty_files_picker({ picker = "find_files" }) end,
     { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sm', ':Telescope noice<CR>',
+vim.keymap.set('n', '<leader>sm', require('telescope').extensions.noice.noice,
     { desc = '[S]earch Notification [M]essages', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sw', function()
     require("utils.pretty-telescope").pretty_grep_picker({ picker = "grep_string" })
@@ -83,7 +83,6 @@ end, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>st',
     function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
     { desc = '[S]earch by [T]ext' })
-vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr',
     function() require("utils.pretty-telescope").pretty_files_picker({ picker = "oldfiles" }) end,
     { desc = '[S]earch [R]ecently opened files' })
@@ -102,7 +101,7 @@ vim.keymap.set('n', '<leader>su', require('telescope').extensions.undo.undo,
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>df', vim.diagnostic.open_float, { desc = 'Open [D]iagnostic [F]loating message' })
-vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, { desc = 'Open [D]iagnostics [L]ist' })
+vim.keymap.set('n', '<leader>dl', require('telescope.builtin').diagnostics, { desc = 'Open [D]iagnostics [L]ist' })
 
 -- Handy toggles
 vim.keymap.set('n', '<leader>ts', togglers.spaces_width, { desc = "Toggle [T]ab [S]ize", noremap = true, silent = true })
@@ -124,7 +123,7 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
     desc = 'Quit without saving session', silent = true
 })
 
-vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = 'Lazy[G]it' })
+vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = '[G]it' })
 
 -- Harpoon
 vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end, { desc = "[A]ppend to harpoon" })
