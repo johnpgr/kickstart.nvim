@@ -1,10 +1,10 @@
-local current_file_path = require("utils.file-path").current_file_path_home_escaped
+local path_utils = require("utils.file-path")
 
 local function filename()
     if vim.bo.filetype == "NvimTree" then
         return "  Explorer"
     else
-        return current_file_path()
+        return path_utils.full_file_path_home_escaped()
     end
 end
 
@@ -44,7 +44,7 @@ local function harpoon_component()
         return ""
     end
 
-    local current_mark_name = current_file_path()
+    local current_mark_name = path_utils.current_file_path_in_cwd()
     local current_mark_index = -1
 
     for index, mark in ipairs(harpoon:list().items) do
@@ -73,7 +73,7 @@ return {
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { 'branch', current_user, 'diff', 'diagnostics' },
-                lualine_c = { filename, harpoon_component },
+                lualine_c = { harpoon_component, filename },
                 lualine_x = { current_attached_lsps },
                 lualine_y = { 'filetype', 'encoding', current_tab_mode, current_indentation },
                 lualine_z = { 'location' }
