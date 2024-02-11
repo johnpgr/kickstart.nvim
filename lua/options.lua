@@ -79,3 +79,12 @@ vim.opt.splitright = true
 
 -- Better scrolling experience
 vim.opt.scrolloff = 8
+
+-- Highlight trailing whitespace
+vim.cmd([[
+    highlight ExtraWhitespace ctermbg=red guibg=red
+    au ColorScheme * highlight ExtraWhitespace guibg=red
+    au BufEnter * match ExtraWhitespace /\s\+$/
+    au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+    au InsertLeave * match ExtraWhiteSpace /\s\+$/
+]])

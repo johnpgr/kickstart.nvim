@@ -10,7 +10,7 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('n', '<c-a>', 'gg<S-v>G')
 
 -- Clear search highlights
-vim.keymap.set('n', '<leader>ch', ':noh<CR>', { noremap = true, silent = true, desc = 'Clear search highlights' })
+vim.keymap.set('n', '<leader>ch', ':noh<CR>', { noremap = true, silent = true, desc = '[C]lear search [H]ighlights' })
 
 -- Duplicate lines
 vim.keymap.set('n', '<M-J>', ':t.<CR>', { noremap = true, silent = true, desc = 'Duplicate line below' })
@@ -43,7 +43,7 @@ vim.cmd([[
     vmap <C-M-n> <ESC><Plug>(VM-Select-All)
 ]])
 
--- Scrolling remaps
+-- Scrolling remaps to
 -- vim.keymap.set("n", "<C-d>", "<C-d>zz")
 -- vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
@@ -147,7 +147,9 @@ end, { expr = true, desc = "Jump to previous hunk" })
 vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end, { desc = "[A]ppend to harpoon" })
 -- vim.keymap.set("n", "<leader><space>", function() harpoon_utils.toggle_telescope(harpoon:list()) end,
 -- { desc = "Open harpoon window" })
-vim.keymap.set("n", "<leader><space>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+vim.keymap.set("n", "<leader><space>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, {
+    desc = "Open Harpoon Window"
+})
 
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Select harpoon window 1" })
 vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Select harpoon window 2" })
@@ -161,6 +163,17 @@ vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end, { desc
 
 -- Noice
 vim.keymap.set("n", "<leader>nd", function() require("noice").cmd("dismiss") end, { desc = "[N]oice [D]ismiss" })
+
+
+-- Open copilot panel
+vim.keymap.set("n", "<leader>cp", function ()
+    require("copilot.panel").open({position = "right"})
+end, { desc = "Open [C]opilot [P]anel"})
+
+-- Toggle autosuggestions on/off
+vim.keymap.set("n", "<leader>ca", function ()
+    require("copilot.suggestion").toggle_auto_trigger()
+end, { desc = "Toggle [C]opilot [A]utosuggestions"})
 
 -- disable backspace mapping
 vim.g.VM_maps = {
