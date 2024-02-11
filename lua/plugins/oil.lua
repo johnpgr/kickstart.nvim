@@ -5,6 +5,7 @@ return {
             keymaps = {
                 ['<backspace>'] = 'actions.parent',
                 ['<space>'] = 'actions.select',
+                ['q'] = 'actions.close'
             }
         },
         -- Optional dependencies

@@ -124,12 +124,13 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
     desc = 'Quit without saving session', silent = true
 })
 
-vim.keymap.set('n', '<leader>g', ':LazyGit<CR>', { desc = 'Lazy[G]it' })
+vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = 'Lazy[G]it' })
 
 -- Harpoon
 vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end, { desc = "[A]ppend to harpoon" })
-vim.keymap.set("n", "<leader><space>", function() harpoon_utils.toggle_telescope(harpoon:list()) end,
-    { desc = "Open harpoon window" })
+-- vim.keymap.set("n", "<leader><space>", function() harpoon_utils.toggle_telescope(harpoon:list()) end,
+-- { desc = "Open harpoon window" })
+vim.keymap.set("n", "<leader><space>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
 
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Select harpoon window 1" })
 vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Select harpoon window 2" })
@@ -143,3 +144,8 @@ vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end, { desc
 
 -- Noice
 vim.keymap.set("n", "<leader>nd", function() require("noice").cmd("dismiss") end, { desc = "[N]oice [D]ismiss" })
+
+-- disable backspace mapping
+vim.g.VM_maps = {
+    ["I BS"] = '',
+}
