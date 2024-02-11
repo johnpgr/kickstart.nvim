@@ -1,6 +1,6 @@
 local togglers = require('utils.toggle')
 local harpoon = require('harpoon')
-local harpoon_utils = require('utils.harpoon')
+-- local harpoon_utils = require('utils.harpoon')
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -84,7 +84,7 @@ vim.keymap.set('n', '<leader>st',
     function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
     { desc = '[S]earch by [T]ext' })
 vim.keymap.set('n', '<leader>sr',
-    function() require("utils.pretty-telescope").pretty_files_picker({ picker = "oldfiles" }) end,
+    function() require("utils.pretty-telescope").pretty_files_picker({ picker = "oldfiles", options = { only_cwd = true } }) end,
     { desc = '[S]earch [R]ecently opened files' })
 vim.keymap.set('n', '<leader>sc', require('telescope.builtin').colorscheme,
     { desc = '[S]earch [C]olorscheme', noremap = true, silent = true })
@@ -123,7 +123,25 @@ vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", 
     desc = 'Quit without saving session', silent = true
 })
 
-vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = '[G]it' })
+-- Git stuff
+vim.keymap.set('n', '<leader>gt', require('gitsigns').toggle_current_line_blame,
+    { desc = '[T]oggle blame current line' })
+vim.keymap.set('n', '<leader>gb', '<cmd>Git blame<cr>', { desc = '[G]it [B]lame' })
+vim.keymap.set('n', '<leader>gl', '<cmd>LazyGit<cr>', { desc = '[L]azy Git' })
+vim.keymap.set('n', '<leader>gp', require('gitsigns').preview_hunk,
+    { desc = '[P]review hunk' })
+-- don't override the built-in and fugitive keymaps
+local gs = package.loaded.gitsigns
+vim.keymap.set({ 'n', 'v' }, ']h', function()
+    if vim.wo.diff then return ']h' end
+    vim.schedule(function() gs.next_hunk() end)
+    return '<Ignore>'
+end, { expr = true, desc = "Jump to next hunk" })
+vim.keymap.set({ 'n', 'v' }, '[h', function()
+    if vim.wo.diff then return '[h' end
+    vim.schedule(function() gs.prev_hunk() end)
+    return '<Ignore>'
+end, { expr = true, desc = "Jump to previous hunk" })
 
 -- Harpoon
 vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end, { desc = "[A]ppend to harpoon" })

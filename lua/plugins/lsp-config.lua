@@ -40,6 +40,20 @@ return {
 
                     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
                 end
+                
+                local function restart()
+                    local active = vim.lsp.get_active_clients()
+                    -- See if 'v-analyzer' is active
+                    for _, value in ipairs(active) do
+                        if value.name == 'v_analyzer' then
+                            -- Restart the server
+                            vim.cmd('silent !v-analyzer clear-cache')
+                        end
+                    end
+
+                    vim.cmd('LspRestart')
+                end
+
 
                 nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
                 nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
@@ -73,7 +87,7 @@ return {
                 end, { desc = 'Format current buffer with LSP' })
 
                 nmap('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat current file')
-                nmap('<leader>lr', ':LspRestart<CR>', '[L]SP [R]estart server')
+                nmap('<leader>lr', restart, '[L]SP [R]estart server')
             end
 
             -- Enable the following language servers

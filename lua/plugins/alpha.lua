@@ -10,7 +10,7 @@ return {
                 dashboard.button("f", "󰱼  Find file",
                     ":lua require('utils.pretty-telescope').pretty_files_picker({ picker = 'find_files' })<CR>"),
                 dashboard.button("r", "󰄉  Recently used files",
-                    ":lua require('utils.pretty-telescope').pretty_files_picker({ picker = 'oldfiles' })<CR>"),
+                    ":lua require('utils.pretty-telescope').pretty_files_picker({ picker = 'oldfiles', options = {only_cwd = true} })<CR>"),
                 dashboard.button("t", "󰊄  Find text",
                     ":lua require('utils.pretty-telescope').pretty_grep_picker({ picker = 'live_grep' })<CR>"),
                 dashboard.button("g", "  Lazygit", ":LazyGit<CR>"),
