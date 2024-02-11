@@ -1,11 +1,11 @@
 local path_utils = require("utils.file-path")
+local harpoon = require("harpoon")
 
 local function filename()
     if vim.bo.filetype == "alpha" then
         return ""
-    else
-        return path_utils.current_path_in_cwd_home_escaped()
     end
+    return path_utils.current_path_in_cwd_home_escaped()
 end
 
 local function current_user()
@@ -27,16 +27,23 @@ local function current_attached_lsps()
 end
 
 local function current_indentation()
+    if vim.bo.filetype == "alpha" then
+        return ""
+    end
+
     local indent_size = vim.bo.shiftwidth
     return indent_size .. " spaces"
 end
 
 local function current_tab_mode()
+    if vim.bo.filetype == "alpha" then
+        return ""
+    end
+
     local tab_mode = vim.bo.expandtab and "spaces" or "tabs"
     return tab_mode
 end
 
-local harpoon = require("harpoon")
 
 local function harpoon_component()
     local total_marks = harpoon:list():length()
@@ -60,6 +67,22 @@ local function harpoon_component()
     return string.format("󱡅 %d/%d", current_mark_index, total_marks)
 end
 
+local function new_line_format()
+    if vim.bo.filetype == "alpha" then
+        return ""
+    end
+
+    local format = vim.bo.fileformat
+
+    if format == "unix" then
+        return "LF"
+    elseif format == "dos" then
+        return "CRLF"
+    else
+        return "CR"
+    end
+end
+
 return {
     {
         'nvim-lualine/lualine.nvim',
@@ -75,7 +98,7 @@ return {
                 lualine_b = { 'branch', current_user, 'diff', 'diagnostics' },
                 lualine_c = { harpoon_component, filename },
                 lualine_x = { current_attached_lsps },
-                lualine_y = { 'filetype', 'encoding', current_tab_mode, current_indentation },
+                lualine_y = { 'filetype', 'encoding', new_line_format, current_tab_mode, current_indentation },
                 lualine_z = { 'location' }
             }
         },
