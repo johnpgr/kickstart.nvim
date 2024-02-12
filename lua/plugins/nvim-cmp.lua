@@ -62,11 +62,6 @@ return {
             })
 
             cmp.setup({
-                window = {
-                    completion = cmp.config.window.bordered({
-                        scrollbar = true,
-                    }),
-                },
                 formatting = {
                     expandable_indicator = true,
                     fields = {

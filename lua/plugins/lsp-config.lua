@@ -20,9 +20,7 @@ return {
             -- Setup neovim lua configuration
             require('neodev').setup()
 
-            require("mason").setup({
-                ui = { border = "rounded" },
-            })
+            require("mason").setup({})
 
             -- [[ Configure LSP ]]
             --  This function gets run when an LSP connects to a particular buffer.
@@ -65,11 +63,15 @@ return {
                 end
 
                 -- Basic keymaps for LSP
-                vim.keymap.set('n','K', vim.lsp.buf.hover, {desc = 'Hover Documentation', noremap = true, silent = true})
-                vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, {desc = 'Goto Declaration', noremap = true, silent = true})
-                vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition', noremap = true, silent = true})
-                vim.keymap.set('n', 'gi', require('telescope.builtin').lsp_implementations, {desc = 'Goto Implementation', noremap = true, silent = true})
-                vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, {desc = 'Goto References', noremap = true, silent = true})
+                vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation', noremap = true, silent = true })
+                vim.keymap.set('n', 'gD', require('telescope.builtin').lsp_type_definitions,
+                    { desc = 'Goto Type Definition', noremap = true, silent = true })
+                vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions,
+                    { desc = 'Goto Definition', noremap = true, silent = true })
+                vim.keymap.set('n', 'gi', require('telescope.builtin').lsp_implementations,
+                    { desc = 'Goto Implementation', noremap = true, silent = true })
+                vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references,
+                    { desc = 'Goto References', noremap = true, silent = true })
 
                 lsp_map('s', vim.lsp.buf.signature_help, '[S] Signature Documentation')
                 lsp_map('r', vim.lsp.buf.rename, '[R] Rename')
@@ -93,7 +95,6 @@ return {
                         end
                     })
                 end, { desc = 'Format current buffer with LSP' })
-
             end
 
             -- Enable the following language servers
@@ -150,7 +151,6 @@ return {
             local formatting = null_ls.builtins.formatting
 
             null_ls.setup({
-                border = "rounded",
                 sources = {
                     formatting.prettierd,
                     formatting.sql_formatter
@@ -165,11 +165,7 @@ return {
                 },
             })
 
-            vim.diagnostic.config({
-                float = {
-                    border = "rounded"
-                }
-            })
+            vim.diagnostic.config({})
         end,
     },
 }

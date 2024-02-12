@@ -84,7 +84,12 @@ vim.opt.scrolloff = 8
 vim.cmd([[
     highlight ExtraWhitespace ctermbg=red guibg=red
     au ColorScheme * highlight ExtraWhitespace guibg=red
-    au BufEnter * match ExtraWhitespace /\s\+$/
-    au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-    au InsertLeave * match ExtraWhiteSpace /\s\+$/
+    au BufEnter * if &filetype != 'toggleterm' | match ExtraWhitespace /\s\+$/ | endif
+    au InsertEnter * if &filetype != 'toggleterm' | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
+    au InsertLeave * if &filetype != 'toggleterm' | match ExtraWhitespace /\s\+$/ | endif
 ]])
+
+if vim.g.neovide then
+    vim.o.guifont = "JetBrainsMono Nerd Font:h16"
+    vim.g.neovide_scroll_animation_length = 0.2
+end

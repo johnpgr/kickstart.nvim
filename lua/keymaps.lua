@@ -36,7 +36,37 @@ wk.register({
                 "[I] Indentation (Tabs <-> Spaces)",
                 noremap = true,
                 silent = true
-            }
+            },
+            b = {
+                require('gitsigns').toggle_current_line_blame,
+                '[B] Blame current line',
+                noremap = true,
+                silent = true
+            },
+            f = {
+                function()
+                    require('toggleterm').toggle(nil, nil, nil, 'float', nil)
+                end,
+                '[F] Floating Terminal',
+                noremap = true,
+                silent = true
+            },
+            v = {
+                function()
+                    require('toggleterm').toggle(nil, 50, nil, 'vertical', nil)
+                end,
+                '[V] Vertical Terminal',
+                noremap = true,
+                silent = true
+            },
+            h = {
+                function()
+                    require('toggleterm').toggle(nil, nil, nil, 'horizontal', nil)
+                end,
+                '[H] Horizontal Terminal',
+                noremap = true,
+                silent = true
+            },
         },
         s = {
             name = "Search",
@@ -131,12 +161,6 @@ wk.register({
         },
         g = {
             name = "Git",
-            t = {
-                require('gitsigns').toggle_current_line_blame,
-                '[T] Toggle blame current line',
-                noremap = true,
-                silent = true
-            },
             b = {
                 "<cmd>Git blame<cr>",
                 '[G] Git blame',
@@ -165,23 +189,11 @@ wk.register({
                 silent = true
             }
         },
-        h = {
-            name = "Harpoon",
-            a = {
-                function() harpoon.list():append() end,
-                "[A] Append to harpoon",
-                noremap = true,
-                silent = true
-            },
-            l = {
-                function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
-                "[L] List Harpoon marks",
-                noremap = true,
-                silent = true
-            }
-        }
     }
 }, { mode = { 'v', 'n' } })
+
+-- Toggleterm
+vim.keymap.set({ 'n', 't' }, '<C-`>', require('toggleterm').toggle, { noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -247,7 +259,9 @@ vim.keymap.set({ 'n', 'v' }, '[h', function()
     return '<Ignore>'
 end, { expr = true, desc = "Jump to previous hunk" })
 
-
+vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
+-- vim.keymap.set("n", "<leader><space>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+vim.keymap.set("n", "<leader><space>", function() require("utils.harpoon").toggle_telescope(harpoon:list()) end)
 vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
 vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
 vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
@@ -258,7 +272,7 @@ vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end)
 vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end)
 vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end)
 
--- disable backspace mapping
+-- Vim Visual Multi disable backspace mapping to avoid conflict with autopairs
 vim.g.VM_maps = {
     ["I BS"] = '',
 }

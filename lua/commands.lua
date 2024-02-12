@@ -9,5 +9,4 @@ vim.api.nvim_create_user_command("Licenses",
 -- Create a command :SnakeCase to change a word to snake case
 vim.api.nvim_create_user_command("SnakeCase",
     function() require("textcase").current_word('to_snake_case') end, { desc = "Change word to snake case" })
-
-return {}
+vim.cmd("autocmd FileType oil setlocal colorcolumn=0")

@@ -23,7 +23,7 @@ return {
         config = function()
             require("catppuccin").setup({
                 no_italic = true,
-                transparent_background = true,
+                transparent_background = false,
                 integrations = {
                     cmp = true,
                     gitsigns = true,
@@ -48,68 +48,116 @@ return {
     },
     {
         "rose-pine/neovim",
-        name = "rose-pine",
         config = function()
             require("rose-pine").setup({
-                --- @usage "auto"|"main"|"moon"|"dawn"
-                variant = "main",
-                --- @usage "main"|"moon"|"dawn"
-                dark_variant = "main",
-                bold_vert_split = false,
-                dim_nc_background = false,
-                disable_background = true,
-                disable_float_background = true,
-                disable_italics = true,
+                variant = "moon",      -- auto, main, moon, or dawn
+                dark_variant = "moon", -- main, moon, or dawn
+                dim_inactive_windows = false,
+                extend_background_behind_borders = false,
 
-                --- @usage string hex value or named color from rosepinetheme.com/palette
+                enable = {
+                    terminal = true,
+                    legacy_highlights = false, -- Improve compatibility for previous versions of Neovim
+                    migrations = true,         -- Handle deprecated options automatically
+                },
+
+                styles = {
+                    bold = true,
+                    italic = false,
+                    transparency = false,
+                },
+
                 groups = {
-                    background = "base",
-                    background_nc = "_experimental_nc",
-                    panel = "surface",
-                    panel_nc = "base",
-                    border = "highlight_med",
-                    comment = "muted",
+                    border = "muted",
                     link = "iris",
-                    punctuation = "subtle",
+                    panel = "surface",
+
                     error = "love",
                     hint = "iris",
                     info = "foam",
+                    note = "pine",
+                    todo = "rose",
                     warn = "gold",
 
-                    headings = {
-                        h1 = "iris",
-                        h2 = "foam",
-                        h3 = "rose",
-                        h4 = "gold",
-                        h5 = "pine",
-                        h6 = "foam",
-                    }
-                    -- or set all headings at once
-                    -- headings = "subtle"
+                    git_add = "foam",
+                    git_change = "rose",
+                    git_delete = "love",
+                    git_dirty = "rose",
+                    git_ignore = "muted",
+                    git_merge = "iris",
+                    git_rename = "pine",
+                    git_stage = "iris",
+                    git_text = "rose",
+                    git_untracked = "subtle",
+
+                    h1 = "iris",
+                    h2 = "foam",
+                    h3 = "rose",
+                    h4 = "gold",
+                    h5 = "pine",
+                    h6 = "foam",
                 },
 
-                -- Change specific vim highlight groups
-                -- https://github.com/rose-pine/neovim/wiki/Recipes
                 highlight_groups = {
-                    ColorColumn = { bg = "foam", blend = 10 },
+                    -- Comment = { fg = "foam" },
+                    -- VertSplit = { fg = "muted", bg = "muted" },
+                },
 
-                    -- Blend colours against the "base" background
-                    CursorLine = { bg = "foam", blend = 10 },
-                    StatusLine = { fg = "love", bg = "foam", blend = 10 },
-
-                    -- By default each group adds to the existing config.
-                    -- If you only want to set what is written in this config exactly,
-                    -- you can set the inherit option:
-                    Search = { bg = "gold", inherit = false },
-                }
+                before_highlight = function(group, highlight, palette)
+                    -- Disable all undercurls
+                    -- if highlight.undercurl then
+                    --     highlight.undercurl = false
+                    -- end
+                    --
+                    -- Change palette colour
+                    -- if highlight.fg == palette.pine then
+                    --     highlight.fg = palette.foam
+                    -- end
+                end,
             })
         end
     },
     {
         "navarasu/onedark.nvim",
         config = function()
-            require("onedark").setup({
-                transparent = true,
+            require('onedark').setup({
+                -- Main options --
+                style = 'cool',   -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+                transparent = false, -- Show/hide background
+                term_colors = true, -- Change terminal color as per the selected theme style
+                ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
+                cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
+
+                -- toggle theme style ---
+                toggle_style_key = nil,                                                -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+                toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
+
+                -- Change code style ---
+                -- Options are italic, bold, underline, none
+                -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
+                code_style = {
+                    comments = 'italic',
+                    keywords = 'none',
+                    functions = 'none',
+                    strings = 'none',
+                    variables = 'none'
+                },
+
+                -- Lualine options --
+                lualine = {
+                    transparent = false, -- lualine center bar transparency
+                },
+
+                -- Custom Highlights --
+                colors = {}, -- Override default colors
+                highlights = {}, -- Override highlight groups
+
+                -- Plugins Config --
+                diagnostics = {
+                    darker = true, -- darker colors for diagnostic
+                    undercurl = true, -- use undercurl instead of underline for diagnostics
+                    background = true, -- use background color for virtual text
+                },
             })
         end
     },

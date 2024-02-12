@@ -15,7 +15,7 @@ return {
                     ":lua require('utils.pretty-telescope').pretty_grep_picker({ picker = 'live_grep' })<CR>"),
                 dashboard.button("g", "  Lazygit", ":LazyGit<CR>"),
                 dashboard.button("l", "󰭖  Load last session for cwd", ":lua require('persistence').load()<CR>"),
-                dashboard.button("c", "  Configuration", ":e ~/.config/nvim/init.lua<CR>"),
+                dashboard.button("c", "  Configuration", ":cd ~/.config/nvim | :e init.lua<CR>"),
                 dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
             }
 

@@ -9,9 +9,6 @@ return {
 		'folke/which-key.nvim',
 		init = function()
 			require('which-key').setup({
-				window = {
-					border = "single"
-				},
 				ignore_missing = true,
 			})
 		end
@@ -35,9 +32,5 @@ return {
 	{
 		-- Nice Git UI
 		"kdheepak/lazygit.nvim",
-		-- Optional for floating window border decoration
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-		},
 	},
 }
