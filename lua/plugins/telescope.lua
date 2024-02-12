@@ -34,6 +34,9 @@ return {
 							['<C-h>'] = "which_key",
 						},
 					},
+					layout_config = {
+						width = 0.9,
+					}
 				},
 				pickers = {
 					buffers = {
