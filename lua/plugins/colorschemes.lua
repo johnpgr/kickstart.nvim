@@ -9,8 +9,8 @@ return {
                     comments = {},
                     keywords = {},
                     functions = {},
-                    variables = {},
                     type = { bold = true },
+                    variables = {},
                     lsp = { underline = true }
                 },
             })
@@ -24,6 +24,18 @@ return {
             require("catppuccin").setup({
                 no_italic = true,
                 transparent_background = true,
+                integrations = {
+                    cmp = true,
+                    gitsigns = true,
+                    harpoon = true,
+                    mason = true,
+                    native_lsp = true,
+                    notify = true,
+                    symbols_outline = true,
+                    telescope = true,
+                    treesitter = true,
+                    treesitter_context = true,
+                }
             })
         end
     },
@@ -59,7 +71,6 @@ return {
                     comment = "muted",
                     link = "iris",
                     punctuation = "subtle",
-
                     error = "love",
                     hint = "iris",
                     info = "foam",

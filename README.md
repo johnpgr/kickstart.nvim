@@ -20,7 +20,7 @@ Distribution Alternatives:
 
 ### Installation
 
-> **NOTE** 
+> **NOTE**
 > [Backup](#FAQ) your previous configuration (if any exists)
 
 Requirements:

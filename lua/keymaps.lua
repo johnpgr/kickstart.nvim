@@ -44,8 +44,8 @@ vim.cmd([[
 ]])
 
 -- Scrolling remaps to
--- vim.keymap.set("n", "<C-d>", "<C-d>zz")
--- vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -94,14 +94,15 @@ vim.keymap.set('n', '<leader>sl', require('telescope').extensions['software-lice
     { desc = '[S]earch [L]icenses', noremap = true, silent = true })
 vim.keymap.set('n', '<leader>sh', require('telescope').extensions.http.list,
     { desc = '[S]earch [H]TTP status codes', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>su', require('telescope').extensions.undo.undo,
-    { desc = '[S]earch [U]ndo history', noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>df', vim.diagnostic.open_float, { desc = 'Open [D]iagnostic [F]loating message' })
-vim.keymap.set('n', '<leader>dl', require('telescope.builtin').diagnostics, { desc = 'Open [D]iagnostics [L]ist' })
+vim.keymap.set('n', '<leader>df', vim.diagnostic.open_float, { desc = '[D]iagnostic [F]loating message' })
+vim.keymap.set('n', '<leader>dl', require('telescope.builtin').diagnostics, { desc = '[D]iagnostics [L]ist' })
+-- Document Symbols
+vim.keymap.set('n', '<leader>ds', '<cmd>SymbolsOutline<cr>',
+    { silent = true, noremap = true, desc = '[D]ocument [S]ymbols' })
 
 -- Handy toggles
 vim.keymap.set('n', '<leader>ts', togglers.spaces_width, { desc = "Toggle [T]ab [S]ize", noremap = true, silent = true })
@@ -166,14 +167,14 @@ vim.keymap.set("n", "<leader>nd", function() require("noice").cmd("dismiss") end
 
 
 -- Open copilot panel
-vim.keymap.set("n", "<leader>cp", function ()
-    require("copilot.panel").open({position = "right"})
-end, { desc = "Open [C]opilot [P]anel"})
+vim.keymap.set("n", "<leader>cp", function()
+    require("copilot.panel").open({ position = "right" })
+end, { desc = "Open [C]opilot [P]anel" })
 
 -- Toggle autosuggestions on/off
-vim.keymap.set("n", "<leader>ca", function ()
+vim.keymap.set("n", "<leader>ca", function()
     require("copilot.suggestion").toggle_auto_trigger()
-end, { desc = "Toggle [C]opilot [A]utosuggestions"})
+end, { desc = "Toggle [C]opilot [A]utosuggestions" })
 
 -- disable backspace mapping
 vim.g.VM_maps = {

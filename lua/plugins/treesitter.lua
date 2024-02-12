@@ -1,3 +1,5 @@
+---@diagnostic disable: missing-fields
+
 return {
     {
         -- Highlight, edit, and navigate code
@@ -11,12 +13,6 @@ return {
             require('nvim-treesitter.configs').setup({
                 -- Add languages to be installed here that you want installed for treesitter
                 ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'typescript', 'vimdoc', 'vim' },
-
-                -- Commentstring
-                -- context_commentstring = {
-                --     enable = true,
-                --     enable_autocmd = false,
-                -- },
 
                 -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
                 auto_install = false,
@@ -84,25 +80,25 @@ return {
             })
         end
     },
-    -- {
-    --     "romgrk/nvim-treesitter-context",
-    --     config = function()
-    --         require("treesitter-context").setup {
-    --             enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
-    --             throttle = true, -- Throttles plugin updates (may improve performance)
-    --             max_lines = 0,   -- How many lines the window should span. Values <= 0 mean no limit.
-    --             patterns = {     -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
-    --                 -- For all filetypes
-    --                 -- Note that setting an entry here replaces all other patterns for this entry.
-    --                 -- By setting the 'default' entry below, you can control which nodes you want to
-    --                 -- appear in the context window.
-    --                 default = {
-    --                     'class',
-    --                     'function',
-    --                     'method',
-    --                 },
-    --             },
-    --         }
-    --     end
-    -- }
+    {
+        "romgrk/nvim-treesitter-context",
+        config = function()
+            require("treesitter-context").setup {
+                enable = true,   -- Enable this plugin (Can be enabled/disabled later via commands)
+                throttle = true, -- Throttles plugin updates (may improve performance)
+                max_lines = 0,   -- How many lines the window should span. Values <= 0 mean no limit.
+                patterns = {     -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+                    -- For all filetypes
+                    -- Note that setting an entry here replaces all other patterns for this entry.
+                    -- By setting the 'default' entry below, you can control which nodes you want to
+                    -- appear in the context window.
+                    default = {
+                        'class',
+                        'function',
+                        'method',
+                    },
+                },
+            }
+        end
+    }
 }

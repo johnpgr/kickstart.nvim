@@ -64,7 +64,7 @@ return {
             cmp.setup({
                 window = {
                     completion = cmp.config.window.bordered({
-                        scrollbar = false,
+                        scrollbar = true,
                     }),
                 },
                 formatting = {
@@ -99,12 +99,12 @@ return {
                     ['<Tab>'] = cmp.mapping(function(fallback)
                         local copilot_suggestions = require('copilot.suggestion')
 
-                        if cmp.visible() then
+                        if copilot_suggestions.is_visible() then
+                            copilot_suggestions.accept()
+                        elseif cmp.visible() then
                             cmp.select_next_item()
                         elseif luasnip.expand_or_jumpable() then
                             luasnip.expand_or_jump()
-                        elseif copilot_suggestions.is_visible() then
-                            copilot_suggestions.accept()
                         else
                             fallback()
                         end

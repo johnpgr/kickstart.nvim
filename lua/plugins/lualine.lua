@@ -31,17 +31,10 @@ local function current_indentation()
         return ""
     end
 
+    local current_indent = vim.bo.expandtab and "spaces" or "tabs"
+
     local indent_size = vim.bo.shiftwidth
-    return indent_size .. " spaces"
-end
-
-local function current_tab_mode()
-    if vim.bo.filetype == "alpha" then
-        return ""
-    end
-
-    local tab_mode = vim.bo.expandtab and "spaces" or "tabs"
-    return tab_mode
+    return current_indent .. ": " .. indent_size
 end
 
 
@@ -75,11 +68,11 @@ local function new_line_format()
     local format = vim.bo.fileformat
 
     if format == "unix" then
-        return "LF"
+        return "lf"
     elseif format == "dos" then
-        return "CRLF"
+        return "crlf"
     else
-        return "CR"
+        return "cr"
     end
 end
 
@@ -98,7 +91,7 @@ return {
                 lualine_b = { 'branch', current_user, 'diff', 'diagnostics' },
                 lualine_c = { harpoon_component, filename },
                 lualine_x = { current_attached_lsps },
-                lualine_y = { 'filetype', 'encoding', new_line_format, current_tab_mode, current_indentation },
+                lualine_y = { 'filetype', 'encoding', new_line_format, current_indentation },
                 lualine_z = { 'location' }
             }
         },

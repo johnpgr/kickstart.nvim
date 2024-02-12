@@ -22,8 +22,6 @@ return {
 			{ "chip/telescope-software-licenses.nvim" },
 			-- List HTTP codes
 			{ "barrett-ruth/telescope-http.nvim" },
-			-- List Undo history tree
-			{ "debugloop/telescope-undo.nvim" },
 			-- Useful text case converter
 			{ "johmsalas/text-case.nvim" },
 			-- Use telescope for LSP code action popup
@@ -75,7 +73,6 @@ return {
 			t.load_extension("http")
 			t.load_extension("noice")
 			t.load_extension("textcase")
-			t.load_extension("undo")
 			t.load_extension("ui-select")
 		end
 	},
