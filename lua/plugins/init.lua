@@ -8,9 +8,12 @@ return {
 	{
 		'folke/which-key.nvim',
 		init = function()
-			require('which-key').register({
-				['<leader>'] = { name = 'VISUAL <leader>' },
-			}, { mode = { 'v', 'n' } })
+			require('which-key').setup({
+				window = {
+					border = "single"
+				},
+				ignore_missing = true,
+			})
 		end
 	},
 	-- Surround Utils

@@ -27,20 +27,30 @@ return {
             -- [[ Configure LSP ]]
             --  This function gets run when an LSP connects to a particular buffer.
             local on_attach = function(_, bufnr)
-                -- NOTE: Remember that lua is a real programming language, and as such it is possible
-                -- to define small helper and utility functions so you don't have to repeat yourself
-                -- many times.
-                --
-                -- In this case, we create a function that lets us more easily define mappings specific
-                -- for LSP related items. It sets the mode, buffer and description for us each time.
-                local nmap = function(keys, func, desc)
-                    if desc then
-                        desc = 'LSP: ' .. desc
-                    end
+                local wk = require "which-key"
 
-                    vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+                local lsp_map = function(keys, func, desc)
+                    wk.register({
+                        ['<leader>'] = {
+                            l = {
+                                name = 'LSP',
+                                [keys] = { func, desc, { buffer = bufnr } }
+                            }
+                        }
+                    }, { mode = { 'n', 'v' } })
                 end
-                
+
+                local workspace_map = function(keys, func, desc)
+                    wk.register({
+                        ['<leader>'] = {
+                            w = {
+                                name = 'Workspace',
+                                [keys] = { func, desc, { buffer = bufnr } }
+                            }
+                        }
+                    }, { mode = { 'n', 'v' } })
+                end
+
                 local function restart()
                     local active = vim.lsp.get_active_clients()
                     -- See if 'v-analyzer' is active
@@ -54,26 +64,25 @@ return {
                     vim.cmd('LspRestart')
                 end
 
+                -- Basic keymaps for LSP
+                vim.keymap.set('n','K', vim.lsp.buf.hover, {desc = 'Hover Documentation', noremap = true, silent = true})
+                vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, {desc = 'Goto Declaration', noremap = true, silent = true})
+                vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {desc = 'Goto Definition', noremap = true, silent = true})
+                vim.keymap.set('n', 'gi', require('telescope.builtin').lsp_implementations, {desc = 'Goto Implementation', noremap = true, silent = true})
+                vim.keymap.set('n', 'gr', require('telescope.builtin').lsp_references, {desc = 'Goto References', noremap = true, silent = true})
 
-                nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-                nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-                nmap('gD', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-                nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-                nmap('<f2>', vim.lsp.buf.rename, 'LSP: Rename')
-                nmap('<leader>la', vim.lsp.buf.code_action, '[L]SP Code [A]ctions')
-                nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+                lsp_map('s', vim.lsp.buf.signature_help, '[S] Signature Documentation')
+                lsp_map('r', vim.lsp.buf.rename, '[R] Rename')
+                lsp_map('a', vim.lsp.buf.code_action, '[A] Code actions')
+                lsp_map('f', vim.lsp.buf.format, '[F] Format current file')
+                lsp_map('r', restart, '[R] Restart server')
 
-                -- See `:help K` for why this keymap
-                nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
-                nmap('<leader>ls', vim.lsp.buf.signature_help, '[L]SP [S]ignature Documentation')
-
-                -- Lesser used LSP functionality
-                nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-                nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-                nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-                nmap('<leader>wl', function()
+                workspace_map('a', vim.lsp.buf.add_workspace_folder, '[A] Workspace add folder')
+                workspace_map('r', vim.lsp.buf.remove_workspace_folder, '[R] Workspace remove folder')
+                workspace_map('l', function()
                     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                end, '[W]orkspace [L]ist Folders')
+                end, '[L] Workspace list folders')
+                workspace_map('s', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[S] Workspace symbols')
 
                 -- Create a command `:Format` local to the LSP buffer
                 vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
@@ -85,8 +94,6 @@ return {
                     })
                 end, { desc = 'Format current buffer with LSP' })
 
-                nmap('<leader>lf', vim.lsp.buf.format, '[L]SP [F]ormat current file')
-                nmap('<leader>lr', restart, '[L]SP [R]estart server')
             end
 
             -- Enable the following language servers

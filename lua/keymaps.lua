@@ -1,24 +1,195 @@
 local togglers = require('utils.toggle')
 local harpoon = require('harpoon')
--- local harpoon_utils = require('utils.harpoon')
+local wk = require "which-key"
 
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
--- Select all
-vim.keymap.set('n', '<c-a>', 'gg<S-v>G')
+wk.register({
+    ['<leader>'] = {
+        name = 'VISUAL <leader>',
+        c = {
+            name = 'Copilot',
+            p = {
+                function()
+                    require("copilot.panel").open({ position = "right" })
+                end,
+                "[P] Copilot panel",
+                noremap = true,
+                silent = true
+            },
+        },
+        t = {
+            name = "Toggle",
+            c = {
+                function()
+                    require("copilot.suggestion").toggle_auto_trigger()
+                end,
+                "[C] Copilot Autosuggestions",
+                noremap = true,
+                silent = true
+            },
+            s = { togglers.spaces_width, "[S] Tab size", noremap = true, silent = true },
+            i = {
+                togglers.tabs_spaces,
+                "[I] Indentation (Tabs <-> Spaces)",
+                noremap = true,
+                silent = true
+            }
+        },
+        s = {
+            name = "Search",
+            s = {
+                function()
+                    require("telescope.builtin").spell_suggest(require("telescope.themes").get_cursor({}))
+                end,
+                "[S] Spelling Suggestions",
+                noremap = true,
+                silent = true
+            },
+            ['?'] = {
+                require('telescope.builtin').oldfiles, '[?] Recently opened files', noremap = true, silent = true
+            },
+            ['/'] = {
+                function()
+                    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes')
+                        .get_dropdown())
+                end,
+                '[/] Fuzzy search current buffer',
+                noremap = true,
+                silent = true
+            },
+            g = {
+                require('telescope.builtin').git_files, '[G] Git files', noremap = true, silent = true
+            },
+            f = {
+                function() require('utils.pretty-telescope').pretty_files_picker({ picker = "find_files" }) end,
+                '[F] Files in current directory',
+                noremap = true,
+                silent = true
+            },
+            m = {
+                require('telescope').extensions.noice.noice, '[M] Notification Messages', noremap = true, silent = true
+            },
+            w = {
+                function()
+                    require("utils.pretty-telescope").pretty_grep_picker({ picker = "grep_string" })
+                end,
+                '[W] Current word under cursor',
+                noremap = true,
+                silent = true
+            },
+            t = {
+                function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
+                '[T] Text',
+                noremap = true,
+                silent = true
+            },
+            r = {
+                function() require("utils.pretty-telescope").pretty_files_picker({ picker = "oldfiles", options = { only_cwd = true } }) end,
+                '[R] Recently opened files',
+                noremap = true,
+                silent = true
+            },
+            b = {
+                require('telescope.builtin').buffers, '[B] Buffers', noremap = true, silent = true
+            },
+        },
+        d = {
+            name = 'Diagnostics',
+            f = {
+                vim.diagnostic.open_float, '[F] Floating message', noremap = true, silent = true
+            },
+            l = {
+                require('telescope.builtin').diagnostics, '[L] List', noremap = true, silent = true
+            },
+            s = {
+                '<cmd>SymbolsOutline<cr>', '[S] Symbols', noremap = true, silent = true
+            }
+        },
+        p = {
+            name = 'Persistence',
+            c = {
+                "<cmd>lua require('persistence').load()<cr>",
+                '[C] Restore last session for cwd',
+                noremap = true,
+                silent = true
+            },
+            l = {
+                "<cmd>lua require('persistence').load({ last = true })<cr>",
+                '[L] Restore last session',
+                noremap = true,
+                silent = true
+            },
+            q = {
+                "<cmd>lua require('persistence').stop()<cr>",
+                '[Q] Quit without saving session',
+                noremap = true,
+                silent = true
+            }
+        },
+        g = {
+            name = "Git",
+            t = {
+                require('gitsigns').toggle_current_line_blame,
+                '[T] Toggle blame current line',
+                noremap = true,
+                silent = true
+            },
+            b = {
+                "<cmd>Git blame<cr>",
+                '[G] Git blame',
+                noremap = true,
+                silent = true
+            },
+            l = {
+                "<cmd>LazyGit<cr>",
+                '[L] Lazy git',
+                noremap = true,
+                silent = true
+            },
+            p = {
+                require('gitsigns').preview_hunk,
+                '[P] Preview hunk',
+                noremap = true,
+                silent = true
+            }
+        },
+        n = {
+            name = "Noice",
+            d = {
+                function() require("noice").cmd("dismiss") end,
+                "[D] Dismiss",
+                noremap = true,
+                silent = true
+            }
+        },
+        h = {
+            name = "Harpoon",
+            a = {
+                function() harpoon.list():append() end,
+                "[A] Append to harpoon",
+                noremap = true,
+                silent = true
+            },
+            l = {
+                function() harpoon.ui:toggle_quick_menu(harpoon:list()) end,
+                "[L] List Harpoon marks",
+                noremap = true,
+                silent = true
+            }
+        }
+    }
+}, { mode = { 'v', 'n' } })
 
--- Clear search highlights
-vim.keymap.set('n', '<leader>ch', ':noh<CR>', { noremap = true, silent = true, desc = '[C]lear search [H]ighlights' })
-
--- Duplicate lines
-vim.keymap.set('n', '<M-J>', ':t.<CR>', { noremap = true, silent = true, desc = 'Duplicate line below' })
-vim.keymap.set('n', '<M-K>', ':t-1<CR>', { noremap = true, silent = true, desc = 'Duplicate line above' })
+-- Diagnostic keymaps
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 
 -- Split generation
-vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { silent = true, desc = '[V]ertical split' })
-vim.keymap.set('n', '<leader>h', ':split<CR>', { silent = true, desc = '[H]orizontal split' })
+vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { noremap = true, silent = true, desc = '[V] Vertical split' })
+vim.keymap.set('n', '<leader>h', ':split<CR>', { noremap = true, silent = true, desc = '[H] Horizontal split' })
 
 -- Move between splits
 vim.keymap.set('n', '<C-h>', '<C-w>h', { silent = true })
@@ -56,81 +227,13 @@ vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
 
 -- Open Alpha dashboard
-vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "Open Dashboard" })
+vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "[;] Dashboard" })
 
 -- Open explorer
 vim.keymap.set('n', '<leader>e', function()
     require("oil").toggle_float()
-end, { desc = '[E]xplorer', silent = true })
+end, { desc = '[E] Explorer', silent = true })
 
--- Telescope
-vim.keymap.set("n", "<leader>ss", function()
-    require("telescope.builtin").spell_suggest(require("telescope.themes").get_cursor({}))
-end, { desc = "[S]earch [S]pelling [S]uggestions" })
-vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader>/',
-    function() require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown()) end,
-    { desc = '[/] Fuzzily search in current buffer' })
-vim.keymap.set('n', '<leader>sg', require('telescope.builtin').git_files, { desc = '[S]earch [G]it files' })
-vim.keymap.set('n', '<leader>sf',
-    function() require('utils.pretty-telescope').pretty_files_picker({ picker = "find_files" }) end,
-    { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sm', require('telescope').extensions.noice.noice,
-    { desc = '[S]earch Notification [M]essages', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>sw', function()
-    require("utils.pretty-telescope").pretty_grep_picker({ picker = "grep_string" })
-end, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>st',
-    function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
-    { desc = '[S]earch by [T]ext' })
-vim.keymap.set('n', '<leader>sr',
-    function() require("utils.pretty-telescope").pretty_files_picker({ picker = "oldfiles", options = { only_cwd = true } }) end,
-    { desc = '[S]earch [R]ecently opened files' })
-vim.keymap.set('n', '<leader>sc', require('telescope.builtin').colorscheme,
-    { desc = '[S]earch [C]olorscheme', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers,
-    { desc = '[S]earch [B]uffers', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>sl', require('telescope').extensions['software-licenses'].find,
-    { desc = '[S]earch [L]icenses', noremap = true, silent = true })
-vim.keymap.set('n', '<leader>sh', require('telescope').extensions.http.list,
-    { desc = '[S]earch [H]TTP status codes', noremap = true, silent = true })
-
--- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
-vim.keymap.set('n', '<leader>df', vim.diagnostic.open_float, { desc = '[D]iagnostic [F]loating message' })
-vim.keymap.set('n', '<leader>dl', require('telescope.builtin').diagnostics, { desc = '[D]iagnostics [L]ist' })
--- Document Symbols
-vim.keymap.set('n', '<leader>ds', '<cmd>SymbolsOutline<cr>',
-    { silent = true, noremap = true, desc = '[D]ocument [S]ymbols' })
-
--- Handy toggles
-vim.keymap.set('n', '<leader>ts', togglers.spaces_width, { desc = "Toggle [T]ab [S]ize", noremap = true, silent = true })
-vim.keymap.set('n', '<leader>ti', togglers.tabs_spaces,
-    { desc = "[T]oggle [I]ndentation (Tabs <-> Spaces)", noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>tc', '<cmd>TextCaseOpenTelescope<CR>',
-    { desc = "[T]ext [C]ase converter", noremap = true, silent = true })
-vim.keymap.set({ 'n', 'v' }, '<leader>cs', function() require("textcase").current_word('to_snake_case') end, {
-    desc = "[C]hange word to [S]nake case", noremap = true, silent = true
-})
-
--- Persistence
-vim.keymap.set('n', '<leader>pc', "<cmd>lua require('persistence').load()<cr>",
-    { desc = 'Restore last session for cwd', silent = true })
-vim.keymap.set('n', '<leader>pl', "<cmd>lua require('persistence').load({ last = true })<cr>", {
-    desc = 'Restore last session', silent = true
-})
-vim.keymap.set('n', '<leader>pQ', "<cmd>lua require('persistence').stop()<cr>", {
-    desc = 'Quit without saving session', silent = true
-})
-
--- Git stuff
-vim.keymap.set('n', '<leader>gt', require('gitsigns').toggle_current_line_blame,
-    { desc = '[T]oggle blame current line' })
-vim.keymap.set('n', '<leader>gb', '<cmd>Git blame<cr>', { desc = '[G]it [B]lame' })
-vim.keymap.set('n', '<leader>gl', '<cmd>LazyGit<cr>', { desc = '[L]azy Git' })
-vim.keymap.set('n', '<leader>gp', require('gitsigns').preview_hunk,
-    { desc = '[P]review hunk' })
 -- don't override the built-in and fugitive keymaps
 local gs = package.loaded.gitsigns
 vim.keymap.set({ 'n', 'v' }, ']h', function()
@@ -144,39 +247,23 @@ vim.keymap.set({ 'n', 'v' }, '[h', function()
     return '<Ignore>'
 end, { expr = true, desc = "Jump to previous hunk" })
 
--- Harpoon
-vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end, { desc = "[A]ppend to harpoon" })
--- vim.keymap.set("n", "<leader><space>", function() harpoon_utils.toggle_telescope(harpoon:list()) end,
--- { desc = "Open harpoon window" })
-vim.keymap.set("n", "<leader><space>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, {
-    desc = "Open Harpoon Window"
-})
 
-vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Select harpoon window 1" })
-vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Select harpoon window 2" })
-vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Select harpoon window 3" })
-vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "Select harpoon window 4" })
-vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { desc = "Select harpoon window 5" })
-vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end, { desc = "Select harpoon window 6" })
-vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end, { desc = "Select harpoon window 7" })
-vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end, { desc = "Select harpoon window 8" })
-vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end, { desc = "Select harpoon window 9" })
-
--- Noice
-vim.keymap.set("n", "<leader>nd", function() require("noice").cmd("dismiss") end, { desc = "[N]oice [D]ismiss" })
-
-
--- Open copilot panel
-vim.keymap.set("n", "<leader>cp", function()
-    require("copilot.panel").open({ position = "right" })
-end, { desc = "Open [C]opilot [P]anel" })
-
--- Toggle autosuggestions on/off
-vim.keymap.set("n", "<leader>ca", function()
-    require("copilot.suggestion").toggle_auto_trigger()
-end, { desc = "Toggle [C]opilot [A]utosuggestions" })
+vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
+vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
+vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
+vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end)
+vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end)
+vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end)
+vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end)
+vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end)
 
 -- disable backspace mapping
 vim.g.VM_maps = {
     ["I BS"] = '',
 }
+
+-- dismiss copilot suggestion
+vim.keymap.set('i', '<C-d>', function()
+    require("copilot.suggestion").dismiss()
+end, { noremap = true, silent = true })

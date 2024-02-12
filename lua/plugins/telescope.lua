@@ -20,8 +20,6 @@ return {
 			},
 			-- List common software licenses
 			{ "chip/telescope-software-licenses.nvim" },
-			-- List HTTP codes
-			{ "barrett-ruth/telescope-http.nvim" },
 			-- Useful text case converter
 			{ "johmsalas/text-case.nvim" },
 			-- Use telescope for LSP code action popup
@@ -70,7 +68,6 @@ return {
 
 			t.load_extension("software-licenses")
 			t.load_extension("fzf")
-			t.load_extension("http")
 			t.load_extension("noice")
 			t.load_extension("textcase")
 			t.load_extension("ui-select")
