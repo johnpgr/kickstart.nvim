@@ -64,12 +64,9 @@ return {
             {
                 "rcarriga/nvim-notify",
                 config = function()
+                    local stages = require("notify.stages.slide")("top_down")
+
                     require("notify").setup({
-                        on_open = function(win)
-                            if vim.api.nvim_win_is_valid(win) then
-                              vim.api.nvim_win_set_config(win, { border = "none" })
-                            end
-                        end,
                         background_colour = "NotifyBackground",
                         fps = 165,
                         icons = {
@@ -82,7 +79,17 @@ return {
                         level = 2,
                         minimum_width = 50,
                         render = "default",
-                        stages = "slide",
+                        stages = {
+                            function(...)
+                                local opts = stages[1](...)
+                                if opts then
+                                    opts.border = "none"
+                                    opts.row = opts.row + 0.5
+                                end
+                                return opts
+                            end,
+                            unpack(stages, 2),
+                        },
                         time_formats = {
                             notification = "%T",
                             notification_history = "%FT%T"
