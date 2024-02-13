@@ -18,7 +18,7 @@ local telescope_colors_catppuccin = {
 
 local telescope_colors_gruber = {
 	TelescopeMatching = { fg = gruber_colors.yellow:to_string() },
-	TelescopeSelection = { fg = gruber_colors['bg+1']:to_string(), bg = gruber_colors['niagara-1']:to_string() },
+	TelescopeSelection = { fg = gruber_colors.fg:to_string(), bg = gruber_colors['bg+2']:to_string() },
 	TelescopePromptPrefix = { bg = gruber_colors.bg:to_string() },
 	TelescopePromptNormal = { bg = gruber_colors.bg:to_string() },
 	TelescopeResultsNormal = { bg = gruber_colors['bg+1']:to_string() },
