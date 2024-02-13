@@ -21,11 +21,11 @@ return {
                     filter = { event = "msg_showmode", find = "recording" },
                 },
                 {
-                    filter = { event = "msg_show", kind = "", find = "ago" },
+                    filter = { event = "msg_show", find = "ago" },
                     opts = { skip = true },
                 },
                 {
-                    filter = { event = "msg_show", kind = "", find = "lines" },
+                    filter = { event = "msg_show", find = "lines" },
                     opts = { skip = true },
                 }
             },

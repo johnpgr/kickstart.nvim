@@ -77,7 +77,7 @@ return {
                 lsp_map('r', vim.lsp.buf.rename, '[R] Rename')
                 lsp_map('a', vim.lsp.buf.code_action, '[A] Code actions')
                 lsp_map('f', vim.lsp.buf.format, '[F] Format current file')
-                lsp_map('r', restart, '[R] Restart server')
+                lsp_map('R', restart, '[R] Restart server')
 
                 workspace_map('a', vim.lsp.buf.add_workspace_folder, '[A] Workspace add folder')
                 workspace_map('r', vim.lsp.buf.remove_workspace_folder, '[R] Workspace remove folder')

@@ -1,4 +1,5 @@
 return {
+    {'sainnhe/gruvbox-material'},
     {
         "no-clown-fiesta/no-clown-fiesta.nvim",
         config = function()
@@ -161,6 +162,7 @@ return {
             })
         end
     },
+    {'madyanov/gruber.vim'},
     {
         "blazkowolf/gruber-darker.nvim",
         opts = {
