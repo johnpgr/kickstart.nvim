@@ -86,7 +86,16 @@ return {
                     ["<C-p>"] = cmp.mapping.select_prev_item(),
                     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-Space>"] = cmp.mapping.complete {},
+                    ["<C-Space>"] = cmp.mapping(function(_)
+                        if cmp.visible() then
+                            cmp.close()
+                        else
+                            cmp.complete()
+                        end
+                    end,{
+                        "i",
+                        "s"
+                    }),
                     ["<CR>"] = cmp.mapping.confirm {
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = true,
@@ -94,10 +103,10 @@ return {
                     ['<Tab>'] = cmp.mapping(function(fallback)
                         local copilot_suggestions = require('copilot.suggestion')
 
-                        if copilot_suggestions.is_visible() then
-                            copilot_suggestions.accept()
-                        elseif cmp.visible() then
+                        if cmp.visible() then
                             cmp.select_next_item()
+                        elseif copilot_suggestions.is_visible() then
+                            copilot_suggestions.accept()
                         elseif luasnip.expand_or_jumpable() then
                             luasnip.expand_or_jump()
                         else

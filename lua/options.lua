@@ -63,6 +63,10 @@ vim.opt.spelllang = 'en_us'
 -- Set terminal colors
 vim.o.termguicolors = true
 
+-- Set listchars
+vim.cmd("set list")
+vim.cmd("set listchars=tab:··,space:·,trail:·,extends:→,precedes:←,nbsp:␣")
+
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {

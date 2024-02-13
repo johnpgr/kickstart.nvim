@@ -50,15 +50,6 @@ return {
                 end
 
                 local function restart()
-                    local active = vim.lsp.get_active_clients()
-                    -- See if 'v-analyzer' is active
-                    for _, value in ipairs(active) do
-                        if value.name == 'v_analyzer' then
-                            -- Restart the server
-                            vim.cmd('silent !v-analyzer clear-cache')
-                        end
-                    end
-
                     vim.cmd('LspRestart')
                 end
 
