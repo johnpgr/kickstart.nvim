@@ -80,15 +80,6 @@ vim.opt.splitright = true
 -- Better scrolling experience
 vim.opt.scrolloff = 8
 
--- Highlight trailing whitespace
-vim.cmd([[
-    highlight ExtraWhitespace ctermbg=red guibg=red
-    au ColorScheme * highlight ExtraWhitespace guibg=red
-    au BufEnter * if &filetype != 'toggleterm' | match ExtraWhitespace /\s\+$/ | endif
-    au InsertEnter * if &filetype != 'toggleterm' | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
-    au InsertLeave * if &filetype != 'toggleterm' | match ExtraWhitespace /\s\+$/ | endif
-]])
-
 if vim.g.neovide then
     vim.o.guifont = "IosevkaTerm Nerd Font Mono:h16"
     vim.g.neovide_scroll_animation_length = 0.2

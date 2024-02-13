@@ -1,10 +1,25 @@
 local path_utils = require("utils.file-path")
 local harpoon = require("harpoon")
 
+local function ignored_filetypes(current_filetype)
+    local ignore = {
+        "oil",
+        "toggleterm",
+        "alpha",
+    }
+
+    if vim.tbl_contains(ignore, current_filetype) then
+        return true
+    end
+
+    return false
+end
+
 local function filename()
-    if vim.bo.filetype == "alpha" then
+    if ignored_filetypes(vim.bo.filetype) then
         return ""
     end
+
     return path_utils.current_path_in_cwd_home_escaped()
 end
 
@@ -13,6 +28,10 @@ local function current_user()
 end
 
 local function current_attached_lsps()
+    if ignored_filetypes(vim.bo.filetype) then
+        return ""
+    end
+
     local active = vim.lsp.get_active_clients()
     local result = ""
     for _, value in ipairs(active) do
@@ -27,7 +46,7 @@ local function current_attached_lsps()
 end
 
 local function current_indentation()
-    if vim.bo.filetype == "alpha" then
+    if ignored_filetypes(vim.bo.filetype) then
         return ""
     end
 
@@ -61,7 +80,7 @@ local function harpoon_component()
 end
 
 local function new_line_format()
-    if vim.bo.filetype == "alpha" then
+    if ignored_filetypes(vim.bo.filetype) then
         return ""
     end
 
