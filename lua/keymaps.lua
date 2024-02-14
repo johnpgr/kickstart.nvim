@@ -9,24 +9,11 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 wk.register({
     ['<leader>'] = {
         name = 'VISUAL <leader>',
-        c = {
-            name = 'Copilot',
-            p = {
-                function()
-                    require("copilot.panel").open({ position = "right" })
-                end,
-                "[P] Copilot panel",
-                noremap = true,
-                silent = true
-            },
-        },
         t = {
             name = "Toggle",
             c = {
-                function()
-                    require("copilot.suggestion").toggle_auto_trigger()
-                end,
-                "[C] Copilot Autosuggestions",
+                require('copilot.suggestion').toggle_auto_trigger,
+                "[C] Copilot",
                 noremap = true,
                 silent = true
             },
@@ -214,6 +201,10 @@ vim.keymap.set('n', '<C-up>', ':horizontal resize -3<CR>', { silent = true })
 vim.keymap.set('n', '<C-down>', ':horizontal resize +3<CR>', { silent = true })
 vim.keymap.set('n', '<C-left>', ':vertical resize -3<CR>', { silent = true })
 vim.keymap.set('n', '<C-right>', ':vertical resize +3<CR>', { silent = true })
+vim.keymap.set('t', '<C-up>', '<C-\\><C-n>:resize -3<CR>', { silent = true })
+vim.keymap.set('t', '<C-down>', '<C-\\><C-n>:resize +3<CR>', { silent = true })
+vim.keymap.set('t', '<C-left>', '<C-\\><C-n>:vertical resize -3<CR>', { silent = true })
+vim.keymap.set('t', '<C-right>', '<C-\\><C-n>:vertical resize +3<CR>', { silent = true })
 
 -- Move lines
 vim.keymap.set('v', '<s-j>', ":m '>+1<CR>gv=gv", { silent = true, noremap = true, desc = 'Move line down' })

@@ -24,7 +24,7 @@ return {
 
             -- [[ Configure LSP ]]
             --  This function gets run when an LSP connects to a particular buffer.
-            local on_attach = function(_, bufnr)
+            local on_attach = function(client, bufnr)
                 local wk = require "which-key"
 
                 local lsp_map = function(keys, func, desc)
@@ -54,7 +54,8 @@ return {
                 end
 
                 -- Basic keymaps for LSP
-                vim.keymap.set('n', 'K', vim.lsp.buf.hover, { desc = 'Hover Documentation', noremap = true, silent = true })
+                vim.keymap.set('n', 'K', vim.lsp.buf.hover,
+                    { desc = 'Hover Documentation', noremap = true, silent = true })
                 vim.keymap.set('n', 'gD', require('telescope.builtin').lsp_type_definitions,
                     { desc = 'Goto Type Definition', noremap = true, silent = true })
                 vim.keymap.set('n', 'gd', require('telescope.builtin').lsp_definitions,
@@ -86,6 +87,34 @@ return {
                         end
                     })
                 end, { desc = 'Format current buffer with LSP' })
+
+                if client.name == 'v_analyzer' then
+                    wk.register({
+                        ['<leader>'] = {
+                            s = {
+                                v = {
+                                    name = 'Vlang',
+                                    f = {
+                                        function()
+                                            require 'telescope.builtin'.find_files {
+                                                cwd = vim.fn.expand '$HOME' .. '/.vmodules'
+                                            }
+                                        end,
+                                        '[F] Find files in V modules',
+                                        { buffer = bufnr, noremap = true, silent = true },
+                                    },
+                                    g = { function()
+                                        require 'telescope.builtin'.live_grep {
+                                            cwd = vim.fn.expand '$HOME' .. '/.vmodules'
+                                        }
+                                    end, '[G] Live grep in V modules',
+                                        { buffer = bufnr, noremap = true, silent = true },
+                                    }
+                                }
+                            }
+                        }
+                    })
+                end
             end
 
             -- Enable the following language servers
