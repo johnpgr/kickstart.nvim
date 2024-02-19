@@ -1,8 +1,8 @@
 local function current_path_in_cwd_home_escaped()
     local home_path = vim.fn.expand "$HOME"
-    local current_buffer_path = vim.fn.getcwd() .. "/" .. vim.fn.expand "%"
+    local current_path = vim.fn.expand "%:p"
 
-    return current_buffer_path:gsub(home_path, "~")
+    return current_path:gsub(home_path, "~")
 end
 
 local function current_file_path_in_cwd()

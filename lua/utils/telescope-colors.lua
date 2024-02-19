@@ -31,6 +31,6 @@ local telescope_colors_gruber = {
 	TelescopePreviewTitle = { bg = gruber_colors.green:to_string(), fg = gruber_colors['bg+1']:to_string() }
 }
 
-for hl, col in pairs(telescope_colors_gruber) do
+for hl, col in pairs(telescope_colors_catppuccin) do
 	vim.api.nvim_set_hl(0, hl, col)
 end

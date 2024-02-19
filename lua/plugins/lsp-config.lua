@@ -134,7 +134,13 @@ return {
                 },
                 tailwindcss = {},
                 prismals = {},
-                sqlls = {},
+                sqlls = {
+                    cmd = { "sql-language-server", "up", "--method", "stdio" },
+                    filetypes = { "sql", "mysql" },
+                    root_dir = function()
+                        return vim.loop.cwd()
+                    end
+                },
                 html = { filetypes = { 'html', 'twig', 'hbs' } },
                 jsonls = {},
                 lua_ls = {

@@ -58,14 +58,14 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- Set spell checking
 vim.opt.spell = true
-vim.opt.spelllang = 'en_us'
+vim.opt.spelllang = {'en_us', 'pt_br'}
 
 -- Set terminal colors
-vim.o.termguicolors = true
+-- vim.o.termguicolors = true
 
 -- Set listchars
-vim.cmd("set list")
-vim.cmd("set listchars=tab:··,space:·,trail:·,extends:→,precedes:←,nbsp:␣")
+-- vim.cmd("set list")
+-- vim.cmd("set listchars=tab:··,space:·,trail:·,extends:→,precedes:←,nbsp:␣")
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
@@ -85,8 +85,8 @@ vim.opt.splitright = true
 vim.opt.scrolloff = 8
 
 if vim.g.neovide then
-    vim.o.guifont = "IosevkaTerm Nerd Font Mono:h16"
-    vim.g.neovide_scroll_animation_length = 0.2
+    -- vim.o.guifont = "IosevkaTerm Nerd Font Mono:h16"
+    vim.o.guifont = "JetBrainsMonoNL Nerd Font"
     vim.g.neovide_scale_factor = 1.25
     local change_scale_factor = function(delta)
         vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta

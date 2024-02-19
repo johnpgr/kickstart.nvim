@@ -27,6 +27,16 @@ local function current_user()
     return vim.fn.expand "$USER"
 end
 
+local function save_value(value)
+    local wrote = false
+    local file = io.open("lualine.log", "a+")
+    if file and not wrote then
+        file:write(vim.inspect(value))
+        file:close()
+        wrote = true
+    end
+end
+
 local function current_attached_lsps()
     if ignored_filetypes(vim.bo.filetype) then
         return ""
@@ -34,12 +44,29 @@ local function current_attached_lsps()
 
     local active = vim.lsp.get_active_clients()
     local result = ""
+
+    local ignored = {
+        "null-ls",
+        "efm",
+        "copilot",
+    }
+
     for _, value in ipairs(active) do
+        if vim.tbl_contains(ignored, value.name) then
+            goto continue
+        end
+
+        if not vim.tbl_contains(value.config.filetypes, vim.bo.filetype) then
+            goto continue
+        end
+
         -- add a space between each client
         if (result ~= "") then
             result = result .. " "
         end
         result = result .. value.name
+
+        ::continue::
     end
 
     return result
@@ -52,10 +79,20 @@ local function current_indentation()
 
     local current_indent = vim.bo.expandtab and "spaces" or "tabs"
 
-    local indent_size = vim.bo.shiftwidth
-    return current_indent .. ": " .. indent_size
+    local indent_size = -1
+
+    if current_indent == "spaces" then
+        indent_size = vim.bo.shiftwidth
+    else
+        indent_size = vim.bo.tabstop
+    end
+
+    return current_indent .. " " .. indent_size
 end
 
+local function string_includes(str, substr)
+    return string.find(str, substr, 1, true) ~= nil
+end
 
 local function harpoon_component()
     local total_marks = harpoon:list():length()
@@ -67,12 +104,12 @@ local function harpoon_component()
     local current_mark_index = -1
 
     for index, mark in ipairs(harpoon:list().items) do
-        if mark.value == current_mark_name then
+        if string_includes(current_mark_name, mark.value) then
             current_mark_index = index
         end
     end
 
-    if(current_mark_index == -1) then
+    if (current_mark_index == -1) then
         return string.format("󱡅 %s/%d", "—", total_marks)
     end
 
@@ -108,7 +145,7 @@ return {
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { 'branch', current_user, 'diff', 'diagnostics' },
-                lualine_c = { harpoon_component, filename },
+                lualine_c = { harpoon_component, 'filename' },
                 lualine_x = { current_attached_lsps },
                 lualine_y = { 'filetype', 'encoding', new_line_format, current_indentation },
                 lualine_z = { 'location' }
