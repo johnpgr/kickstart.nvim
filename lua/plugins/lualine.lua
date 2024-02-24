@@ -23,27 +23,13 @@ local function filename()
     return path_utils.current_path_in_cwd_home_escaped()
 end
 
-local function current_user()
-    return vim.fn.expand "$USER"
-end
-
-local function save_value(value)
-    local wrote = false
-    local file = io.open("lualine.log", "a+")
-    if file and not wrote then
-        file:write(vim.inspect(value))
-        file:close()
-        wrote = true
-    end
-end
-
 local function current_attached_lsps()
     if ignored_filetypes(vim.bo.filetype) then
         return ""
     end
 
     local active = vim.lsp.get_active_clients()
-    local result = ""
+    local result = {}
 
     local ignored = {
         "null-ls",
@@ -60,16 +46,18 @@ local function current_attached_lsps()
             goto continue
         end
 
-        -- add a space between each client
-        if (result ~= "") then
-            result = result .. " "
+        if not vim.tbl_contains(result, value.name) then
+            table.insert(result, value.name)
         end
-        result = result .. value.name
 
         ::continue::
     end
 
-    return result
+    if #result == 0 then
+        return ""
+    end
+
+    return table.concat(result, " ")
 end
 
 local function current_indentation()
@@ -144,8 +132,9 @@ return {
             },
             sections = {
                 lualine_a = { 'mode' },
-                lualine_b = { 'branch', current_user, 'diff', 'diagnostics' },
-                lualine_c = { harpoon_component, 'filename' },
+                lualine_b = { 'branch', 'diff', 'diagnostics' },
+
+                lualine_c = { harpoon_component, 'filename'},
                 lualine_x = { current_attached_lsps },
                 lualine_y = { 'filetype', 'encoding', new_line_format, current_indentation },
                 lualine_z = { 'location' }

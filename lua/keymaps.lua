@@ -30,30 +30,6 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            f = {
-                function()
-                    require('toggleterm').toggle(nil, nil, nil, 'float', nil)
-                end,
-                '[F] Floating Terminal',
-                noremap = true,
-                silent = true
-            },
-            v = {
-                function()
-                    require('toggleterm').toggle(nil, 50, nil, 'vertical', nil)
-                end,
-                '[V] Vertical Terminal',
-                noremap = true,
-                silent = true
-            },
-            h = {
-                function()
-                    require('toggleterm').toggle(nil, nil, nil, 'horizontal', nil)
-                end,
-                '[H] Horizontal Terminal',
-                noremap = true,
-                silent = true
-            },
         },
         s = {
             name = "Search",
@@ -97,9 +73,9 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            t = {
+            g = {
                 function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
-                '[T] Text',
+                '[G] Live Grep',
                 noremap = true,
                 silent = true
             },
@@ -178,9 +154,6 @@ wk.register({
         },
     }
 }, { mode = { 'v', 'n' } })
-
--- Toggleterm
-vim.keymap.set({ 'n', 't' }, '<C-`>', require('toggleterm').toggle, { noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })

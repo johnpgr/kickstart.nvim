@@ -28,7 +28,7 @@ vim.opt.wrap = false
 vim.opt.colorcolumn = '80'
 
 -- Set cursor to block on insert mode
-vim.opt.guicursor = 'n-v-c-i:block'
+-- vim.opt.guicursor = 'n-v-c-i:block'
 
 -- Disable search results highlighting
 vim.o.hlsearch = false
@@ -58,10 +58,10 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- Set spell checking
 vim.opt.spell = true
-vim.opt.spelllang = {'en_us', 'pt_br'}
+vim.opt.spelllang = { 'en_us' }
 
 -- Set terminal colors
--- vim.o.termguicolors = true
+vim.o.termguicolors = true
 
 -- Set listchars
 -- vim.cmd("set list")

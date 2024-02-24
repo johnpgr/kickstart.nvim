@@ -6,7 +6,7 @@ return {
         -- See `:help indent_blankline.txt`
         config = function()
             require('ibl').setup {
-                enabled = false,
+                enabled = true,
                 indent = {
                     char = "▏"
                 },

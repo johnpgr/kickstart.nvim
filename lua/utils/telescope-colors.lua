@@ -1,5 +1,6 @@
 local catppuccin_colors = require("catppuccin.palettes").get_palette()
 local gruber_colors = require("gruber-darker.palette")
+local onedark_colors = require("utils.onedark-telescope")
 
 local telescope_colors_catppuccin = {
 	TelescopeMatching = { fg = catppuccin_colors.flamingo },
@@ -31,6 +32,54 @@ local telescope_colors_gruber = {
 	TelescopePreviewTitle = { bg = gruber_colors.green:to_string(), fg = gruber_colors['bg+1']:to_string() }
 }
 
-for hl, col in pairs(telescope_colors_catppuccin) do
+local telescope_colors_onedark = {
+	TelescopePromptBorder = {
+		fg = onedark_colors.black2,
+		bg = onedark_colors.black2,
+	},
+	TelescopePromptNormal = {
+		fg = onedark_colors.white,
+		bg = onedark_colors.black2,
+	},
+	TelescopePromptPrefix = {
+		fg = onedark_colors.red,
+		bg = onedark_colors.black2,
+	},
+	TelescopePreviewTitle = {
+		fg = onedark_colors.black,
+		bg = onedark_colors.green,
+	},
+	TelescopePromptTitle = {
+		fg = onedark_colors.black,
+		bg = onedark_colors.red,
+	},
+	TelescopeResultsTitle = {
+		fg = onedark_colors.black,
+		bg = onedark_colors.dark_purple,
+	},
+	TelescopeResultsBorder = {
+		fg = onedark_colors.one_bg,
+		bg = onedark_colors.one_bg,
+	},
+	TelescopePreviewBorder = {
+		fg = onedark_colors.one_bg,
+		bg = onedark_colors.one_bg,
+	},
+	TelescopeSelection = {
+		bg = onedark_colors.line,
+		fg = onedark_colors.white
+	},
+	TelescopeResultsDiffAdd = {
+		fg = onedark_colors.green,
+	},
+	TelescopeResultsDiffChange = {
+		fg = onedark_colors.yellow,
+	},
+	TelescopeResultsDiffDelete = {
+		fg = onedark_colors.red,
+	},
+}
+
+for hl, col in pairs(telescope_colors_onedark) do
 	vim.api.nvim_set_hl(0, hl, col)
 end

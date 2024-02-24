@@ -1,5 +1,10 @@
 return {
-    {'sainnhe/gruvbox-material'},
+    {'sainnhe/gruvbox-material', config = function() 
+        vim.cmd([[
+            let g:gruvbox_material_disable_italic_comment = 1
+            let g:gruvbox_material_foreground = 'original'
+        ]])
+    end},
     {
         "no-clown-fiesta/no-clown-fiesta.nvim",
         config = function()
@@ -123,10 +128,10 @@ return {
         config = function()
             require('onedark').setup({
                 -- Main options --
-                style = 'cool',   -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+                -- style = 'cool',   -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
                 transparent = false, -- Show/hide background
                 term_colors = true, -- Change terminal color as per the selected theme style
-                ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
+                ending_tildes = true, -- Show the end-of-buffer tildes. By default they are hidden
                 cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
                 -- toggle theme style ---
@@ -137,7 +142,7 @@ return {
                 -- Options are italic, bold, underline, none
                 -- You can configure multiple style with comma separated, For e.g., keywords = 'italic,bold'
                 code_style = {
-                    comments = 'italic',
+                    comments = 'none',
                     keywords = 'none',
                     functions = 'none',
                     strings = 'none',
