@@ -98,10 +98,10 @@ local function harpoon_component()
     end
 
     if (current_mark_index == -1) then
-        return string.format("󱡅 %s/%d", "—", total_marks)
+        return string.format("󱝴 %s/%d", "—", total_marks)
     end
 
-    return string.format("󱡅 %d/%d", current_mark_index, total_marks)
+    return string.format("󱝴 %d/%d", current_mark_index, total_marks)
 end
 
 local function new_line_format()
@@ -127,16 +127,18 @@ return {
             options = {
                 theme = 'auto',
                 icons_enabled = true,
-                component_separators = '',
-                section_separators = { left = '', right = '' }
+                component_separators = { left = '', right = '' },
+                section_separators = {
+                    left = '',
+                    right = ''
+                }
             },
             sections = {
                 lualine_a = { 'mode' },
-                lualine_b = { 'branch', 'diff', 'diagnostics' },
-
-                lualine_c = { harpoon_component, 'filename'},
-                lualine_x = { current_attached_lsps },
-                lualine_y = { 'filetype', 'encoding', new_line_format, current_indentation },
+                lualine_b = { 'branch', 'filename' },
+                lualine_c = { harpoon_component },
+                lualine_x = { current_attached_lsps, 'filetype' },
+                lualine_y = { 'encoding', new_line_format, current_indentation },
                 lualine_z = { 'location' }
             }
         },

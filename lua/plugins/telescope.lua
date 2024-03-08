@@ -71,7 +71,7 @@ return {
 
 			t.load_extension("software-licenses")
 			t.load_extension("fzf")
-			t.load_extension("noice")
+			-- t.load_extension("noice")
 			t.load_extension("textcase")
 			t.load_extension("ui-select")
 		end

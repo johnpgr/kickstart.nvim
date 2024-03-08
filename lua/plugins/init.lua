@@ -1,4 +1,5 @@
 return {
+	'xiyaowong/transparent.nvim',
 	-- Git related plugins
 	'tpope/vim-fugitive',
 	'tpope/vim-rhubarb',
@@ -33,4 +34,5 @@ return {
 		-- Nice Git UI
 		"kdheepak/lazygit.nvim",
 	},
+	'vimpostor/vim-tpipeline'
 }

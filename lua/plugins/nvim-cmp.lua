@@ -62,6 +62,10 @@ return {
             })
 
             cmp.setup({
+                window = {
+                    completion = cmp.config.window.bordered {},
+                    documentation = cmp.config.window.bordered {},
+                },
                 formatting = {
                     expandable_indicator = true,
                     fields = {
@@ -79,7 +83,7 @@ return {
                 snippet = {
                     expand = function(args)
                         luasnip.lsp_expand(args.body)
-                    end,
+                    end
                 },
                 mapping = cmp.mapping.preset.insert {
                     ["<C-n>"] = cmp.mapping.select_next_item(),

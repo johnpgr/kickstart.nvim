@@ -1,10 +1,56 @@
+---@diagnostic disable: missing-fields
 return {
-    {'sainnhe/gruvbox-material', config = function() 
-        vim.cmd([[
+    {
+        'folke/tokyonight.nvim',
+        config = function()
+            require("tokyonight").setup({
+                use_background = false,
+                -- your configuration comes here
+                -- or leave it empty to use the default settings
+                style = "storm", -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
+                light_style = "day", -- The theme is used when the background is set to light
+                transparent = true, -- Enable this to disable setting the background color
+                terminal_colors = true, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
+                styles = {
+                    -- Style to be applied to different syntax groups
+                    -- Value is any valid attr-list value for `:help nvim_set_hl`
+                    comments = { italic = false },
+                    keywords = { italic = false },
+                    functions = {},
+                    variables = {},
+                    -- Background styles. Can be "dark", "transparent" or "normal"
+                    sidebars = "dark", -- style for sidebars, see below
+                    floats = "dark", -- style for floating windows
+                },
+                sidebars = { "qf", "help" }, -- Set a darker background on sidebar-like windows. For example: `["qf", "vista_kind", "terminal", "packer"]`
+                day_brightness = 0.3, -- Adjusts the brightness of the colors of the **Day** style. Number between 0 and 1, from dull to vibrant colors
+                hide_inactive_statusline = false, -- Enabling this option, will hide inactive statuslines and replace them with a thin border instead. Should work with the standard **StatusLine** and **LuaLine**.
+                dim_inactive = false, -- dims inactive windows
+                lualine_bold = false, -- When `true`, section headers in the lualine theme will be bold
+            })
+        end
+    },
+    {
+        'shaunsingh/nord.nvim',
+        config = function()
+            vim.g.nord_contrast = true
+            vim.g.nord_borders = false
+            vim.g.nord_disable_background = false
+            vim.g.nord_italic = false
+            vim.g.nord_uniform_diff_background = true
+            vim.g.nord_bold = false
+        end
+    },
+    { 'shaunsingh/solarized.nvim' },
+    {
+        'sainnhe/gruvbox-material',
+        config = function()
+            vim.cmd([[
             let g:gruvbox_material_disable_italic_comment = 1
             let g:gruvbox_material_foreground = 'original'
         ]])
-    end},
+        end
+    },
     {
         "no-clown-fiesta/no-clown-fiesta.nvim",
         config = function()
@@ -29,7 +75,7 @@ return {
         config = function()
             require("catppuccin").setup({
                 no_italic = true,
-                transparent_background = false,
+                transparent_background = true,
                 integrations = {
                     cmp = true,
                     gitsigns = true,
@@ -129,13 +175,13 @@ return {
             require('onedark').setup({
                 -- Main options --
                 -- style = 'cool',   -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-                transparent = false, -- Show/hide background
-                term_colors = true, -- Change terminal color as per the selected theme style
-                ending_tildes = true, -- Show the end-of-buffer tildes. By default they are hidden
+                transparent = false,          -- Show/hide background
+                term_colors = true,           -- Change terminal color as per the selected theme style
+                ending_tildes = true,         -- Show the end-of-buffer tildes. By default they are hidden
                 cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
                 -- toggle theme style ---
-                toggle_style_key = nil,                                                -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
+                toggle_style_key = nil,                                                              -- keybind to toggle theme style. Leave it nil to disable it, or set it to a string, for example "<leader>ts"
                 toggle_style_list = { 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light' }, -- List of styles to toggle between
 
                 -- Change code style ---
@@ -155,19 +201,19 @@ return {
                 },
 
                 -- Custom Highlights --
-                colors = {}, -- Override default colors
+                colors = {},     -- Override default colors
                 highlights = {}, -- Override highlight groups
 
                 -- Plugins Config --
                 diagnostics = {
-                    darker = true, -- darker colors for diagnostic
-                    undercurl = true, -- use undercurl instead of underline for diagnostics
+                    darker = true,     -- darker colors for diagnostic
+                    undercurl = true,  -- use undercurl instead of underline for diagnostics
                     background = true, -- use background color for virtual text
                 },
             })
         end
     },
-    {'madyanov/gruber.vim'},
+    { 'madyanov/gruber.vim' },
     {
         "blazkowolf/gruber-darker.nvim",
         opts = {
