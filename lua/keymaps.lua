@@ -41,6 +41,9 @@ wk.register({
                 noremap = true,
                 silent = true
             },
+            ['S'] = {
+                require('spectre').open, '[S] Open Spectre', noremap = true, silent = true
+            },
             ['?'] = {
                 require('telescope.builtin').oldfiles, '[?] Recently opened files', noremap = true, silent = true
             },
@@ -62,9 +65,9 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            -- m = {
-            --     require('telescope').extensions.noice.noice, '[M] Notification Messages', noremap = true, silent = true
-            -- },
+            m = {
+                require('telescope').extensions.noice.noice, '[M] Notification Messages', noremap = true, silent = true
+            },
             w = {
                 function()
                     require("utils.pretty-telescope").pretty_grep_picker({ picker = "grep_string" })

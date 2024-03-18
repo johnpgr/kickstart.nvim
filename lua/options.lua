@@ -14,12 +14,12 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
 -- Line numbers
-vim.opt.relativenumber = true
+-- vim.opt.relativenumber = true
 vim.wo.number = true
 vim.wo.numberwidth = 2
 
 -- Cursor line highlighting
-vim.opt.cursorline = true
+-- vim.opt.cursorline = true
 
 -- Line wrapping
 vim.opt.wrap = false
@@ -61,10 +61,10 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- Set spell checking
 vim.opt.spell = true
-vim.opt.spelllang = { 'en_us' }
+vim.opt.spelllang = { 'en_us', 'pt_br' }
 
 -- Set terminal colors
-vim.o.termguicolors = true
+vim.o.termguicolors = false
 
 -- Set listchars
 -- vim.cmd("set list")
@@ -87,17 +87,8 @@ vim.opt.splitright = true
 -- Better scrolling experience
 vim.opt.scrolloff = 8
 
-if vim.g.neovide then
-    -- vim.o.guifont = "IosevkaTerm Nerd Font Mono:h16"
-    vim.o.guifont = "JetBrainsMonoNL Nerd Font"
-    vim.g.neovide_scale_factor = 1.25
-    local change_scale_factor = function(delta)
-        vim.g.neovide_scale_factor = vim.g.neovide_scale_factor * delta
-    end
-    vim.keymap.set("n", "<C-=>", function()
-        change_scale_factor(1.25)
-    end)
-    vim.keymap.set("n", "<C-->", function()
-        change_scale_factor(1 / 1.25)
-    end)
-end
+-- No friendly swap files
+vim.opt.swapfile = false
+
+-- Highlight extra whitespace
+vim.cmd([[match errorMsg /\s\+$/]])

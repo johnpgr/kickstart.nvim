@@ -47,7 +47,6 @@ return {
         config = function()
             vim.cmd([[
             let g:gruvbox_material_disable_italic_comment = 1
-            let g:gruvbox_material_foreground = 'original'
         ]])
         end
     },
@@ -226,7 +225,16 @@ return {
         }
     },
     {
-        "morhetz/gruvbox"
+        "morhetz/gruvbox",
+        config = function ()
+            vim.cmd([[
+                let g:gruvbox_contrast_dark = 'hard'
+                let g:gruvbox_italic = 0
+                let g:gruvbox_invert_selection = 0
+                let g:gruvbox_invert_signs = 0
+                let g:gruvbox_invert_indent_guides = 0
+            ]])
+        end
     },
     {
         "NTBBloodbath/doom-one.nvim",

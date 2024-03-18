@@ -34,5 +34,5 @@ return {
 		-- Nice Git UI
 		"kdheepak/lazygit.nvim",
 	},
-	'vimpostor/vim-tpipeline'
+	-- 'vimpostor/vim-tpipeline'
 }
