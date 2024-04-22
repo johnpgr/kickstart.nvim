@@ -81,6 +81,6 @@ local telescope_colors_onedark = {
 }
 
 
--- for hl, col in pairs() do
+-- for hl, col in pairs(telescope_colors_gruber) do
 -- 	vim.api.nvim_set_hl(0, hl, col)
 -- end

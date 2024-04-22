@@ -1,5 +1,5 @@
 local togglers = require('utils.toggle')
-local harpoon = require('harpoon')
+-- local harpoon = require('harpoon')
 local wk = require "which-key"
 
 -- Keymaps for better default experience
@@ -9,6 +9,15 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 wk.register({
     ['<leader>'] = {
         name = 'VISUAL <leader>',
+        T = {
+            require('trouble').toggle,
+            "[T] Trouble",
+            noremap = true,
+            silent = true
+        },
+        S = {
+            require('spectre').open, '[S] Open Spectre', noremap = true, silent = true
+        },
         t = {
             name = "Toggle",
             c = {
@@ -41,9 +50,6 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            ['S'] = {
-                require('spectre').open, '[S] Open Spectre', noremap = true, silent = true
-            },
             ['?'] = {
                 require('telescope.builtin').oldfiles, '[?] Recently opened files', noremap = true, silent = true
             },
@@ -65,9 +71,9 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            m = {
-                require('telescope').extensions.noice.noice, '[M] Notification Messages', noremap = true, silent = true
-            },
+            -- m = {
+            --     require('telescope').extensions.noice.noice, '[M] Notification Messages', noremap = true, silent = true
+            -- },
             w = {
                 function()
                     require("utils.pretty-telescope").pretty_grep_picker({ picker = "grep_string" })
@@ -91,6 +97,12 @@ wk.register({
             b = {
                 require('telescope.builtin').buffers, '[B] Buffers', noremap = true, silent = true
             },
+            t = {
+                "<cmd>TodoTrouble<cr>",
+                '[T] Todos',
+                noremap = true,
+                silent = true
+            }
         },
         d = {
             name = 'Diagnostics',
@@ -102,27 +114,6 @@ wk.register({
             },
             s = {
                 '<cmd>SymbolsOutline<cr>', '[S] Symbols', noremap = true, silent = true
-            }
-        },
-        p = {
-            name = 'Persistence',
-            c = {
-                "<cmd>lua require('persistence').load()<cr>",
-                '[C] Restore last session for cwd',
-                noremap = true,
-                silent = true
-            },
-            l = {
-                "<cmd>lua require('persistence').load({ last = true })<cr>",
-                '[L] Restore last session',
-                noremap = true,
-                silent = true
-            },
-            q = {
-                "<cmd>lua require('persistence').stop()<cr>",
-                '[Q] Quit without saving session',
-                noremap = true,
-                silent = true
             }
         },
         g = {
@@ -199,9 +190,7 @@ vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "[;] Dashboard" })
 
 -- Open explorer
-vim.keymap.set('n', '<leader>e', function()
-    require("oil").toggle_float()
-end, { desc = '[E] Explorer', silent = true })
+vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', { desc = '[E] Explorer', silent = true, noremap = true })
 
 -- don't override the built-in and fugitive keymaps
 local gs = package.loaded.gitsigns
@@ -216,18 +205,22 @@ vim.keymap.set({ 'n', 'v' }, '[h', function()
     return '<Ignore>'
 end, { expr = true, desc = "Jump to previous hunk" })
 
-vim.keymap.set("n", "<leader>a", function() harpoon:list():append() end)
+-- vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
 -- vim.keymap.set("n", "<leader><space>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
-vim.keymap.set("n", "<leader><space>", function() require("utils.harpoon").toggle_telescope(harpoon:list()) end)
-vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
-vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
-vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
-vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
-vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end)
-vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end)
-vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end)
-vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end)
-vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end)
+-- vim.keymap.set("n", "<leader><space>", function() require("utils.harpoon").toggle_telescope(harpoon:list()) end)
+-- vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
+-- vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
+-- vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
+-- vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
+-- vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end)
+-- vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end)
+-- vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end)
+-- vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end)
+-- vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end)
+
+vim.keymap.set('n', '<Tab>', '<Cmd>BufferNext<cr>')
+vim.keymap.set('n', '<S-Tab>', '<Cmd>BufferPrevious<cr>')
+vim.keymap.set('n', '<leader>q', '<Cmd>BufferClose<cr>')
 
 -- Vim Visual Multi disable backspace mapping to avoid conflict with autopairs
 vim.g.VM_maps = {
@@ -238,3 +231,6 @@ vim.g.VM_maps = {
 vim.keymap.set('i', '<C-d>', function()
     require("copilot.suggestion").dismiss()
 end, { noremap = true, silent = true })
+
+-- ESC to dismiss search highlights
+vim.keymap.set('n', '<Esc>', '<Cmd>noh<cr>', { noremap = true, silent = true })

@@ -6,6 +6,9 @@ vim.g.maplocalleader = ' '
 -- Enable mouse mode
 vim.o.mouse = 'a'
 
+-- Remove end of buffer chars
+-- vim.opt.fillchars = { eob = " " }
+
 -- Sync clipboard between OS and Neovim.
 vim.o.clipboard = 'unnamedplus'
 
@@ -34,7 +37,7 @@ vim.opt.showcmd = false
 -- vim.opt.guicursor = 'n-v-c-i:block'
 
 -- Disable search results highlighting
-vim.o.hlsearch = false
+vim.o.hlsearch = true
 
 -- Enable break indent
 vim.o.breakindent = true
@@ -70,16 +73,6 @@ vim.o.termguicolors = false
 -- vim.cmd("set list")
 -- vim.cmd("set listchars=tab:··,space:·,trail:·,extends:→,precedes:←,nbsp:␣")
 
--- [[ Highlight on yank ]]
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
-vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-    group = highlight_group,
-    pattern = '*',
-})
-
 -- Better splits
 vim.opt.splitbelow = true
 vim.opt.splitright = true
@@ -89,6 +82,3 @@ vim.opt.scrolloff = 8
 
 -- No friendly swap files
 vim.opt.swapfile = false
-
--- Highlight extra whitespace
-vim.cmd([[match errorMsg /\s\+$/]])

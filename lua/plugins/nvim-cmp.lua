@@ -62,10 +62,10 @@ return {
             })
 
             cmp.setup({
-                window = {
-                    completion = cmp.config.window.bordered {},
-                    documentation = cmp.config.window.bordered {},
-                },
+                -- window = {
+                    -- completion = cmp.config.window.bordered {},
+                    -- documentation = cmp.config.window.bordered {},
+                -- },
                 formatting = {
                     expandable_indicator = true,
                     fields = {

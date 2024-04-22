@@ -1,6 +1,6 @@
 require("options")
 require("lazy-init")
 require("keymaps")
-require("commands")
 require("colorscheme")
-require("utils.telescope-colors")
+require("commands")
+-- require("utils.telescope-colors")

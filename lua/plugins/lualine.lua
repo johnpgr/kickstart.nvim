@@ -1,5 +1,5 @@
 local path_utils = require("utils.file-path")
-local harpoon = require("harpoon")
+-- local harpoon = require("harpoon")
 
 local function ignored_filetypes(current_filetype)
     local ignore = {
@@ -127,16 +127,19 @@ return {
             options = {
                 theme = 'auto',
                 icons_enabled = true,
-                component_separators = { left = '', right = '' },
+                component_separators = {
+                    left = "",
+                    right = "",
+                },
                 section_separators = {
-                    left = '',
-                    right = ''
+                    left = "",
+                    right = "",
                 }
             },
             sections = {
                 lualine_a = { 'mode' },
                 lualine_b = { 'branch', 'filename' },
-                lualine_c = { harpoon_component },
+                lualine_c = { },
                 lualine_x = { current_attached_lsps, 'filetype' },
                 lualine_y = { 'encoding', new_line_format, current_indentation },
                 lualine_z = { 'location' }

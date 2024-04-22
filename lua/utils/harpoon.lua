@@ -16,7 +16,6 @@ local function list_indexOf(list, predicate)
     return -1
 end
 
-
 local function generate_new_finder(harpoon_files)
     local files = {}
     for i, item in ipairs(harpoon_files.items) do
