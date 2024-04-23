@@ -26,4 +26,3 @@ vim.api.nvim_create_user_command("SnakeCase",
     function() require("textcase").current_word('to_snake_case') end, { desc = "Change word to snake case" })
 vim.api.nvim_create_user_command("VAnalyzeClear", function() vim.cmd("!v-analyzer clear-cache") end,
     { desc = "Clear V Analyzer cache" })
-vim.api.nvim_create_autocmd({ 'BufEnter' }, { command = 'TSDisable highlight' })

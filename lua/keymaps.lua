@@ -9,6 +9,20 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 wk.register({
     ['<leader>'] = {
         name = 'VISUAL <leader>',
+        C = {
+            function()
+                require('utils.pretty-telescope').pretty_files_picker({
+                    picker = "find_files",
+                    options = {
+                        cwd = vim.fn.stdpath("config"),
+                        hidden = false,
+                    }
+                })
+            end,
+            "[C] Config files",
+            noremap = true,
+            silent = true
+        },
         T = {
             require('trouble').toggle,
             "[T] Trouble",
@@ -16,7 +30,10 @@ wk.register({
             silent = true
         },
         S = {
-            require('spectre').open, '[S] Open Spectre', noremap = true, silent = true
+            require('spectre').open, '[S] NvimSpectre', noremap = true, silent = true
+        },
+        O = {
+            require('symbols-outline').toggle_outline, '[O] SymbolsOutline'
         },
         t = {
             name = "Toggle",
