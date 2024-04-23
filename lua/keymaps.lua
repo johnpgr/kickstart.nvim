@@ -24,16 +24,16 @@ wk.register({
             silent = true
         },
         T = {
-            require('trouble').toggle,
-            "[T] Trouble",
-            noremap = true,
-            silent = true
+            require('trouble').toggle, "[T] Trouble", noremap = true, silent = true
         },
         S = {
             require('spectre').open, '[S] NvimSpectre', noremap = true, silent = true
         },
         O = {
             require('symbols-outline').toggle_outline, '[O] SymbolsOutline'
+        },
+        U = {
+            '<Cmd>UndotreeToggle<cr>', '[U] Undotree', noremap = true, silent = true
         },
         t = {
             name = "Toggle",
@@ -207,7 +207,7 @@ vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "[;] Dashboard" })
 
 -- Open explorer
-vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', { desc = '[E] Explorer', silent = true, noremap = true })
+vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = '[E] Explorer', silent = true, noremap = true })
 
 -- don't override the built-in and fugitive keymaps
 local gs = package.loaded.gitsigns

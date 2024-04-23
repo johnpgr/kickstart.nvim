@@ -167,7 +167,7 @@ return {
                 -- Main options --
                 -- style = 'cool',   -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
                 transparent = false,          -- Show/hide background
-                term_colors = true,           -- Change terminal color as per the selected theme style
+                term_colors = false,           -- Change terminal color as per the selected theme style
                 ending_tildes = true,         -- Show the end-of-buffer tildes. By default they are hidden
                 cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
@@ -235,7 +235,7 @@ return {
             -- Add color to cursor
             vim.g.doom_one_cursor_coloring = false
             -- Set :terminal colors
-            vim.g.doom_one_terminal_colors = true
+            vim.g.doom_one_terminal_colors = false
             -- Enable italic comments
             vim.g.doom_one_italic_comments = false
             -- Enable TS support
@@ -244,7 +244,7 @@ return {
             vim.g.doom_one_diagnostics_text_color = false
             -- Enable transparent background
 
-            vim.g.doom_one_transparent_background = true
+            -- vim.g.doom_one_transparent_background = true
 
 
             -- Pumblend transparency
@@ -253,7 +253,7 @@ return {
 
             -- Plugins integration
             vim.g.doom_one_plugin_neorg = true
-            vim.g.doom_one_plugin_barbar = false
+            vim.g.doom_one_plugin_barbar = true
             vim.g.doom_one_plugin_telescope = true
             vim.g.doom_one_plugin_neogit = true
             vim.g.doom_one_plugin_nvim_tree = true
