@@ -16,6 +16,13 @@ return {
                 ['neo-tree'] = { event = 'BufWipeout' },
                 Outline = { event = 'BufWinLeave', text = 'symbols-outline', align = 'right' },
             },
+            icons = {
+                separator = {
+                    right = '',
+                    left = '',
+                },
+                separator_at_end = false,
+            }
         },
     }
 }

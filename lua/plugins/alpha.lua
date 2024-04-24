@@ -13,14 +13,10 @@ return {
                     ":lua require('utils.pretty-telescope').pretty_files_picker({ picker = 'oldfiles', options = {only_cwd = true} })<CR>"),
                 dashboard.button("t", "󰊄  Find text",
                     ":lua require('utils.pretty-telescope').pretty_grep_picker({ picker = 'live_grep' })<CR>"),
-                dashboard.button("g", "  Lazygit", ":LazyGit<CR>"),
-                dashboard.button("l", "󰭖  Load last session for cwd", ":lua require('persistence').load()<CR>"),
-                dashboard.button("c", "  Configuration", ":cd ~/.config/nvim | :e init.lua<CR>"),
-                dashboard.button("q", "󰅚  Quit Neovim", ":qa<CR>"),
             }
 
             local function footer()
-                local cmd = "~/.local/bin/bible-parser-xml-rust -f ~/nvi.min.xml random"
+                local cmd = " C:\\Users\\Sandra\\bible-rust\\bible-parser-xml-rust.exe -f C:\\Users\\Sandra\\Documents\\nvi.min.xml random -v 5"
                 local handle = io.popen(cmd)
 
                 if handle then
