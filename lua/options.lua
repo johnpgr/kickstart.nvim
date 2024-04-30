@@ -17,7 +17,7 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 
 -- Line numbers
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 vim.wo.number = true
 vim.wo.numberwidth = 2
 
@@ -56,8 +56,8 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 
 -- Decrease update time
--- vim.o.updatetime = 250
--- vim.o.timeoutlen = 300
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'

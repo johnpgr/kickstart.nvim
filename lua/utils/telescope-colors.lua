@@ -1,6 +1,22 @@
 local catppuccin_colors = require("catppuccin.palettes").get_palette()
 local gruber_colors = require("gruber-darker.palette")
 local onedark_colors = require("utils.onedark-telescope")
+local rosepine_colors = require("rose-pine.palette")
+
+local telescope_colors_rosepine = {
+	TelescopeMatching = { fg = rosepine_colors.love },
+	TelescopeSelection = { fg = rosepine_colors.text, bg = rosepine_colors.overlay },
+	TelescopeResultsTitle = { fg = rosepine_colors.base },
+	TelescopeResultsNormal = { bg = rosepine_colors.base },
+	TelescopeResultsBorder = { bg = rosepine_colors.base, fg = rosepine_colors.base },
+	TelescopePreviewTitle = { bg = rosepine_colors.iris, fg = rosepine_colors.base },
+	TelescopePreviewNormal = { bg = rosepine_colors.highlight_low },
+	TelescopePreviewBorder = { bg = rosepine_colors.highlight_low, fg = rosepine_colors.highlight_low },
+	TelescopePromptPrefix = { bg = rosepine_colors._nc },
+	TelescopePromptNormal = { bg = rosepine_colors._nc },
+	TelescopePromptBorder = { bg = rosepine_colors._nc, fg = rosepine_colors._nc },
+	TelescopePromptTitle = { bg = rosepine_colors.rose, fg = catppuccin_colors.base },
+}
 
 local telescope_colors_catppuccin = {
 	TelescopeMatching = { fg = catppuccin_colors.flamingo },
@@ -81,6 +97,6 @@ local telescope_colors_onedark = {
 }
 
 
--- for hl, col in pairs(telescope_colors_gruber) do
--- 	vim.api.nvim_set_hl(0, hl, col)
--- end
+for hl, col in pairs(telescope_colors_rosepine) do
+	vim.api.nvim_set_hl(0, hl, col)
+end

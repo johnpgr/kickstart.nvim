@@ -82,7 +82,6 @@ return {
             })
         end
     },
-    { "lunacookies/vim-colors-xcode" },
     {
         "briones-gabriel/darcula-solid.nvim",
         dependencies = {

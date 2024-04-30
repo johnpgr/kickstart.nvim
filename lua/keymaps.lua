@@ -9,6 +9,21 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 wk.register({
     ['<leader>'] = {
         name = 'VISUAL <leader>',
+        ['?'] = {
+            require('telescope.builtin').oldfiles, '[?] Recently opened files', noremap = true, silent = true
+        },
+        ['/'] = {
+            function()
+                require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes')
+                    .get_dropdown())
+            end,
+            '[/] Fuzzy search current buffer',
+            noremap = true,
+            silent = true
+        },
+        [' '] = {
+            require('telescope.builtin').buffers, '[Space] List open buffers', noremap = true, silent = true
+        },
         C = {
             function()
                 require('utils.pretty-telescope').pretty_files_picker({
@@ -35,6 +50,7 @@ wk.register({
         U = {
             '<Cmd>UndotreeToggle<cr>', '[U] Undotree', noremap = true, silent = true
         },
+
         t = {
             name = "Toggle",
             c = {
@@ -67,26 +83,8 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            ['?'] = {
-                require('telescope.builtin').oldfiles, '[?] Recently opened files', noremap = true, silent = true
-            },
-            ['/'] = {
-                function()
-                    require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes')
-                        .get_dropdown())
-                end,
-                '[/] Fuzzy search current buffer',
-                noremap = true,
-                silent = true
-            },
-            -- g = {
-            --     require('telescope.builtin').git_files, '[G] Git files', noremap = true, silent = true
-            -- },
-            f = {
-                function() require('utils.pretty-telescope').pretty_files_picker({ picker = "find_files" }) end,
-                '[F] Files in current directory',
-                noremap = true,
-                silent = true
+            g = {
+                require('telescope.builtin').git_files, '[G] Git files', noremap = true, silent = true
             },
             -- m = {
             --     require('telescope').extensions.noice.noice, '[M] Notification Messages', noremap = true, silent = true
@@ -99,20 +97,11 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            g = {
-                function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
-                '[G] Live Grep',
-                noremap = true,
-                silent = true
-            },
             r = {
                 function() require("utils.pretty-telescope").pretty_files_picker({ picker = "oldfiles", options = { only_cwd = true } }) end,
                 '[R] Recently opened files',
                 noremap = true,
                 silent = true
-            },
-            b = {
-                require('telescope.builtin').buffers, '[B] Buffers', noremap = true, silent = true
             },
             t = {
                 "<cmd>TodoTrouble<cr>",
@@ -183,6 +172,27 @@ vim.keymap.set('n', '<C-right>', ':vertical resize -3<CR>', { silent = true })
 -- Move lines
 vim.keymap.set('v', '<s-j>', ":m '>+1<CR>gv=gv", { silent = true, noremap = true, desc = 'Move line down' })
 vim.keymap.set('v', '<s-k>', ":m '<-2<CR>gv=gv", { silent = true, noremap = true, desc = 'Move line up' })
+
+-- Telescope most used
+vim.keymap.set(
+    { 'n', 'v' },
+    '<C-p>',
+    function() require('utils.pretty-telescope').pretty_files_picker({ picker = "find_files" }) end,
+    {
+        noremap = true,
+        silent = true
+    }
+)
+
+vim.keymap.set(
+    { 'n', 'v' },
+    '<C-f>',
+    function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
+    {
+        noremap = true,
+        silent = true
+    }
+)
 
 -- Select all occurences of word under cursor
 vim.cmd([[

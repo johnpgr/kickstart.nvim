@@ -24,5 +24,13 @@ vim.api.nvim_create_user_command("Licenses",
 -- Create a command :SnakeCase to change a word to snake case
 vim.api.nvim_create_user_command("SnakeCase",
     function() require("textcase").current_word('to_snake_case') end, { desc = "Change word to snake case" })
+
+-- Clear and restart v-analyzer
 vim.api.nvim_create_user_command("VAnalyzeClear", function() vim.cmd("!v-analyzer clear-cache") end,
     { desc = "Clear V Analyzer cache" })
+
+-- Autoenable treesitter highlight on vlang files
+vim.api.nvim_create_autocmd({"BufEnter"}, {
+    pattern = "*.v",
+    command = "TSEnable highlight"
+})
