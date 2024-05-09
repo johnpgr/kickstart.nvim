@@ -1,5 +1,5 @@
 -- Highlight extra whitespace
-vim.cmd([[match errorMsg /\s\+$/]])
+-- vim.cmd([[match errorMsg /\s\+$/]])
 
 -- [[ Highlight on yank ]]
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
