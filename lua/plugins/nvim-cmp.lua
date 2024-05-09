@@ -90,7 +90,7 @@ return {
                     ["<C-p>"] = cmp.mapping.select_prev_item(),
                     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
                     ["<C-f>"] = cmp.mapping.scroll_docs(4),
-                    ["<C-Space>"] = cmp.mapping(function(_)
+                    ["NvimCmp"] = cmp.mapping(function(_)
                         if cmp.visible() then
                             cmp.close()
                         else

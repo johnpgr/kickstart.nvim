@@ -9,7 +9,12 @@ local function current_file_path_in_cwd()
     return vim.fn.expand "%"
 end
 
+local function relative_file_path()
+    return vim.fn.expand "%:~:."
+end
+
 return {
     current_file_path_in_cwd = current_file_path_in_cwd,
-    current_path_in_cwd_home_escaped = current_path_in_cwd_home_escaped
+    current_path_in_cwd_home_escaped = current_path_in_cwd_home_escaped,
+    relative_file_path = relative_file_path
 }
