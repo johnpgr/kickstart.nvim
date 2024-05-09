@@ -50,7 +50,6 @@ wk.register({
         U = {
             '<Cmd>UndotreeToggle<cr>', '[U] Undotree', noremap = true, silent = true
         },
-
         t = {
             name = "Toggle",
             c = {
@@ -75,6 +74,12 @@ wk.register({
         },
         s = {
             name = "Search",
+            c = {
+                "<cmd>TextCaseOpenTelescope<CR>",
+                "[C] TextCase Converter",
+                noremap = true,
+                silent = true,
+            },
             s = {
                 function()
                     require("telescope.builtin").spell_suggest(require("telescope.themes").get_cursor({}))
@@ -86,9 +91,15 @@ wk.register({
             g = {
                 require('telescope.builtin').git_files, '[G] Git files', noremap = true, silent = true
             },
-            -- m = {
-            --     require('telescope').extensions.noice.noice, '[M] Notification Messages', noremap = true, silent = true
-            -- },
+            t = {
+                "<Cmd>Theme<cr>",
+                "[T] Theme changer",
+                noremap = true,
+                silent = true,
+            },
+            m = {
+                require('telescope').extensions.noice.noice, '[M] Notification Messages', noremap = true, silent = true
+            },
             w = {
                 function()
                     require("utils.pretty-telescope").pretty_grep_picker({ picker = "grep_string" })
@@ -103,7 +114,7 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            t = {
+            T = {
                 "<cmd>TodoTrouble<cr>",
                 '[T] Todos',
                 noremap = true,
@@ -130,12 +141,6 @@ wk.register({
                 noremap = true,
                 silent = true
             },
-            l = {
-                "<cmd>LazyGit<cr>",
-                '[L] Lazy git',
-                noremap = true,
-                silent = true
-            },
             p = {
                 require('gitsigns').preview_hunk,
                 '[P] Preview hunk',
@@ -152,8 +157,12 @@ wk.register({
                 silent = true
             }
         },
-    }
-}, { mode = { 'v', 'n' } })
+    },
+}, { mode = { "v", "n" } })
+
+-- Toggle term
+vim.keymap.set({ 'n', 'v', 't' }, 'ToggleTerm', function() require("toggleterm").toggle(nil, 16, nil, "horizontal") end,
+    { noremap = true, silent = true, desc = '[C-`] Toggle terminal' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
@@ -168,6 +177,12 @@ vim.keymap.set('n', '<C-up>', ':horizontal resize +3<CR>', { silent = true })
 vim.keymap.set('n', '<C-down>', ':horizontal resize -3<CR>', { silent = true })
 vim.keymap.set('n', '<C-left>', ':vertical resize +3<CR>', { silent = true })
 vim.keymap.set('n', '<C-right>', ':vertical resize -3<CR>', { silent = true })
+
+-- Re-size split's when in terminal mode
+vim.keymap.set('t', '<C-up>', '<C-\\><C-n>:resize -3<CR>i', { silent = true })
+vim.keymap.set('t', '<C-down>', '<C-\\><C-n>:resize +3<CR>i', { silent = true })
+vim.keymap.set('t', '<C-left>', '<C-\\><C-n>:vertical resize -3<CR>i', { silent = true })
+vim.keymap.set('t', '<C-right>', '<C-\\><C-n>:vertical resize +3<CR>i', { silent = true })
 
 -- Move lines
 vim.keymap.set('v', '<s-j>', ":m '>+1<CR>gv=gv", { silent = true, noremap = true, desc = 'Move line down' })
@@ -184,10 +199,22 @@ vim.keymap.set(
     }
 )
 
+-- Telescope find in files
 vim.keymap.set(
     { 'n', 'v' },
     '<C-f>',
     function() require("utils.pretty-telescope").pretty_grep_picker({ picker = "live_grep" }) end,
+    {
+        noremap = true,
+        silent = true
+    }
+)
+
+-- Lazygit
+vim.keymap.set(
+    { 'n', 'v' },
+    '<C-g>',
+    "<cmd>LazyGit<cr>",
     {
         noremap = true,
         silent = true
@@ -217,7 +244,7 @@ vim.keymap.set('v', '>', '>gv')
 vim.keymap.set('n', '<leader>;', '<cmd>Alpha<cr>', { noremap = true, silent = true, desc = "[;] Dashboard" })
 
 -- Open explorer
-vim.keymap.set('n', '<leader>e', '<cmd>Neotree toggle<cr>', { desc = '[E] Explorer', silent = true, noremap = true })
+vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', { desc = '[E] Explorer', silent = true, noremap = true })
 
 -- don't override the built-in and fugitive keymaps
 local gs = package.loaded.gitsigns
@@ -261,3 +288,5 @@ end, { noremap = true, silent = true })
 
 -- ESC to dismiss search highlights
 vim.keymap.set('n', '<Esc>', '<Cmd>noh<cr>', { noremap = true, silent = true })
+-- ESC to exit terminal mode
+vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { noremap = true, silent = true })

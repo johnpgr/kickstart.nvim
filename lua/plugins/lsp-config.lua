@@ -12,15 +12,19 @@ return {
             'folke/neodev.nvim',
 
             -- None-ls for code actions, diagnostics & formatting
-            'nvimtools/none-ls.nvim',
+            -- 'nvimtools/none-ls.nvim',
         },
         config = function()
-            local null_ls = require('null-ls')
-
-            -- Setup neovim lua configuration
             require('neodev').setup()
-
             require("mason").setup({})
+
+            local function tsserver_organize_imports()
+                vim.lsp.buf.execute_command({
+                    command = '_typescript.organizeImports',
+                    arguments = { vim.api.nvim_buf_get_name(0) },
+                    title = '',
+                })
+            end
 
             -- [[ Configure LSP ]]
             --  This function gets run when an LSP connects to a particular buffer.
@@ -68,7 +72,9 @@ return {
                 lsp_map('s', vim.lsp.buf.signature_help, '[S] Signature Documentation')
                 lsp_map('r', vim.lsp.buf.rename, '[R] Rename')
                 lsp_map('a', vim.lsp.buf.code_action, '[A] Code actions')
-                lsp_map('f', vim.lsp.buf.format, '[F] Format current file')
+                lsp_map('f', function()
+                    require('conform').format({ async = true, lsp_fallback = true }, tsserver_organize_imports)
+                end, '[F] Format buffer')
                 lsp_map('R', restart, '[R] Restart server')
 
                 workspace_map('a', vim.lsp.buf.add_workspace_folder, '[A] Workspace add folder')
@@ -79,14 +85,9 @@ return {
                 workspace_map('s', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[S] Workspace symbols')
 
                 -- Create a command `:Format` local to the LSP buffer
-                vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-                    vim.lsp.buf.format({
-                        filter = function(format_client)
-                            -- Use Prettier to format JS/TS if available
-                            return format_client.name ~= 'tsserver' or not null_ls.is_registered('prettier')
-                        end
-                    })
-                end, { desc = 'Format current buffer with LSP' })
+                -- vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
+                --     vim.lsp.buf.format({})
+                -- end, { desc = 'Format current buffer with LSP' })
 
                 if client.name == 'v_analyzer' then
                     wk.register({
@@ -125,18 +126,11 @@ return {
                 pyright = {},
                 rust_analyzer = {},
                 v_analyzer = { filetypes = { 'vlang', 'vsh' } },
-                tsserver = {
-                    settings = {
-                        experimental = {
-                            enableProjectDiagnostics = true,
-                        },
-                    },
-                },
                 tailwindcss = {},
                 prismals = {},
                 sqlls = {
-                    cmd = { "sql-language-server", "up", "--method", "stdio" },
                     filetypes = { "sql", "mysql" },
+                    cmd = { "sql-language-server", "up", "--method", "stdio" },
                     root_dir = function()
                         return vim.loop.cwd()
                     end
@@ -158,7 +152,6 @@ return {
 
             -- Ensure the servers above are installed
             local mason_lspconfig = require('mason-lspconfig')
-
             mason_lspconfig.setup({
                 ensure_installed = vim.tbl_keys(servers),
             })
@@ -174,14 +167,32 @@ return {
                 end
             }
 
-            local formatting = null_ls.builtins.formatting
-
-            null_ls.setup({
-                sources = {
-                    formatting.prettierd,
-                    formatting.sql_formatter
+            local lspconfig = require('lspconfig')
+            lspconfig.tsserver.setup({
+                capabilities = capabilities,
+                on_attach = on_attach,
+                settings = {
+                    experimental = {
+                        enableProjectDiagnostics = true,
+                    },
+                },
+                commands = {
+                    OrganizeImports = {
+                        tsserver_organize_imports,
+                        description = "Organize Imports"
+                    }
                 }
             })
+
+            -- local null_ls = require('null-ls')
+            -- local formatting = null_ls.builtins.formatting
+            --
+            -- null_ls.setup({
+            --     sources = {
+            --         formatting.prettierd,
+            --         formatting.sql_formatter
+            --     }
+            -- })
 
             -- Make sure that .v files are treated as vlang
             vim.filetype.add({

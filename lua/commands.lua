@@ -29,8 +29,12 @@ vim.api.nvim_create_user_command("SnakeCase",
 vim.api.nvim_create_user_command("VAnalyzeClear", function() vim.cmd("!v-analyzer clear-cache") end,
     { desc = "Clear V Analyzer cache" })
 
--- Autoenable treesitter highlight on vlang files
-vim.api.nvim_create_autocmd({"BufEnter"}, {
-    pattern = "*.v",
-    command = "TSEnable highlight"
+vim.api.nvim_create_autocmd({ "VimEnter" }, {
+    command = "set fillchars+=vert:\\▏"
+})
+
+-- disable spellchecking in terminal buffers
+vim.api.nvim_create_autocmd({ "BufEnter" }, {
+    command = "setlocal nospell",
+    pattern = "term://*"
 })

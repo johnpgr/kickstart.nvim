@@ -21,7 +21,12 @@ return {
 			-- List common software licenses
 			{ "chip/telescope-software-licenses.nvim" },
 			-- Useful text case converter
-			{ "johmsalas/text-case.nvim" },
+			{
+				"johmsalas/text-case.nvim",
+				config = function()
+					require("textcase").setup({})
+				end
+			},
 			-- Use telescope for LSP code action popup
 			{ "nvim-telescope/telescope-ui-select.nvim" },
 		},

@@ -1,7 +1,39 @@
 local catppuccin_colors = require("catppuccin.palettes").get_palette()
 local gruber_colors = require("gruber-darker.palette")
-local onedark_colors = require("utils.onedark-telescope")
+local onedark_colors = require("utils.colors.onedark")
+local iceberg_colors = require("utils.colors.iceberg")
 local rosepine_colors = require("rose-pine.palette")
+local tokyonight_colors = require("tokyonight.colors").default
+
+local telescope_colors_tokyonight = {
+	TelescopeMatching = { fg = iceberg_colors.function_fg },
+	TelescopeSelection = { fg = iceberg_colors.text_fg, bg = tokyonight_colors.bg_highlight },
+	TelescopeResultsTitle = { bg = tokyonight_colors.purple, fg = tokyonight_colors.bg },
+	TelescopeResultsNormal = { bg = tokyonight_colors.bg },
+	TelescopeResultsBorder = { bg = tokyonight_colors.bg, fg = tokyonight_colors.bg },
+	TelescopePreviewTitle = { bg = tokyonight_colors.orange, fg = tokyonight_colors.bg },
+	TelescopePreviewNormal = { bg = tokyonight_colors.bg_dark },
+	TelescopePreviewBorder = { bg = tokyonight_colors.bg_dark, fg = tokyonight_colors.bg_dark },
+	TelescopePromptPrefix = { bg = tokyonight_colors.bg_dark },
+	TelescopePromptNormal = { bg = tokyonight_colors.bg_dark },
+	TelescopePromptBorder = { bg = tokyonight_colors.bg_dark, fg = tokyonight_colors.bg_dark },
+	TelescopePromptTitle = { bg = tokyonight_colors.teal, fg = tokyonight_colors.bg },
+}
+
+local telescope_colors_iceberg = {
+	TelescopeMatching = { fg = iceberg_colors.function_fg },
+	TelescopeSelection = { fg = iceberg_colors.text_fg, bg = iceberg_colors.cursorcolor_bg },
+	TelescopeResultsTitle = { fg = iceberg_colors.normal_bg },
+	TelescopeResultsNormal = { bg = iceberg_colors.normal_bg },
+	TelescopeResultsBorder = { bg = iceberg_colors.normal_bg, fg = iceberg_colors.normal_bg },
+	TelescopePreviewTitle = { bg = iceberg_colors.function_fg, fg = iceberg_colors.normal_bg },
+	TelescopePreviewNormal = { bg = iceberg_colors.cursorcolor_bg },
+	TelescopePreviewBorder = { bg = iceberg_colors.cursorcolor_bg, fg = iceberg_colors.cursorcolor_bg },
+	TelescopePromptPrefix = { bg = iceberg_colors.overlay_bg },
+	TelescopePromptNormal = { bg = iceberg_colors.overlay_bg },
+	TelescopePromptBorder = { bg = iceberg_colors.overlay_bg, fg = iceberg_colors.overlay_bg },
+	TelescopePromptTitle = { bg = iceberg_colors.string_fg, fg = iceberg_colors.normal_bg },
+}
 
 local telescope_colors_rosepine = {
 	TelescopeMatching = { fg = rosepine_colors.love },
@@ -97,6 +129,6 @@ local telescope_colors_onedark = {
 }
 
 
-for hl, col in pairs(telescope_colors_rosepine) do
+for hl, col in pairs(telescope_colors_tokyonight) do
 	vim.api.nvim_set_hl(0, hl, col)
 end

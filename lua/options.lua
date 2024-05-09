@@ -22,7 +22,7 @@ vim.wo.number = true
 vim.wo.numberwidth = 2
 
 -- Cursor line highlighting
--- vim.opt.cursorline = true
+vim.opt.cursorline = true
 
 -- Line wrapping
 vim.opt.wrap = false
@@ -67,7 +67,7 @@ vim.opt.spell = true
 vim.opt.spelllang = { 'en_us', 'pt_br' }
 
 -- Set terminal colors
-vim.o.termguicolors = false
+vim.o.termguicolors = true
 
 -- Set listchars
 -- vim.cmd("set list")

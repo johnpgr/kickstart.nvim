@@ -1,4 +1,5 @@
 local path_utils = require("utils.file-path")
+local devicons = require("nvim-web-devicons")
 -- local harpoon = require("harpoon")
 
 local function ignored_filetypes(current_filetype)
@@ -13,14 +14,6 @@ local function ignored_filetypes(current_filetype)
     end
 
     return false
-end
-
-local function filename()
-    if ignored_filetypes(vim.bo.filetype) then
-        return ""
-    end
-
-    return path_utils.current_path_in_cwd_home_escaped()
 end
 
 local function current_attached_lsps()
@@ -75,36 +68,36 @@ local function current_indentation()
         indent_size = vim.bo.tabstop
     end
 
-    return current_indent .. " " .. indent_size
+    return current_indent .. " = " .. indent_size
 end
 
-local function string_includes(str, substr)
-    return string.find(str, substr, 1, true) ~= nil
-end
+-- local function string_includes(str, substr)
+--     return string.find(str, substr, 1, true) ~= nil
+-- end
 
-local function harpoon_component()
-    local total_marks = harpoon:list():length()
-    if total_marks == 0 then
-        return ""
-    end
+-- local function harpoon_component()
+--     local total_marks = harpoon:list():length()
+--     if total_marks == 0 then
+--         return ""
+--     end
+--
+--     local current_mark_name = path_utils.current_file_path_in_cwd()
+--     local current_mark_index = -1
+--
+--     for index, mark in ipairs(harpoon:list().items) do
+--         if string_includes(current_mark_name, mark.value) then
+--             current_mark_index = index
+--         end
+--     end
+--
+--     if (current_mark_index == -1) then
+--         return string.format("󱝴 %s/%d", "—", total_marks)
+--     end
+--
+--     return string.format("󱝴 %d/%d", current_mark_index, total_marks)
+-- end
 
-    local current_mark_name = path_utils.current_file_path_in_cwd()
-    local current_mark_index = -1
-
-    for index, mark in ipairs(harpoon:list().items) do
-        if string_includes(current_mark_name, mark.value) then
-            current_mark_index = index
-        end
-    end
-
-    if (current_mark_index == -1) then
-        return string.format("󱝴 %s/%d", "—", total_marks)
-    end
-
-    return string.format("󱝴 %d/%d", current_mark_index, total_marks)
-end
-
-local function new_line_format()
+local function fileformat()
     if ignored_filetypes(vim.bo.filetype) then
         return ""
     end
@@ -128,20 +121,34 @@ return {
                 theme = 'auto',
                 icons_enabled = true,
                 component_separators = {
-                    left = "",
-                    right = "",
+                    -- left = "",
+                    -- right = "",
+                    left = "",
+                    right = "",
                 },
                 section_separators = {
-                    left = "",
-                    right = "",
+                    -- left = "",
+                    -- right = "",
+                    left = "",
+                    right = "",
                 }
             },
             sections = {
                 lualine_a = { 'mode' },
-                lualine_b = { 'branch', 'filename' },
-                lualine_c = { },
-                lualine_x = { current_attached_lsps, 'filetype' },
-                lualine_y = { 'encoding', new_line_format, current_indentation },
+                lualine_b = { 'branch' },
+                lualine_c = {
+                    {
+                        'filetype',
+                        colored = true,
+                        icon_only = false,
+                    },
+                    {
+                        'filename',
+                        path = 1,
+                    },
+                },
+                lualine_x = { 'diff', 'diagnostics' },
+                lualine_y = { 'encoding', fileformat, current_indentation },
                 lualine_z = { 'location' }
             }
         },

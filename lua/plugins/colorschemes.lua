@@ -1,5 +1,6 @@
 ---@diagnostic disable: missing-fields
 return {
+    { 'cocopon/iceberg.vim' },
     {
         'folke/tokyonight.nvim',
         config = function()
@@ -9,7 +10,7 @@ return {
                 -- or leave it empty to use the default settings
                 style = "storm",        -- The theme comes in three styles, `storm`, `moon`, a darker variant `night` and `day`
                 light_style = "day",    -- The theme is used when the background is set to light
-                transparent = true,     -- Enable this to disable setting the background color
+                transparent = false,    -- Enable this to disable setting the background color
                 terminal_colors = true, -- Configure the colors used when opening a `:terminal` in [Neovim](https://github.com/neovim/neovim)
                 styles = {
                     -- Style to be applied to different syntax groups
@@ -41,12 +42,31 @@ return {
             vim.g.nord_bold = false
         end
     },
-    { 'shaunsingh/solarized.nvim' },
+    {
+        "Tsuzat/NeoSolarized.nvim",
+        config = function()
+            require("NeoSolarized").setup({
+                style = "dark",
+                transparent = true,
+                enable_italics = false,
+                styles = {
+                    -- Style to be applied to different syntax groups
+                    comments = { italic = false },
+                    keywords = { italic = false },
+                    functions = { bold = true },
+                    variables = {},
+                    string = { italic = false },
+                    underline = true, -- true/false; for global underline
+                    undercurl = true, -- true/false; for global undercurl
+                },
+            })
+        end
+    },
     {
         "no-clown-fiesta/no-clown-fiesta.nvim",
         config = function()
             require("no-clown-fiesta").setup({
-                transparent = false, -- Enable this to disable the bg color
+                transparent = true, -- Enable this to disable the bg color
                 styles = {
                     -- You can set any of the style values specified for `:h nvim_set_hl`
                     comments = {},
@@ -166,7 +186,7 @@ return {
                 -- Main options --
                 -- style = 'cool',   -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
                 transparent = false,          -- Show/hide background
-                term_colors = false,           -- Change terminal color as per the selected theme style
+                term_colors = false,          -- Change terminal color as per the selected theme style
                 ending_tildes = true,         -- Show the end-of-buffer tildes. By default they are hidden
                 cmp_itemkind_reverse = false, -- reverse item kind highlights in cmp menu
 
@@ -216,15 +236,47 @@ return {
         }
     },
     {
-        "morhetz/gruvbox",
-        config = function ()
+        "sainnhe/gruvbox-material",
+        config = function()
             vim.cmd([[
-                let g:gruvbox_contrast_dark = 'medium'
-                let g:gruvbox_italic = 0
-                let g:gruvbox_invert_selection = 0
-                let g:gruvbox_invert_signs = 0
-                let g:gruvbox_invert_indent_guides = 0
-            ]])
+            let g:gruvbox_material_background = 'hard'
+            let g:gruvbox_material_foreground = 'original'
+            let g:gruvbox_material_disable_italic_comment = 1
+            let g:gruvbox_material_enable_italic = 0
+            let g:gruvbox_material_transparent_background = 1
+        ]])
+        end
+    },
+    {
+        "ellisonleao/gruvbox.nvim",
+        config = function()
+            -- Default options:
+            require("gruvbox").setup({
+                terminal_colors = true, -- add neovim terminal colors
+                undercurl = true,
+                underline = true,
+                bold = true,
+                italic = {
+                    strings = false,
+                    emphasis = false,
+                    comments = false,
+                    operators = false,
+                    folds = false,
+                },
+                strikethrough = true,
+                invert_selection = false,
+                invert_signs = false,
+                invert_tabline = false,
+                invert_intend_guides = false,
+                inverse = true, -- invert background for search, diffs, statuslines and errors
+                contrast = "",  -- can be "hard", "soft" or empty string
+                palette_overrides = {
+                    bright_red = "#fb6150",
+                },
+                overrides = {},
+                dim_inactive = false,
+                transparent_mode = true,
+            })
         end
     },
     {
